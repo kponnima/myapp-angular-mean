@@ -1,0 +1,27 @@
+<div class="button-row">
+  <a mat-raised-button color="primary" [routerLink]="['/flights']"><mat-icon>list</mat-icon></a>
+</div>
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title><h2>{{flight.title}}</h2></mat-card-title>
+    <mat-card-subtitle>{{flight.description}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <dl>
+      <dt>ISBN:</dt>
+      <dd>{{flight.isbn}}</dd>
+      <dt>Author:</dt>
+      <dd>{{flight.author}}</dd>
+      <dt>Publisher:</dt>
+      <dd>{{flight.publisher}}</dd>
+      <dt>Publish Year:</dt>
+      <dd>{{flight.published_year}}</dd>
+      <dt>Update Date:</dt>
+      <dd>{{flight.updated_date | date}}</dd>
+    </dl>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-raised-button color="primary" [routerLink]="['/flight-edit', flight._id]"><mat-icon>edit</mat-icon></a>
+    <a mat-raised-button color="warn" (click)="deleteFlight(flight._id)"><mat-icon>delete</mat-icon></a>
+  </mat-card-actions>
+</mat-card>

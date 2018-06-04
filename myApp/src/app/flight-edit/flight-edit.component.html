@@ -1,0 +1,50 @@
+<div class="button-row">
+  <a mat-raised-button color="primary" (click)="flightDetails()"><mat-icon>show</mat-icon></a>
+</div>
+<form [formGroup]="flightForm" (ngSubmit)="onFormSubmit(flightForm.value)">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="ISBN" formControlName="isbn"
+           [errorStateMatcher]="matcher">
+    <mat-error>
+      <span *ngIf="!flightForm.get('isbn').valid && flightForm.get('isbn').touched">Please enter ISBN</span>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Title" formControlName="title"
+           [errorStateMatcher]="matcher">
+    <mat-error>
+      <span *ngIf="!flightForm.get('title').valid && flightForm.get('title').touched">Please enter Flight Title</span>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Author" formControlName="author"
+           [errorStateMatcher]="matcher">
+    <mat-error>
+      <span *ngIf="!flightForm.get('author').valid && flightForm.get('author').touched">Please enter Flight Author</span>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="Description" formControlName="description"
+           [errorStateMatcher]="matcher"></textarea>
+    <mat-error>
+      <span *ngIf="!flightForm.get('description').valid && flightForm.get('description').touched">Please enter Flight Description</span>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Publisher" formControlName="publisher"
+           [errorStateMatcher]="matcher">
+    <mat-error>
+      <span *ngIf="!flightForm.get('publisher').valid && flightForm.get('publisher').touched">Please enter Publisher</span>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Published Year" formControlName="published_year"
+           [errorStateMatcher]="matcher">
+    <mat-error>
+      <span *ngIf="!flightForm.get('published_year').valid && flightForm.get('published_year').touched">Please enter Published Year</span>
+    </mat-error>
+  </mat-form-field>
+  <div class="button-row">
+    <button type="submit" [disabled]="!flightForm.valid" mat-raised-button color="primary"><mat-icon>save</mat-icon></button>
+  </div>
+</form>
