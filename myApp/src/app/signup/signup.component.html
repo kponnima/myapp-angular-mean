@@ -1,14 +1,58 @@
 <div class="container">
-  <form class="form-signin" (ngSubmit)="signup()" #signupForm="ngForm">
-      <div class="alert alert-warning alert-dismissible" role="alert" *ngIf="message !== ''">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        {{message}}
+  <div id="signup">
+    <div class="signup-screen">
+      <div class="space-bot text-center">
+        <h1>Sign up</h1>
+        <mat-divider></mat-divider>
       </div>
-      <h2 class="form-signin-heading">Sign Up Now</h2>
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" class="form-control" placeholder="Email address" [(ngModel)]="signupData.username" name="username" required/>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" class="form-control" placeholder="Password" [(ngModel)]="signupData.password" name="password" required/>
-      <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!signupForm.form.valid">Sign Up</button>
-  </form>
+      <form [formGroup]="signupForm" class="form-signup" (ngSubmit)="signup(signupForm.value)">
+          <div class="alert alert-warning alert-dismissible" role="alert" *ngIf="message !== ''">
+            <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{message}}
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label mdPrefix>Username</mat-label>
+              <input matInput placeholder="Username" ng-model="signupData.username" required formControlName="username"
+                [errorStateMatcher]="matcher">
+              <mat-error>
+                  <span *ngIf="!signupForm.get('username').valid && signupForm.get('username').touched">Please enter Username</span>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label mdPrefix>Password</mat-label>
+              <input matInput placeholder="Password" ng-model="signupData.password" type="password" ng-minlength='7' required
+                formControlName="password" [errorStateMatcher]="matcher">
+              <mat-error>
+                  <span *ngIf="!signupForm.get('password').valid && signupForm.get('password').touched">Password must be at least 7 characters.</span>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label mdPrefix>Email</mat-label>
+              <input matInput placeholder="Email" ng-model="signupData.email" type="email" required formControlName="email"
+                [errorStateMatcher]="matcher">
+              <mat-error>
+                  <span *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched">Please enter valid email</span>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label mdPrefix>Phone</mat-label>
+              <input matInput placeholder="Phone" ng-model="signupData.phone" ng-minlength='9' required
+                formControlName="phone" [errorStateMatcher]="matcher">
+              <mat-error>
+                  <span *ngIf="!signupForm.get('phone').valid && signupForm.get('phone').touched">Please enter phone</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="space-top text-center">
+            <button mat-button type="submit" [disabled]="!signupForm.valid" class="waves-effect waves-light btn done">
+              <mat-icon class="material-icons left">done</mat-icon> Sign Up
+            </button>
+            <button mat-button type="button" class="waves-effect waves-light btn cancel" [routerLink]="['/']">
+              <mat-icon class="material-icons left">clear</mat-icon> Cancel
+            </button>
+          </div>
+      </form>
+    </div>
+  </div>
 </div>

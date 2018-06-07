@@ -5,12 +5,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {
+  MatToolbarModule,
+  MatDividerModule,
   MatInputModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSortModule,
   MatTableModule,
   MatIconModule,
+  MatTooltipModule,
   MatButtonModule,
   MatCardModule,
   MatFormFieldModule } from "@angular/material";
@@ -22,13 +25,13 @@ import { FlightCreateComponent } from './flight-create/flight-create.component';
 import { FlightEditComponent } from './flight-edit/flight-edit.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { FlightSearchComponent } from './flight-search/flight-search.component';
+import { FlightSearchResultsComponent } from './flight-search-results/flight-search-results.component';
+import { FlightTripOptionsComponent } from './flight-trip-options/flight-trip-options.component';
+import { FlightTripSummaryComponent } from './flight-trip-summary/flight-trip-summary.component';
+import { FlightTripConfirmationComponent } from './flight-trip-confirmation/flight-trip-confirmation.component';
 
 const appRoutes: Routes = [
-  {
-    path: 'flights',
-    component: FlightComponent,
-    data: { title: 'Flight List' }
-  },
   {
     path: 'login',
     component: LoginComponent,
@@ -40,8 +43,28 @@ const appRoutes: Routes = [
     data: { title: 'Sign Up' }
   },
   { path: '',
-    redirectTo: '/flights',
+    redirectTo: '/login',
     pathMatch: 'full'
+  },
+  {
+    path: 'flights',
+    component: FlightComponent,
+    data: { title: 'Flights List' }
+  },
+  {
+    path: 'flight-details/:id',
+    component: FlightDetailComponent,
+    data: { title: 'Flight Details' }
+  },
+  {
+    path: 'flight-create',
+    component: FlightCreateComponent,
+    data: { title: 'Create Book' }
+  },
+  {
+    path: 'flight-edit/:id',
+    component: FlightEditComponent,
+    data: { title: 'Edit Flight' }
   }
 ];
 
@@ -53,7 +76,12 @@ const appRoutes: Routes = [
     FlightCreateComponent,
     FlightEditComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    FlightSearchComponent,
+    FlightSearchResultsComponent,
+    FlightTripOptionsComponent,
+    FlightTripSummaryComponent,
+    FlightTripConfirmationComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -62,8 +90,11 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MatToolbarModule,
+    MatDividerModule,
     MatInputModule,
     MatTableModule,
+    MatTooltipModule,
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-
-import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-flight-edit',
@@ -19,10 +18,10 @@ export class FlightEditComponent implements OnInit {
   publisher:string = '';
   published_year:string = '';
 
-  constructor(private router: Router, private route: ActivatedRoute, private api: ApiService, private formBuilder: FormBuilder) { }
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.getFlight(this.route.snapshot.params['id']);
+    //this.getFlight(this.route.snapshot.params['id']);
     this.flightForm = this.formBuilder.group({
       'isbn' : [null, Validators.required],
       'title' : [null, Validators.required],
@@ -33,8 +32,8 @@ export class FlightEditComponent implements OnInit {
     });
   }
 
-  getFlight(id) {
-    this.api.getFlight(id).subscribe(data => {
+  /*getFlight(id) {
+    this.http.get(id).subscribe(data => {
       this.id = data._id;
       this.flightForm.setValue({
         isbn: data.isbn,
@@ -45,10 +44,13 @@ export class FlightEditComponent implements OnInit {
         published_year: data.published_year
       });
     });
-  }
+  }*/
 
   onFormSubmit(form:NgForm) {
-    this.api.updateFlight(form)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization': localStorage.getItem('jwtToken') })
+    };
+    this.http.put('/api/flight-edit', form, httpOptions)
       .subscribe(res => {
           let id = res['_id'];
           this.router.navigate(['/flight-details', id]);
@@ -60,5 +62,10 @@ export class FlightEditComponent implements OnInit {
 
   flightDetails() {
     this.router.navigate(['/flight-details', this.id]);
+  }
+
+  logout() {
+    localStorage.removeItem('jwtToken');
+    this.router.navigate(['login']);
   }
 }

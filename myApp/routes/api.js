@@ -5,9 +5,8 @@ require('../config/passport')(passport);
 var express = require('express');
 var jwt = require('jsonwebtoken');
 var router = express.Router();
-//var User = require("../models/User");
 var User = mongoose.model('User');
-var Flight = require("../models/Flight");
+var Flight = require('../models/Flight');
 
 /* REGISTER */
 router.post('/signup', function(req, res) {
@@ -16,7 +15,13 @@ router.post('/signup', function(req, res) {
     } else {
       var newUser = new User({
         username: req.body.username,
-        password: req.body.password
+        password: req.body.password,
+        email: req.body.email,
+        phone: req.body.phone,
+        date_created: req.body.date_created,
+        role_id: req.body.role_id,
+        privilege_id: req.body.privilege_id,
+        status_id: req.body.status_id
       });
       // save the user
       newUser.save(function(err) {
@@ -33,7 +38,6 @@ router.post('/signin', function(req, res) {
       username: req.body.username
     }, function(err, user) {
       if (err) throw err;
-  
       if (!user) {
         res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
       } else {
@@ -53,8 +57,9 @@ router.post('/signin', function(req, res) {
 });
 
 /* SAVE Flight */
-router.post('/flight', passport.authenticate('jwt', { session: false}), function(req, res) {
+router.post('/flight-create', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
+    console.log(token);
     if (token) {
         console.log(req.body);
         var newFlight = new Flight({
@@ -66,26 +71,89 @@ router.post('/flight', passport.authenticate('jwt', { session: false}), function
 
         newFlight.save(function(err) {
         if (err) {
-            return res.json({success: false, msg: 'Save book failed.'});
+            return res.json({success: false, msg: 'Save flight failed.'});
         }
-        res.json({success: true, msg: 'Successful created new book.'});
+        res.json({success: true, msg: 'Successful created new flight.'});
         });
     } else {
         return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
 });
 
+/* GET DATA FOR Flight-search */
+router.get('/flight-search', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  console.log(token);
+  if (token) {
+    User.findOne({
+      username: req.body.username
+    }, function(err, user) {
+      if (err) throw err;
+      if (!user) {
+        res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
+      } else {
+        // get the privilege_id
+        var privilege_id = user.privilege_id;
+        return res.json(privilege_id);
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
 /* GET ALL Flights */
-router.get('/flight', passport.authenticate('jwt', { session: false}), function(req, res) {
+router.get('/flights', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
+    console.log(token);
     if (token) {
-      Book.find(function (err, books) {
+      Flight.find(function (err, flights) {
         if (err) return next(err);
-        res.json(books);
+        res.json(flights);
       });
     } else {
       return res.status(403).send({success: false, msg: 'Unauthorized.'});
     }
+});
+
+/* GET SINGLE FLIGHT BY ID */
+router.get('/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  console.log(token);
+  if (token) {
+    Flight.findById(req.params.id, function (err, post) {
+      if (err) return next(err);
+      res.json(post);
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+/* UDPATE FLIGHT */
+router.put('/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Flight.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+      if (err) return next(err);
+      res.json(post);
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+/* DELETE FLIGHT */
+router.delete('/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Flight.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+      if (err) return next(err);
+      res.json(post);
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
 });
 
 getToken = function (headers) {

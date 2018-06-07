@@ -1,0 +1,43 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "npm",
+            "script": "mongo-win",
+            "path": "myApp/",
+            "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "mongo-win-noauth",
+            "path": "myApp/",
+            "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "start",
+            "path": "myApp/",
+            "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "start-server",
+            "path": "myApp/",
+            "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "serve",
+            "path": "myApp/",
+            "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "serve-proxy",
+            "path": "myApp/",
+            "problemMatcher": []
+        }
+    ]
+}

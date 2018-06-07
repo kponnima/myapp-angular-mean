@@ -1,5 +1,5 @@
 <div class="button-row">
-  <a mat-raised-button color="primary" [routerLink]="['/flights']"><mat-icon>list</mat-icon></a>
+  <a mat-raised-button color="primary" [routerLink]="['/']"><mat-icon>list</mat-icon></a>
 </div>
 <form [formGroup]="flightForm" (ngSubmit)="onFormSubmit(flightForm.value)">
   <mat-form-field class="example-full-width">
@@ -35,13 +35,6 @@
            [errorStateMatcher]="matcher">
     <mat-error>
       <span *ngIf="!flightForm.get('publisher').valid && flightForm.get('publisher').touched">Please enter Publisher</span>
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="Published Year" formControlName="published_year"
-           [errorStateMatcher]="matcher">
-    <mat-error>
-      <span *ngIf="!flightForm.get('published_year').valid && flightForm.get('published_year').touched">Please enter Published Year</span>
     </mat-error>
   </mat-form-field>
   <div class="button-row">

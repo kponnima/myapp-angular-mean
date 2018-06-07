@@ -16,9 +16,7 @@ var FlightSchema = new mongoose.Schema({
   publisher: {
     type: String,
     required: true
-  },
-  published_year: String,
-  updated_date: { type: Date, default: Date.now }
+  }
 });
 
 module.exports = mongoose.model('Flight', FlightSchema);

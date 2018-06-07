@@ -1,17 +1,47 @@
 <div class="container">
-  <form class="form-signin" (ngSubmit)="login()" #loginForm="ngForm">
-      <div class="alert alert-warning alert-dismissible" role="alert" *ngIf="message !== ''">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        {{message}}
+  <div class="text-center">
+    <h1>Sign In</h1>
+    <mat-divider></mat-divider>
+  </div>
+  <form [formGroup]="signinForm" class="form-signin" (ngSubmit)="login(signinForm.value)">
+    <div class="alert alert-warning alert-dismissible" role="alert" *ngIf="message !== ''">
+      <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      {{message}}
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label mdPrefix>Username</mat-label>
+        <input matInput placeholder="Username" ng-model="loginData.username" required formControlName="username"
+          [errorStateMatcher]="matcher">
+        <mat-error>
+            <span *ngIf="!signinForm.get('username').valid && signinForm.get('username').touched">Please enter Username</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label mdPrefix>Password</mat-label>
+        <input matInput placeholder="Password" ng-model="loginData.password" type="password" ng-minlength='7' required
+          formControlName="password" [type]="hide ? 'password' : 'text'" [errorStateMatcher]="matcher">
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+        <mat-error>
+            <span *ngIf="!signinForm.get('password').valid && signinForm.get('password').touched">Password must be at least 7 characters.</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+      <div class="space-top text-center">
+        <button mat-raised-button type="submit" [disabled]="!signinForm.valid" color="primary">Sign In</button>
       </div>
-      <h2 class="form-signin-heading">Please sign in</h2>
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" class="form-control" placeholder="Email address" [(ngModel)]="loginData.username" name="username" required/>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" class="form-control" placeholder="Password" [(ngModel)]="loginData.password" name="password" required/>
-      <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!loginForm.form.valid">Sign in</button>
       <p>
           Not a member? <a [routerLink]="['/signup']">Signup here</a>
       </p>
   </form>
+  <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span><img src="../../favicon.ico"></span>
+        <span class="example-fill-remaining-space"></span>
+        <span class="align-center"></span>
+        <span class="example-spacer"></span>
+        <button mat-button>About</button>
+        <button mat-button>Contact</button>
+      </mat-toolbar-row>
+    </mat-toolbar>
 </div>

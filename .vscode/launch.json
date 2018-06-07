@@ -1,0 +1,31 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost:3000",
+            "runtimeArgs": [
+                "--user-data-dir",
+                "--remote-debugging-port=9222"
+                ],
+                "sourceMaps": true,
+                "trace": true,
+                "webRoot": "${workspaceRoot}/myApp/src/",
+                "userDataDir": "${workspaceRoot}/.vscode/chrome"
+        },
+        {
+          "type": "node",
+          "request": "launch",
+          "name": "Launch Express Server",
+          "program": "${workspaceRoot}/myApp/bin/www",
+          "outFiles": [
+            "${workspaceRoot}/out/**/*.js"
+          ]
+        }
+    ]
+}

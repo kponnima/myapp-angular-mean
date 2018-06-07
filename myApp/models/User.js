@@ -1,15 +1,42 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
+var autoIncrement = require('mongoose-auto-increment');
+
+autoIncrement.initialize(mongoose.connection);
 
 var UserSchema = new Schema({
-  username: {
+    username: {
         type: String,
         unique: true,
         required: true
     },
-  password: {
+    password: {
         type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: Number,
+        required: true
+    },
+    date_created: {
+        type: Date,
+        required: true
+    },
+    role_id: {
+        type: Number,
+        required: true
+    },
+    privilege_id: {
+        type: Number,
+        required: true
+    },
+    status_id: {
+        type: Number,
         required: true
     }
 });
@@ -43,4 +70,6 @@ UserSchema.methods.comparePassword = function (passw, cb) {
     });
 };
 
+
+UserSchema.plugin(autoIncrement.plugin, 'User');
 module.exports = mongoose.model('User', UserSchema);

@@ -5,10 +5,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var passport = require('passport');
-var bodyParser = require('body-parser');
 var config = require('./config/database');
 
-//var apiRouter = require('./routes/flight');
 var api = require('./routes/api');
 var app = express();
 
@@ -20,18 +18,15 @@ mongoose.connect(config.database, { promiseLibrary: require('bluebird') })
 app.use(passport.initialize());
   
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist/myApp')));
-app.use('/flights', express.static(path.join(__dirname, 'dist/myApp')));
-//app.use('/api', apiRouter);
+app.use('/', express.static(path.join(__dirname, 'dist/myApp')));
 app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  next(createError(404));
 });
 
 // error handler
@@ -42,7 +37,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.sendStatus(err.status);
+  res.send(err.status);
 });
 
 module.exports = app;

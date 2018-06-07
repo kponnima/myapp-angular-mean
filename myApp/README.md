@@ -2,6 +2,20 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
 
+MongoDB 
+	- Stores user data
+	- Sends user data back when requested
+Express API
+	 - Create, Read, Update, Delete
+	- Generates JWT token upon registration/login and passes to Angular Application
+		: /api/register (POST)
+		: /api/login (POST)
+		: /api/profile/USERID (GET)
+Angular App
+	- Calls API and deals with responses  [Passes JWT token for protected routes]
+	- Stores JWT in order to maintain user's session
+	- Checks the validity of JWT when displaying protected views
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
