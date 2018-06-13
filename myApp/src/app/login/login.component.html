@@ -19,8 +19,8 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label mdPrefix>Password</mat-label>
-        <input matInput placeholder="Password" ng-model="loginData.password" type="password" ng-minlength='7' required
-          formControlName="password" [type]="hide ? 'password' : 'text'" [errorStateMatcher]="matcher">
+        <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" ng-model="loginData.password" ng-minlength='7' required
+          formControlName="password" [errorStateMatcher]="matcher">
         <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
         <mat-error>
             <span *ngIf="!signinForm.get('password').valid && signinForm.get('password').touched">Password must be at least 7 characters.</span>
@@ -31,17 +31,10 @@
         <button mat-raised-button type="submit" [disabled]="!signinForm.valid" color="primary">Sign In</button>
       </div>
       <p>
+          <a [routerLink]="['/forgotpswd']">Forgot Password</a>
+      </p>
+      <p>
           Not a member? <a [routerLink]="['/signup']">Signup here</a>
       </p>
   </form>
-  <mat-toolbar color="primary">
-      <mat-toolbar-row>
-        <span><img src="../../favicon.ico"></span>
-        <span class="example-fill-remaining-space"></span>
-        <span class="align-center"></span>
-        <span class="example-spacer"></span>
-        <button mat-button>About</button>
-        <button mat-button>Contact</button>
-      </mat-toolbar-row>
-    </mat-toolbar>
 </div>

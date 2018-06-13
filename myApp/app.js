@@ -11,6 +11,7 @@ var api = require('./routes/api');
 var app = express();
 
 mongoose.Promise = require('bluebird');
+mongoose.set('debug', true);
 mongoose.connect(config.database, { promiseLibrary: require('bluebird') })
   .then(() =>  console.log('connection successful'))
   .catch((err) => console.error(err));
@@ -37,7 +38,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.send(err.status);
+  res.sendStatus(err.status);
 });
 
 module.exports = app;

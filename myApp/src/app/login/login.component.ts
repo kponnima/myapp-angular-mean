@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   //loginData = { username:'', password:'' };
   message = '';
   data: any;
+  hide = true;
 
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder) { }
 
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
     this.http.post('/api/signin',form).subscribe(resp => {
       this.data = resp;
       localStorage.setItem('jwtToken', this.data.token);
-      this.router.navigate(['flights']);
+      this.router.navigate(['flight-search']);
     }, err => {
       this.message = err.error.msg;
     });

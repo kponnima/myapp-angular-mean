@@ -1,9 +1,4 @@
-mat-grid-tile {
-    background: lightblue;
-  }
-
-  .example-fill-remaining-space {
-    /* This fills the remaining space, by using flexbox. 
-       Every toolbar row uses a flexbox row layout. */
-    flex: 1 1 auto;
-  }
+.example-nested-option-text {
+  /* This fills the remaining space, by using flexbox.*/
+ color : black;
+}

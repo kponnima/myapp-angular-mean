@@ -12,11 +12,11 @@ import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Valida
 })
 export class FlightCreateComponent implements OnInit {
   flightForm: FormGroup;
-  isbn:string='';
-  title:string='';
-  description:string='';
-  author:string='';
-  publisher:string='';
+  isbn:string = '';
+  title:string = '';
+  description:string = '';
+  author:string = '';
+  publisher:string = '';
   
   message = '';
   data: any;

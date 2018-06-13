@@ -6,7 +6,7 @@ var express = require('express');
 var jwt = require('jsonwebtoken');
 var router = express.Router();
 var User = mongoose.model('User');
-var Flight = require('../models/Flight');
+var Flights = require('../models/Flights');
 
 /* REGISTER */
 router.post('/signup', function(req, res) {
@@ -83,7 +83,7 @@ router.post('/flight-create', passport.authenticate('jwt', { session: false}), f
 /* GET DATA FOR Flight-search */
 router.get('/flight-search', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
-  console.log(token);
+  console.log(req.body.username);
   if (token) {
     User.findOne({
       username: req.body.username
@@ -102,26 +102,33 @@ router.get('/flight-search', passport.authenticate('jwt', { session: false}), fu
   }
 });
 
-/* GET ALL Flights */
-router.get('/flights', passport.authenticate('jwt', { session: false}), function(req, res) {
-    var token = getToken(req.headers);
-    console.log(token);
-    if (token) {
-      Flight.find(function (err, flights) {
-        if (err) return next(err);
-        res.json(flights);
-      });
-    } else {
-      return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
+/* GET Flight-search RESULTS data */
+router.get('/flight-search-results', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Flights.find({
+      origin: req.query.fromcity,
+      destination: req.query.tocity,
+      //departuredatetime:req.query.departDateTime,
+    }, function(err, flights) {
+      if (err) throw err;
+      if (!flights) {
+        res.status(401).send({success: false, msg: 'Search failed. Flight not found.'});
+      } else {
+        return res.json(flights);
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
 });
 
 /* GET SINGLE FLIGHT BY ID */
 router.get('/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
-  console.log(token);
+  console.log("You're here");
   if (token) {
-    Flight.findById(req.params.id, function (err, post) {
+    Flights.findById(req.params.id, function (err, post) {
       if (err) return next(err);
       res.json(post);
     });
@@ -134,7 +141,7 @@ router.get('/:id', passport.authenticate('jwt', { session: false}), function(req
 router.put('/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
   if (token) {
-    Flight.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+    Flights.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
       if (err) return next(err);
       res.json(post);
     });
@@ -147,7 +154,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false}), function(req
 router.delete('/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
   if (token) {
-    Flight.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+    Flights.findByIdAndRemove(req.params.id, req.body, function (err, post) {
       if (err) return next(err);
       res.json(post);
     });

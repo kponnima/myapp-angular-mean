@@ -14,14 +14,14 @@ import {ErrorStateMatcher} from '@angular/material/core';
 
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
-  username:String='';
-  password:String='';
-  email:String='';
-  phone:Number=null;
-  date_created:Date=new Date();
-  role_id:Number=Number(2);
-  privilege_id:Number=Number(1);
-  status_id:Number=Number(1);
+  username:String = '';
+  password:String = '';
+  email:String = '';
+  phone:Number = null;
+  date_created:Date = new Date();
+  role_id:Number = Number(2);
+  privilege_id:Number = Number(1);
+  status_id:Number = Number(1);
   /*signupData = { 
     username:'',
     password:'' ,
@@ -36,7 +36,7 @@ export class SignupComponent implements OnInit {
 
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.signupForm = this.formBuilder.group({
       'username' : [null, Validators.required],
       'password' : [null, Validators.compose( [ Validators.minLength(7), Validators.required ] )],
@@ -59,7 +59,7 @@ export class SignupComponent implements OnInit {
         this.router.navigate(['login']);
       }*/
 
-      //form.resetForm();
+      // form.resetForm();
       this.router.navigate(['login']);
     }, err => {
       this.message = err.error.msg;

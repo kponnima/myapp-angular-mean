@@ -1,56 +1,33 @@
 <div class="button-row">
-  <a mat-raised-button color="primary" [routerLink]="['/flight-create']"><mat-icon>add</mat-icon></a>
-  <a mat-raised-button color="primary" (click)="logout()"><mat-icon>Logout</mat-icon></a>
+  <a mat-raised-button color="primary" [routerLink]="['/flights']"><mat-icon>list</mat-icon></a>
 </div>
-<div class="example-container mat-elevation-z8">
-  <table mat-table #table [dataSource]="dataSource">
-
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
-    <!-- Flight No Column -->
-    <ng-container matColumnDef="flight_no">
-      <th mat-header-cell *matHeaderCellDef> Flight No </th>
-      <td mat-cell *matCellDef="let element" class="isbn-col"> {{element.flight_no}} </td>
-    </ng-container>
-
-    <!-- Origin Column -->
-    <ng-container matColumnDef="origin">
-      <th mat-header-cell *matHeaderCellDef> Origin </th>
-      <td mat-cell *matCellDef="let element"> {{element.origin}} </td>
-    </ng-container>
-
-    <!-- Destination Column -->
-    <ng-container matColumnDef="destination">
-      <th mat-header-cell *matHeaderCellDef> Destination </th>
-      <td mat-cell *matCellDef="let element"> {{element.destination}} </td>
-    </ng-container>
-
-    <!-- Departure Column -->
-    <ng-container matColumnDef="departure">
-      <th mat-header-cell *matHeaderCellDef> Departure </th>
-      <td mat-cell *matCellDef="let element"> {{element.departuredatetime}} </td>
-    </ng-container>
-
-    <!-- Arrival Column -->
-    <ng-container matColumnDef="arrival">
-      <th mat-header-cell *matHeaderCellDef> Arrival </th>
-      <td mat-cell *matCellDef="let element"> {{element.arrivaldatetime}} </td>
-    </ng-container>
-
-    <!-- Aircraft Code Column -->
-    <ng-container matColumnDef="aircraft_id">
-      <th mat-header-cell *matHeaderCellDef> Aircraft code# </th>
-      <td mat-cell *matCellDef="let element"> {{element.aircraft_id}} </td>
-    </ng-container>
-
-    <!-- Carrier Code Column -->
-    <ng-container matColumnDef="carrier">
-      <th mat-header-cell *matHeaderCellDef> Carrier code# </th>
-      <td mat-cell *matCellDef="let element"> {{element.carrier}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/flight-details/', row._id]"></tr>
-  </table>
-</div>
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title><h2>{{flight.flight_no}}</h2></mat-card-title>
+    <mat-card-subtitle>{{flight.carrier}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <dl>
+      <dt>FLIGHT NO:</dt>
+      <dd>{{flight.flight_no}}</dd>
+      <dt>ORIGIN:</dt>
+      <dd>{{flight.origin}}</dd>
+      <dt>DESTINATION:</dt>
+      <dd>{{flight.destination}}</dd>
+      <dt>DEPARTURE:</dt>
+      <dd>{{flight.departure}}</dd>
+      <dt>ARRIVAL:</dt>
+      <dd>{{flight.arrival}}</dd>
+      <dt>AIRCRAFT CODE:</dt>
+      <dd>{{flight.aircraft_id}}</dd>
+      <dt>DURATION:</dt>
+      <dd>{{flight.duration}}</dd>
+      <dt>MILES:</dt>
+      <dd>{{flight.miles}}</dd>
+    </dl>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-raised-button color="primary" [routerLink]="['/flight-edit', flight._id]"><mat-icon>edit</mat-icon></a>
+    <a mat-raised-button color="warn" (click)="deleteFlight(flight._id)"><mat-icon>delete</mat-icon></a>
+  </mat-card-actions>
+</mat-card>

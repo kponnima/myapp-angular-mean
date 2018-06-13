@@ -1,130 +1,136 @@
-<mat-toolbar color="primary">
-    <span>Application Title</span>
-  
-    <!-- This fills the remaining space of the current row -->
-    <span class="example-fill-remaining-space">
-        <button mat-button [matMenuTriggerFor]="animals">Animal index</button>
-        <mat-menu #animals="matMenu">
-            <button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>
-            <button mat-menu-item [matMenuTriggerFor]="invertebrates">Invertebrates</button>
-        </mat-menu>
-          <mat-menu #vertebrates="matMenu">
-            <button mat-menu-item [matMenuTriggerFor]="fish">Fishes</button>
-            <button mat-menu-item [matMenuTriggerFor]="amphibians">Amphibians</button>
-            <button mat-menu-item [matMenuTriggerFor]="reptiles">Reptiles</button>
-            <button mat-menu-item>Birds</button>
-            <button mat-menu-item>Mammals</button>
-          </mat-menu>
-          
-          <mat-menu #invertebrates="matMenu">
-            <button mat-menu-item>Insects</button>
-            <button mat-menu-item>Molluscs</button>
-            <button mat-menu-item>Crustaceans</button>
-            <button mat-menu-item>Corals</button>
-            <button mat-menu-item>Arachnids</button>
-            <button mat-menu-item>Velvet worms</button>
-            <button mat-menu-item>Horseshoe crabs</button>
-          </mat-menu>
-    </span>
-  
-    <span>Right Aligned Text</span>
-</mat-toolbar>
-
-<mat-grid-list cols="4" rowHeight="2:1" gutterSize="5px">
-  <mat-grid-tile-header>header_1</mat-grid-tile-header>
+<mat-grid-tile>1</mat-grid-tile>
+<mat-grid-tile>2</mat-grid-tile>
+<form method="GET" name="flightsearchForm" [formGroup]="flightsearchForm" class="form-flightsearch" (ngSubmit)="flightsearch(flightsearchForm.value)">
+  <mat-grid-list cols="4" rowHeight="2:1" gutterSize="5px">
+    <mat-grid-tile rowspan="1" colspan ="1">
+        <mat-form-field>
+            <mat-select placeholder="Type of travel" ng-model="flightsearchForm.typeoftravel" required formControlName="typeoftravel" [errorStateMatcher]="matcher">
+              <mat-option *ngFor="let typeoftravel of typeofTravel" [value]="typeoftravel.value">
+                {{ typeoftravel.viewValue }}
+              </mat-option>
+            </mat-select>
+            <mat-error>
+                <span *ngIf="!flightsearchForm.get('typeoftravel').valid && flightsearchForm.get('typeoftravel').touched">Please select type of travel</span>
+            </mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile rowspan="1" colspan ="1">
+        <mat-form-field>
+            <input type="text" matInput placeholder="From" formControlName="fromcity" required [matAutocomplete]="autoGroup"
+            matTooltip="Choose origin city" [matTooltipPosition]="position.value" [errorStateMatcher]="matcher"/>
+              <mat-autocomplete #autoGroup="matAutocomplete">
+                <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
+                  <mat-option class="example-nested-option-text" *ngFor="let name of group.names" [value]="name">
+                    {{ originname }}
+                  </mat-option>
+              </mat-optgroup>
+            </mat-autocomplete>
+            <mat-error>
+                <span *ngIf="!flightsearchForm.get('fromcity').valid && flightsearchForm.get('fromcity').touched">Please select origin</span>
+            </mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile rowspan="1" colspan ="1">
+        <mat-form-field>
+            <input type="text" matInput placeholder="To" formControlName="tocity" required [matAutocomplete]="autoGroup"
+            matTooltip="Choose destination city" [matTooltipPosition]="position.value" [errorStateMatcher]="matcher"/>
+            <mat-error>
+                <span *ngIf="!flightsearchForm.get('tocity').valid && flightsearchForm.get('tocity').touched">Please select destination</span>
+            </mat-error>
+              <mat-autocomplete #autoGroup="matAutocomplete">
+                  <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
+                      <mat-option class="example-nested-option-text" *ngFor="let name of group.names" [value]="name">
+                    {{ destinationname }}
+                  </mat-option>
+              </mat-optgroup>
+            </mat-autocomplete>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile rowspan="1" colspan ="1">
+        <mat-form-field>
+            <input type="text" matInput placeholder="Optional" formControlName="connection_city" [matAutocomplete]="autoGroup" [errorStateMatcher]="matcher"/>
+              <mat-autocomplete #autoGroup="matAutocomplete">
+                  <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
+                      <mat-option class="example-nested-option-text" *ngFor="let name of group.names" [value]="name">
+                    {{ connectionname }}
+                  </mat-option>
+              </mat-optgroup>
+            </mat-autocomplete>
+            <mat-error>
+                <span *ngIf="!flightsearchForm.get('connection_city').valid && flightsearchForm.get('connection_city').touched">Please select connection city</span>
+            </mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile rowspan="1" colspan ="1">
+        <mat-form-field>
+            <input matInput [matDatepicker]="dp1" required placeholder="Depart" disabled="true" formControlName="depart_date" [errorStateMatcher]="matcher">
+            <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+            <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+            <mat-error>
+                <span *ngIf="!flightsearchForm.get('depart_date').valid && flightsearchForm.get('depart_date').touched">Please select depart date</span>
+            </mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile rowspan="1" colspan ="1">
+        <mat-form-field>
+            <mat-select placeholder="Time" required formControlName="depart_time" [errorStateMatcher]="matcher">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let time of times" [value]="time">{{time}}</mat-option>
+            </mat-select>
+            <mat-error>
+                <span *ngIf="!flightsearchForm.get('depart_time').valid && flightsearchForm.get('depart_time').touched">Please select time of travel</span>
+            </mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile rowspan="1" colspan ="1">
+        <mat-form-field>
+            <input matInput [matDatepicker]="dp2" placeholder="Return" disabled="true" formControlName="return_date" [errorStateMatcher]="matcher">
+            <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+            <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+            <mat-error>
+                <span *ngIf="!flightsearchForm.get('return_date').valid && flightsearchForm.get('return_date').touched">Please select depart date</span>
+            </mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile rowspan="1" colspan ="1">
+        <button mat-raised-button type="submit" [disabled]="!flightsearchForm.valid" color="accent">SEARCH</button>
+      </mat-grid-tile>
+  </mat-grid-list>
+</form>
+<mat-grid-list cols="1" rowHeight="2:1" gutterSize="5px">
   <mat-grid-tile rowspan="2" colspan ="1">
-    <form [formGroup]="searchForm">
-      <mat-form-field>
-          <mat-select placeholder="Select">
-            <mat-option *ngFor="let typeoftravel of typeofTravel" [value]="typeoftravel.value">
-              {{ typeoftravel.viewValue }}
-            </mat-option>
-          </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-          <input type="text" matInput placeholder="City or Airport" formControlName="originGroup" required [matAutocomplete]="autoGroup"/>
-            <mat-autocomplete #autoGroup="matAutocomplete">
-              <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
-                <mat-option *ngFor="let name of group.names" [value]="name">
-                  {{ originname }}
-                </mat-option>
-            </mat-optgroup>
-          </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field>
-          <input type="text" matInput placeholder="City or Airport" formControlName="destinationGroup" required [matAutocomplete]="autoGroup"/>
-            <mat-autocomplete #autoGroup="matAutocomplete">
-                <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
-                    <mat-option *ngFor="let name of group.names" [value]="name">
-                  {{ destinationname }}
-                </mat-option>
-            </mat-optgroup>
-          </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field>
-          <input type="text" matInput placeholder="Optional" formControlName="connectionGroup" required [matAutocomplete]="autoGroup"/>
-            <mat-autocomplete #autoGroup="matAutocomplete">
-                <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
-                    <mat-option *ngFor="let name of group.names" [value]="name">
-                  {{ destinationname }}
-                </mat-option>
-            </mat-optgroup>
-          </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field>
-          <input matInput [matDatepicker]="dp1" placeholder="Depart" disabled
-          matTooltip="Choose depart date"
-          [matTooltipPosition]="after">
-          <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-          <mat-datepicker #dp1 disabled="false"></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field>
-          <mat-select placeholder="Time">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let time of times" [value]="time">{{time}}</mat-option>
-          </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-          <input matInput [matDatepicker]="dp2" placeholder="Return" disabled>
-          <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-          <mat-datepicker #dp2 disabled="false"></mat-datepicker>
-      </mat-form-field>
-    </form>
-  </mat-grid-tile>
-  <mat-grid-tile-footer>footer_1</mat-grid-tile-footer>
-  <mat-grid-tile>
-      <mat-accordion>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Personal data
-              </mat-panel-title>
-              <mat-panel-description>
-                Type your name and age
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-        
-            <mat-form-field>
-              <input matInput placeholder="First name">
-            </mat-form-field>
-        
-            <mat-form-field>
-              <input matInput placeholder="Age">
-            </mat-form-field>
-          </mat-expansion-panel>
-          <mat-expansion-panel (opened)="panelOpenState = true"
-                               (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Self aware panel
-              </mat-panel-title>
-              <mat-panel-description>
-                Currently I am {{panelOpenState ? 'open' : 'closed'}}
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <p>I'm visible because I am open</p>
-          </mat-expansion-panel>
-        </mat-accordion>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Personal data
+          </mat-panel-title>
+          <mat-panel-description>
+            Type your name and age
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <mat-form-field>
+          <input matInput placeholder="First name">
+        </mat-form-field>
+    
+        <mat-form-field>
+          <input matInput placeholder="Age">
+        </mat-form-field>
+      </mat-expansion-panel>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                            (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Self aware panel
+          </mat-panel-title>
+          <mat-panel-description>
+            Currently I am {{panelOpenState ? 'open' : 'closed'}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>I'm visible because I am open</p>
+      </mat-expansion-panel>
+    </mat-accordion>
   </mat-grid-tile>
   <mat-grid-tile>3</mat-grid-tile>
   <mat-grid-tile>4</mat-grid-tile>
