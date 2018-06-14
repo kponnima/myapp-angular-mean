@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataSource } from '@angular/cdk/collections';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, of } from 'rxjs';
 import { Moment } from 'moment';
 import * as moment from 'moment';
@@ -19,17 +18,9 @@ export class FlightSearchResultsComponent implements OnInit  {
   destination: any;
   displayedColumns = ['flight_no', 'origin', 'destination', 'departure', 'arrival', 'aircraft_id', 'carrier'];
   dataSource: FlightDataSource;
+  message='';
 
-  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private breakpointObserver: BreakpointObserver) { 
-    const isSmallScreen = breakpointObserver.isMatched('(max-width: 599px)');
-    breakpointObserver.observe([
-      Breakpoints.HandsetLandscape,
-      Breakpoints.HandsetPortrait
-    ]).subscribe(result => {
-      if (result.matches) {
-        //this.activateHandsetLayout();
-      }
-    });
+  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient) { 
   }
 
   ngOnInit() {
@@ -59,6 +50,7 @@ export class FlightSearchResultsComponent implements OnInit  {
       if(err.status === 401) {
         this.router.navigate(['login']);
       }
+      this.message = err.error.msg;
     });
   }
 }

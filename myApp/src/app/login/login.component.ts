@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     this.http.post('/api/signin',form).subscribe(resp => {
       this.data = resp;
       localStorage.setItem('jwtToken', this.data.token);
-      this.router.navigate(['flight-search']);
+      this.router.navigate(['home']);
     }, err => {
       this.message = err.error.msg;
     });

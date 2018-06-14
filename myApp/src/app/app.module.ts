@@ -1,5 +1,6 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -57,21 +58,29 @@ import { FlightTripOptionsComponent } from './flight-trip-options/flight-trip-op
 import { FlightTripSummaryComponent } from './flight-trip-summary/flight-trip-summary.component';
 import { FlightTripConfirmationComponent } from './flight-trip-confirmation/flight-trip-confirmation.component';
 import { AuthInterceptor } from './http-interceptors/auth.interceptor';
+import { HomeComponent } from './home/home.component';
+import { HotelSearchComponent } from './hotel-search/hotel-search.component';
+import { CarSearchComponent } from './car-search/car-search.component';
 
 const appRoutes: Routes = [
+  { path: '',
+    redirectTo: '/signin',
+    pathMatch: 'full'
+  },
   {
-    path: 'login',
+    path: 'signin',
     component: LoginComponent,
     data: { title: 'Login' }
   },
   {
     path: 'signup',
     component: SignupComponent,
-    data: { title: 'Sign Up' }
+    data: { title: 'Register'}
   },
-  { path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
+  {
+    path: 'home',
+    component: HomeComponent,
+    data: { title: 'Home' }
   },
   {
     path: 'flight-search',
@@ -129,6 +138,7 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
     HttpClientModule,
     MatMomentDateModule,
     MatAutocompleteModule,
@@ -170,17 +180,20 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     FooterComponent,
+    LoginComponent,
+    SignupComponent,
+    HomeComponent,
     FlightComponent,
     FlightDetailComponent,
     FlightCreateComponent,
     FlightEditComponent,
-    LoginComponent,
-    SignupComponent,
     FlightSearchComponent,
     FlightSearchResultsComponent,
     FlightTripOptionsComponent,
     FlightTripSummaryComponent,
-    FlightTripConfirmationComponent
+    FlightTripConfirmationComponent,
+    HotelSearchComponent,
+    CarSearchComponent
   ],
   providers: [
     Title,

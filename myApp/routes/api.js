@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken');
 var router = express.Router();
 var User = mongoose.model('User');
 var Flights = require('../models/Flights');
+var Airports = require('../models/Airports');
 
 /* REGISTER */
 router.post('/signup', function(req, res) {
@@ -56,6 +57,46 @@ router.post('/signin', function(req, res) {
     });
 });
 
+/* GET DATA for HOME */
+router.get('/activeuser', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  console.log(req.body.username);
+  if (token) {
+    User.findOne({
+      username: req.body.username
+    }, function(err, user) {
+      if (err) throw err;
+      if (!user) {
+        res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
+      } else {
+        // get the privilege_id
+        var privilege_id = user.privilege_id;
+        return res.json(privilege_id);
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+router.get('/airports', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  console.log(req.body.username);
+  if (token) {
+    Airports.find({
+      }, function(err, airports) {
+      if (err) throw err;
+      if (!airports) {
+        res.status(401).send({success: false, msg: 'Authentication failed!'});
+      } else {
+        // get the list of airports
+        return res.json(airports);
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
 /* SAVE Flight */
 router.post('/flight-create', passport.authenticate('jwt', { session: false}), function(req, res) {
     var token = getToken(req.headers);
@@ -83,7 +124,6 @@ router.post('/flight-create', passport.authenticate('jwt', { session: false}), f
 /* GET DATA FOR Flight-search */
 router.get('/flight-search', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
-  console.log(req.body.username);
   if (token) {
     User.findOne({
       username: req.body.username

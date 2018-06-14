@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router, NavigationStart, NavigationEnd, Event as NavigationEvent } from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -7,15 +7,45 @@ import { Router } from "@angular/router";
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(private router: Router) { }
+  mybool:boolean;
+  title = 'MYAPP';
+  constructor( private router: Router ) { }
 
   ngOnInit() {
+    this.router.events.forEach((event: NavigationEvent) => {
+      //After Navigation
+      if (event instanceof NavigationEnd) {
+        switch (event.url) {
+        case "/":
+        {
+          this.mybool=true;
+          break;
+        }
+        case "/login":
+        {
+          this.mybool=true;
+          break;
+        }
+        case "/signup":
+        {
+          this.mybool=true;
+          break;
+        }
+        case "/signin":
+        {
+          this.mybool=true;
+          break;
+        }
+        default:
+          this.mybool=false;
+        }
+      }
+    })
   }
 
   logout() {
     localStorage.removeItem('jwtToken');
-    this.router.navigate(['login']);
+    this.router.navigate(['signin']);
   }
 
 }
