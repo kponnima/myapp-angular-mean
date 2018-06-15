@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationStart, NavigationEnd, Event as NavigationEvent } from "@angular/router";
+import { Router, NavigationStart, NavigationEnd, Event as NavigationEvent } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -7,40 +7,40 @@ import { Router, NavigationStart, NavigationEnd, Event as NavigationEvent } from
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  mybool:boolean;
+  mybool: boolean;
   title = 'MYAPP';
   constructor( private router: Router ) { }
 
   ngOnInit() {
     this.router.events.forEach((event: NavigationEvent) => {
-      //After Navigation
+      // After Navigation
       if (event instanceof NavigationEnd) {
         switch (event.url) {
-        case "/":
+        case '/':
         {
-          this.mybool=true;
+          this.mybool = true;
           break;
         }
-        case "/login":
+        case '/login':
         {
-          this.mybool=true;
+          this.mybool = true;
           break;
         }
-        case "/signup":
+        case '/signup':
         {
-          this.mybool=true;
+          this.mybool = true;
           break;
         }
-        case "/signin":
+        case '/signin':
         {
-          this.mybool=true;
+          this.mybool = true;
           break;
         }
         default:
-          this.mybool=false;
+          this.mybool = false;
         }
       }
-    })
+    });
   }
 
   logout() {

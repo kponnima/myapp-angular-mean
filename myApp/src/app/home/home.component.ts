@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/takeWhile";
-import "rxjs/add/operator/startWith";
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/takeWhile';
+import 'rxjs/add/operator/startWith';
 
 @Component({
   selector: 'app-home',
@@ -12,16 +12,17 @@ import "rxjs/add/operator/startWith";
 })
 export class HomeComponent implements OnInit {
   public cols: Observable<number>;
+  panelOpenState: boolean = false;
 
   constructor(private observableMedia: ObservableMedia) { }
 
   ngOnInit() {
     const grid = new Map([
-      ["xs", 1],
-      ["sm", 2],
-      ["md", 2],
-      ["lg", 3],
-      ["xl", 3]
+      ['xs', 1],
+      ['sm', 2],
+      ['md', 2],
+      ['lg', 3],
+      ['xl', 3]
     ]);
     let start: number;
     grid.forEach((cols, mqAlias) => {

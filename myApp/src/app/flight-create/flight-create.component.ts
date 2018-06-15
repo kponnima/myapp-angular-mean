@@ -12,12 +12,12 @@ import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Valida
 })
 export class FlightCreateComponent implements OnInit {
   flightForm: FormGroup;
-  isbn:string = '';
-  title:string = '';
-  description:string = '';
-  author:string = '';
-  publisher:string = '';
-  
+  isbn: String = '';
+  title: String = '';
+  description: String = '';
+  author: String = '';
+  publisher: String = '';
+
   message = '';
   data: any;
 
@@ -33,8 +33,8 @@ export class FlightCreateComponent implements OnInit {
     });
   }
 
-  onFormSubmit(form:NgForm) {
-    let httpOptions = {
+  onFormSubmit(form: NgForm) {
+    const httpOptions = {
       headers: new HttpHeaders({ 'Authorization': localStorage.getItem('jwtToken') })
     };
     this.http.post('/api/flight-create',form, httpOptions).subscribe(resp => {

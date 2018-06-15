@@ -9,7 +9,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    console.log("intercepted request ... ");
+    console.log('intercepted request ...');
     /*
     * The verbose way:
     // Clone the request and replace the original headers with
@@ -19,21 +19,21 @@ export class AuthInterceptor implements HttpInterceptor {
     });
     */
     if (req.url.match('/api/signin') || req.url.match('/api/signup')) {
-        console.log("Sending request with default headers ...");
+        console.log('Sending request with default headers ...');
         return next.handle(req);
-    }else{
+    } else{
         // Get the auth token from the service.
         const authToken = this.getAuthorizationToken();
-        
+
         // Clone the request and set the new header in one step.
         const authReq = req.clone({ setHeaders: { Authorization: authToken } });
-        console.log("Sending request with auth header added ...");        
+        console.log('Sending request with auth header added ...');
         // send cloned request with header to the next handler.
         return next.handle(authReq);
     }
   }
 
-    private getAuthorizationToken(){
+    private getAuthorizationToken() {
         return localStorage.getItem('jwtToken');
     }
 }

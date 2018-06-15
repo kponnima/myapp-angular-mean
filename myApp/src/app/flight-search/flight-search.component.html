@@ -2,7 +2,7 @@
   <mat-grid-list cols="4" gutterSize="4px">
     <mat-grid-tile rowspan="1" colspan ="1">
         <mat-form-field>
-            <mat-select placeholder="Type of travel" ng-model="flightsearchForm.typeoftravel" required formControlName="typeoftravel" [errorStateMatcher]="matcher">
+            <mat-select placeholder="Type of travel" ng-model="flightsearchForm.typeoftravel" required formControlName="typeoftravel" >
               <mat-option *ngFor="let typeoftravel of typeofTravel" [value]="typeoftravel.value">
                 {{ typeoftravel.viewValue }}
               </mat-option>
@@ -15,11 +15,13 @@
       <mat-grid-tile rowspan="1" colspan ="1">
         <mat-form-field>
             <input type="text" matInput placeholder="From" formControlName="fromcity" required [matAutocomplete]="autoGroup"
-            matTooltip="Choose origin city" [matTooltipPosition]="position.value" [errorStateMatcher]="matcher"/>
-              <mat-autocomplete #autoGroup="matAutocomplete">
-                <mat-option [value]="airport">
-                  {{ airport.code - airport.name }}
-                </mat-option>
+            matTooltip="Choose origin city" [matTooltipPosition]="position.value"/>
+                <mat-autocomplete #autoGroup="matAutocomplete">
+                <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
+                    <mat-option class="example-nested-option-text" *ngFor="let name of group.names" [value]="name">
+                    {{ originname }}
+                    </mat-option>
+                </mat-optgroup>
             </mat-autocomplete>
             <mat-error>
                 <span *ngIf="!flightsearchForm.get('fromcity').valid && flightsearchForm.get('fromcity').touched">Please select origin</span>
@@ -29,7 +31,7 @@
       <mat-grid-tile rowspan="1" colspan ="1">
         <mat-form-field>
             <input type="text" matInput placeholder="To" formControlName="tocity" required [matAutocomplete]="autoGroup"
-            matTooltip="Choose destination city" [matTooltipPosition]="position.value" [errorStateMatcher]="matcher"/>
+            matTooltip="Choose destination city" [matTooltipPosition]="position.value"/>
             <mat-error>
                 <span *ngIf="!flightsearchForm.get('tocity').valid && flightsearchForm.get('tocity').touched">Please select destination</span>
             </mat-error>
@@ -44,7 +46,7 @@
       </mat-grid-tile>
       <mat-grid-tile rowspan="1" colspan ="1">
         <mat-form-field>
-            <input type="text" matInput placeholder="Optional" formControlName="connection_city" [matAutocomplete]="autoGroup" [errorStateMatcher]="matcher"/>
+            <input type="text" matInput placeholder="Optional" formControlName="connection_city" [matAutocomplete]="autoGroup" />
               <mat-autocomplete #autoGroup="matAutocomplete">
                   <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
                       <mat-option class="example-nested-option-text" *ngFor="let name of group.names" [value]="name">
@@ -59,7 +61,7 @@
       </mat-grid-tile>
       <mat-grid-tile rowspan="1" colspan ="1">
         <mat-form-field>
-            <input matInput [matDatepicker]="dp1" required placeholder="Depart" disabled="true" formControlName="depart_date" [errorStateMatcher]="matcher">
+            <input matInput [matDatepicker]="dp1" required placeholder="Depart" disabled="true" formControlName="depart_date" >
             <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
             <mat-datepicker #dp1 disabled="false"></mat-datepicker>
             <mat-error>
@@ -69,7 +71,7 @@
       </mat-grid-tile>
       <mat-grid-tile rowspan="1" colspan ="1">
         <mat-form-field>
-            <mat-select placeholder="Time" required formControlName="depart_time" [errorStateMatcher]="matcher">
+            <mat-select placeholder="Time" required formControlName="depart_time" >
               <mat-option>None</mat-option>
               <mat-option *ngFor="let time of times" [value]="time">{{time}}</mat-option>
             </mat-select>
@@ -80,7 +82,7 @@
       </mat-grid-tile>
       <mat-grid-tile rowspan="1" colspan ="1">
         <mat-form-field>
-            <input matInput [matDatepicker]="dp2" placeholder="Return" disabled="true" formControlName="return_date" [errorStateMatcher]="matcher">
+            <input matInput [matDatepicker]="dp2" placeholder="Return" disabled="true" formControlName="return_date" >
             <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
             <mat-datepicker #dp2 disabled="false"></mat-datepicker>
             <mat-error>

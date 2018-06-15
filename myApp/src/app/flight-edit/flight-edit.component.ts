@@ -47,12 +47,12 @@ export class FlightEditComponent implements OnInit {
   }*/
 
   onFormSubmit(form:NgForm) {
-    let httpOptions = {
+    const httpOptions = {
       headers: new HttpHeaders({ 'Authorization': localStorage.getItem('jwtToken') })
     };
     this.http.put('/api/flight-edit', form, httpOptions)
       .subscribe(res => {
-          let id = res['_id'];
+          const id = res['_id'];
           this.router.navigate(['/flight-details', id]);
         }, (err) => {
           console.log(err);

@@ -1,33 +1,3 @@
-<div class="button-row">
-  <a mat-raised-button color="primary" [routerLink]="['/flights']"><mat-icon>list</mat-icon></a>
-</div>
-<mat-card class="example-card">
-  <mat-card-header>
-    <mat-card-title><h2>{{flight.flight_no}}</h2></mat-card-title>
-    <mat-card-subtitle>{{flight.carrier}}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <dl>
-      <dt>FLIGHT NO:</dt>
-      <dd>{{flight.flight_no}}</dd>
-      <dt>ORIGIN:</dt>
-      <dd>{{flight.origin}}</dd>
-      <dt>DESTINATION:</dt>
-      <dd>{{flight.destination}}</dd>
-      <dt>DEPARTURE:</dt>
-      <dd>{{flight.departure}}</dd>
-      <dt>ARRIVAL:</dt>
-      <dd>{{flight.arrival}}</dd>
-      <dt>AIRCRAFT CODE:</dt>
-      <dd>{{flight.aircraft_id}}</dd>
-      <dt>DURATION:</dt>
-      <dd>{{flight.duration}}</dd>
-      <dt>MILES:</dt>
-      <dd>{{flight.miles}}</dd>
-    </dl>
-  </mat-card-content>
-  <mat-card-actions>
-    <a mat-raised-button color="primary" [routerLink]="['/flight-edit', flight._id]"><mat-icon>edit</mat-icon></a>
-    <a mat-raised-button color="warn" (click)="deleteFlight(flight._id)"><mat-icon>delete</mat-icon></a>
-  </mat-card-actions>
-</mat-card>
+<p>
+  flights work!
+</p>

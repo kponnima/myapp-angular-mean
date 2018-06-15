@@ -14,7 +14,7 @@
             <mat-form-field>
               <mat-label mdPrefix>Username</mat-label>
               <input matInput placeholder="Username" ng-model="signupData.username" required formControlName="username"
-                [errorStateMatcher]="matcher">
+                >
               <mat-error>
                   <span *ngIf="!signupForm.get('username').valid && signupForm.get('username').touched">Please enter Username</span>
               </mat-error>
@@ -22,7 +22,7 @@
             <mat-form-field>
               <mat-label mdPrefix>Password</mat-label>
               <input matInput placeholder="Password" ng-model="signupData.password" type="password" ng-minlength='7' required
-                formControlName="password" [errorStateMatcher]="matcher">
+                formControlName="password" >
               <mat-error>
                   <span *ngIf="!signupForm.get('password').valid && signupForm.get('password').touched">Password must be at least 7 characters.</span>
               </mat-error>
@@ -30,7 +30,7 @@
             <mat-form-field>
               <mat-label mdPrefix>Email</mat-label>
               <input matInput placeholder="Email" ng-model="signupData.email" type="email" required formControlName="email"
-                [errorStateMatcher]="matcher">
+                >
               <mat-error>
                   <span *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched">Please enter valid email</span>
               </mat-error>
@@ -38,7 +38,7 @@
             <mat-form-field>
               <mat-label mdPrefix>Phone</mat-label>
               <input matInput placeholder="Phone" ng-model="signupData.phone" ng-minlength='9' required
-                formControlName="phone" [errorStateMatcher]="matcher">
+                formControlName="phone" >
               <mat-error>
                   <span *ngIf="!signupForm.get('phone').valid && signupForm.get('phone').touched">Please enter phone</span>
               </mat-error>

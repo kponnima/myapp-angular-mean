@@ -1,4 +1,4 @@
-import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -61,6 +61,9 @@ import { AuthInterceptor } from './http-interceptors/auth.interceptor';
 import { HomeComponent } from './home/home.component';
 import { HotelSearchComponent } from './hotel-search/hotel-search.component';
 import { CarSearchComponent } from './car-search/car-search.component';
+
+import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 const appRoutes: Routes = [
   { path: '',
@@ -134,7 +137,7 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
     ),
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'myApp' }),
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -196,13 +199,20 @@ const appRoutes: Routes = [
     CarSearchComponent
   ],
   providers: [
-    Title,
-    { 
-      provide: HTTP_INTERCEPTORS, 
-      useClass: AuthInterceptor, 
-      multi: true 
-    } 
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(APP_ID) private appId: string) {
+    const platform = isPlatformBrowser(platformId) ?
+      'in the browser' : 'on the server';
+    console.log('Running ' + platform + ' with appId= ' + appId);
+  }
+}

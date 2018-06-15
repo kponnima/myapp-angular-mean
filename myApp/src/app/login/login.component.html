@@ -11,16 +11,15 @@
     <div>
       <mat-form-field>
         <mat-label mdPrefix>Username</mat-label>
-        <input matInput placeholder="Username" ng-model="loginData.username" required formControlName="username"
-          [errorStateMatcher]="matcher">
+        <input matInput placeholder="Username" ng-model="loginData.username" required formControlName="username">
         <mat-error>
-            <span *ngIf="!signinForm.get('username').valid && signinForm.get('username').touched">Please enter Username</span>
+            <span *ngIf="!signinForm.get('username').valid && signinForm.get('username').touched">Username is <strong>required</strong></span>
         </mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label mdPrefix>Password</mat-label>
         <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" ng-model="loginData.password" ng-minlength='7' required
-          formControlName="password" [errorStateMatcher]="matcher">
+          formControlName="password">
         <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
         <mat-error>
             <span *ngIf="!signinForm.get('password').valid && signinForm.get('password').touched">Password must be at least 7 characters.</span>

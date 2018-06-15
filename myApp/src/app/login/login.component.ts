@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -12,9 +12,9 @@ import {ErrorStateMatcher} from '@angular/material/core';
 })
 export class LoginComponent implements OnInit {
   signinForm: FormGroup;
-  username:String='';
-  password:String='';
-  //loginData = { username:'', password:'' };
+  username: String = '';
+  password: String = '';
+  // loginData = { username:'', password:'' };
   message = '';
   data: any;
   hide = true;
@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  login(form:NgForm) {
+  login(form: NgForm) {
     this.http.post('/api/signin',form).subscribe(resp => {
       this.data = resp;
       localStorage.setItem('jwtToken', this.data.token);

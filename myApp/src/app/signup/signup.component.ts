@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -14,15 +14,15 @@ import {ErrorStateMatcher} from '@angular/material/core';
 
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
-  username:String = '';
-  password:String = '';
-  email:String = '';
-  phone:Number = null;
-  date_created:Date = new Date();
-  role_id:Number = Number(2);
-  privilege_id:Number = Number(1);
-  status_id:Number = Number(1);
-  /*signupData = { 
+  username: String = '';
+  password: String = '';
+  email: String = '';
+  phone: Number = null;
+  date_created: Date = new Date();
+  role_id: Number = Number(2);
+  privilege_id: Number = Number(1);
+  status_id: Number = Number(1);
+  /*signupData = {
     username:'',
     password:'' ,
     email:'',
@@ -49,8 +49,8 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  signup(form:NgForm) {
-    this.http.post('/api/signup',form).subscribe(resp => {
+  signup(form: NgForm) {
+    this.http.post('/api/signup', form).subscribe(resp => {
       console.log(resp);
       /*if([resp[0].success === 'false'){
         this.message = String([resp[0].msg);
