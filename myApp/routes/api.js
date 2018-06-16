@@ -48,7 +48,9 @@ router.post('/signin', function(req, res) {
             // if user is found and password is right create a token
             var token = jwt.sign(user.toJSON(), config.secret);
             // return the information including token as JSON
-            res.json({success: true, token: 'JWT ' + token});
+            //res.json({success: true, token: 'JWT ' + token});
+            res.json({success: true, token: 'JWT ' + token, profile: user.toJSON()});
+            //localStorage.setItem('currentUser', JSON.stringify(user));
           } else {
             res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
           }
@@ -58,20 +60,15 @@ router.post('/signin', function(req, res) {
 });
 
 /* GET DATA for HOME */
-router.get('/activeuser', passport.authenticate('jwt', { session: false}), function(req, res) {
+router.get('/activeuser/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
-  console.log(req.body.username);
   if (token) {
-    User.findOne({
-      username: req.body.username
-    }, function(err, user) {
+    User.findById( req.params._id, function(err, user) {
       if (err) throw err;
       if (!user) {
         res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
       } else {
-        // get the privilege_id
-        var privilege_id = user.privilege_id;
-        return res.json(privilege_id);
+        return res.json(user);
       }
     });
   } else {

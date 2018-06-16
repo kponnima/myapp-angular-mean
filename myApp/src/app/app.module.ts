@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -45,25 +46,32 @@ import {
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
+import { MessageComponent } from './message/message.component';
 import { FooterComponent } from './footer/footer.component';
+import { AuthInterceptor } from './common-services/auth.interceptor';
+import { MessageService } from './common-services/message.service';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
+import { HomeComponent } from './home/home.component';
 import { FlightComponent } from './flight/flight.component';
+import { HotelSearchComponent } from './hotel-search/hotel-search.component';
+import { CarSearchComponent } from './car-search/car-search.component';
+
 import { FlightDetailComponent } from './flight-detail/flight-detail.component';
 import { FlightCreateComponent } from './flight-create/flight-create.component';
 import { FlightEditComponent } from './flight-edit/flight-edit.component';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
 import { FlightSearchComponent } from './flight-search/flight-search.component';
 import { FlightSearchResultsComponent } from './flight-search-results/flight-search-results.component';
 import { FlightTripOptionsComponent } from './flight-trip-options/flight-trip-options.component';
 import { FlightTripSummaryComponent } from './flight-trip-summary/flight-trip-summary.component';
 import { FlightTripConfirmationComponent } from './flight-trip-confirmation/flight-trip-confirmation.component';
-import { AuthInterceptor } from './http-interceptors/auth.interceptor';
-import { HomeComponent } from './home/home.component';
-import { HotelSearchComponent } from './hotel-search/hotel-search.component';
-import { CarSearchComponent } from './car-search/car-search.component';
 
 import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { AdminComponent } from './admin/admin.component';
+import { TripsComponent } from './trips/trips.component';
+import { AuthGuard } from './common-services/auth.guard.service';
+import { AuthService } from './common-services/auth.service';
 
 const appRoutes: Routes = [
   { path: '',
@@ -182,11 +190,14 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     HeaderComponent,
+    MessageComponent,
     FooterComponent,
     LoginComponent,
     SignupComponent,
     HomeComponent,
     FlightComponent,
+    HotelSearchComponent,
+    CarSearchComponent,
     FlightDetailComponent,
     FlightCreateComponent,
     FlightEditComponent,
@@ -195,14 +206,20 @@ const appRoutes: Routes = [
     FlightTripOptionsComponent,
     FlightTripSummaryComponent,
     FlightTripConfirmationComponent,
-    HotelSearchComponent,
-    CarSearchComponent
+    AdminComponent,
+    TripsComponent
   ],
   providers: [
+    MessageService,
+    AuthService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    },
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {duration: 2500}
     }
   ],
   bootstrap: [AppComponent]
@@ -212,7 +229,7 @@ export class AppModule {
     @Inject(PLATFORM_ID) private platformId: Object,
     @Inject(APP_ID) private appId: string) {
     const platform = isPlatformBrowser(platformId) ?
-      'in the browser' : 'on the server';
-    console.log('Running ' + platform + ' with appId= ' + appId);
+      'IN THE BROWSER' : 'ON THE SERVER';
+    console.log('Running " ' + platform + ' " with appId= ' + appId);
   }
 }

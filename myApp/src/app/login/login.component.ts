@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material/core';
+import { MatSnackBar } from '@angular/material';
+
+import { MessageService } from '../common-services/message.service';
+import { AuthService } from '../common-services/auth.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,8 +22,10 @@ export class LoginComponent implements OnInit {
   message = '';
   data: any;
   hide = true;
-
-  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder) { }
+  
+  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, 
+    private authService: AuthService, private service:MessageService, private snackBar: MatSnackBar) {
+  }
 
   ngOnInit() {
     this.signinForm = this.formBuilder.group({
@@ -27,22 +33,27 @@ export class LoginComponent implements OnInit {
       'password' : [null, Validators.compose( [ Validators.minLength(7), Validators.required ] )]
     });
   }
-
   login(form: NgForm) {
     this.http.post('/api/signin',form).subscribe(resp => {
       this.data = resp;
       localStorage.setItem('jwtToken', this.data.token);
+      localStorage.setItem('currentUser', JSON.stringify(this.data.profile));
+      this.authService.login(this.signinForm.value);
       this.router.navigate(['home']);
     }, err => {
-      this.message = err.error.msg;
+      // this.message = err.error.msg;
+      this.sendMessage(err.error.msg);
+    });
+  }
+  sendMessage(message): void {
+    // send message to subscribers via observable subject
+    //this.service.sendMessage(message);
+    this.snackBar.open(message, 'Undo', {
+      duration: 3000
     });
   }
 
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
-      console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
+  clearMessage():void{
+    this.service.clearMessage();
   }
 }

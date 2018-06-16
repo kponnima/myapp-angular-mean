@@ -6,7 +6,7 @@
     <mat-divider [vertical]="true"></mat-divider>
     </div>
     <!-- This fills the remaining space of the current row -->
-    <span *ngIf="!mybool" class="example-fill-remaining-space">
+    <span *ngIf="isLoggedIn$ | async" class="example-fill-remaining-space">
         <button mat-button [routerLink]="['/home']">Home</button>
         <button mat-button [matMenuTriggerFor]="animals">Animal index</button>
         <mat-menu #animals="matMenu">
@@ -35,7 +35,7 @@
     </div>
     <!-- Space for additional text/links -->  
     <span>
-        <a mat-raised-button *ngIf="!mybool" color="primary" (click)="logout()"><mat-icon>Logout</mat-icon></a>
+        <a mat-raised-button *ngIf="isLoggedIn$ | async" color="primary" (click)="logout()"><mat-icon>Logout</mat-icon></a>
     </span>
   </mat-toolbar>
 </div>

@@ -27,6 +27,7 @@ export class FlightSearchComponent implements OnInit {
   isValidMoment: boolean = false;
   positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[2]);
+
   checked = false;
   message = '';
 
@@ -113,9 +114,9 @@ export class FlightSearchComponent implements OnInit {
       'fromcity' : [null, Validators.required],
       'tocity' : [null, Validators.required],
       'connection_city' : [null, Validators.nullValidator],
-      'depart_date' : [null, Validators.required],
+      'depart_date' : [{value: null, disabled: true}, Validators.required],
       'depart_time' : [null, Validators.required],
-      'return_date' : [null, Validators.nullValidator],
+      'return_date' : [{value: null, disabled: true}, Validators.nullValidator],
       'return_time' : [null, Validators.nullValidator]
     });
     this.cityGroupOptions = this.cityForm.get('cityGroup')!.valueChanges

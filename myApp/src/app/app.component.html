@@ -1,11 +1,14 @@
 <div class="container" fxLayout="column" fxLayoutGap="0.5%" fxLayoutAlign="center">
     <!-- HEADER -->
     <app-header></app-header>
+    
+    <!-- MESSAGES -->
+    <app-message></app-message>
 
     <!-- CONTENT -->
     <router-outlet>
         <div class="loading-overlay" *ngIf="loading">
-            <mat-progress-bar color="accent" mode="indeterminate" value = "50" style="width:50px; height:50px"></mat-progress-bar>
+            <mat-progress-bar mode="indeterminate" value = "50"></mat-progress-bar>
         </div>
     </router-outlet>
 

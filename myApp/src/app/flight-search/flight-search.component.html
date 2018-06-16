@@ -1,6 +1,12 @@
 <form method="GET" name="flightsearchForm" [formGroup]="flightsearchForm" class="form-flightsearch" (ngSubmit)="flightsearch(flightsearchForm.value)">
   <mat-grid-list cols="4" gutterSize="4px">
     <mat-grid-tile rowspan="1" colspan ="1">
+        <mat-chip-list *ngFor="let chip of availableColors">
+            <mat-chip [selected]="chip.selected" [color]="chip.color">One Way</mat-chip>
+            <mat-chip [selected]="chip.selected" [color]="chip.color">Round Trip</mat-chip>
+        </mat-chip-list>
+    </mat-grid-tile>
+    <mat-grid-tile rowspan="1" colspan ="1">
         <mat-form-field>
             <mat-select placeholder="Type of travel" ng-model="flightsearchForm.typeoftravel" required formControlName="typeoftravel" >
               <mat-option *ngFor="let typeoftravel of typeofTravel" [value]="typeoftravel.value">
@@ -61,7 +67,7 @@
       </mat-grid-tile>
       <mat-grid-tile rowspan="1" colspan ="1">
         <mat-form-field>
-            <input matInput [matDatepicker]="dp1" required placeholder="Depart" disabled="true" formControlName="depart_date" >
+            <input matInput [matDatepicker]="dp1" required placeholder="Depart" formControlName="depart_date" >
             <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
             <mat-datepicker #dp1 disabled="false"></mat-datepicker>
             <mat-error>
@@ -82,7 +88,7 @@
       </mat-grid-tile>
       <mat-grid-tile rowspan="1" colspan ="1">
         <mat-form-field>
-            <input matInput [matDatepicker]="dp2" placeholder="Return" disabled="true" formControlName="return_date" >
+            <input matInput [matDatepicker]="dp2" placeholder="Return" formControlName="return_date" >
             <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
             <mat-datepicker #dp2 disabled="false"></mat-datepicker>
             <mat-error>
