@@ -1,103 +1,114 @@
 <form method="GET" name="flightsearchForm" [formGroup]="flightsearchForm" class="form-flightsearch" (ngSubmit)="flightsearch(flightsearchForm.value)">
-  <mat-grid-list cols="4" gutterSize="4px">
-    <mat-grid-tile rowspan="1" colspan ="1">
-        <mat-chip-list *ngFor="let chip of availableColors">
-            <mat-chip [selected]="chip.selected" [color]="chip.color">One Way</mat-chip>
-            <mat-chip [selected]="chip.selected" [color]="chip.color">Round Trip</mat-chip>
-        </mat-chip-list>
-    </mat-grid-tile>
-    <mat-grid-tile rowspan="1" colspan ="1">
-        <mat-form-field>
-            <mat-select placeholder="Type of travel" ng-model="flightsearchForm.typeoftravel" required formControlName="typeoftravel" >
-              <mat-option *ngFor="let typeoftravel of typeofTravel" [value]="typeoftravel.value">
-                {{ typeoftravel.viewValue }}
-              </mat-option>
-            </mat-select>
-            <mat-error>
-                <span *ngIf="!flightsearchForm.get('typeoftravel').valid && flightsearchForm.get('typeoftravel').touched">Please select type of travel</span>
-            </mat-error>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile rowspan="1" colspan ="1">
-        <mat-form-field>
-            <input type="text" matInput placeholder="From" formControlName="fromcity" required [matAutocomplete]="autoGroup"
-            matTooltip="Choose origin city" [matTooltipPosition]="position.value"/>
-                <mat-autocomplete #autoGroup="matAutocomplete">
-                <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
-                    <mat-option class="example-nested-option-text" *ngFor="let name of group.names" [value]="name">
-                    {{ originname }}
+        <mat-card>
+              <mat-form-field>
+                  <mat-select placeholder="Type of travel" ng-model="flightsearchForm.typeoftravel" required formControlName="typeoftravel" >
+                      <mat-option *ngFor="let typeoftravel of typeofTravel" [value]="typeoftravel.value">
+                      {{ typeoftravel.viewValue }}
+                      </mat-option>
+                  </mat-select>
+                  <mat-error>
+                      <span *ngIf="!flightsearchForm.get('typeoftravel').valid && flightsearchForm.get('typeoftravel').touched">Please select type of travel</span>
+                  </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field>
+                  <mat-select placeholder="Type of travel" ng-model="flightsearchForm.typeofTravelers" required formControlName="typeoftravel" >
+                    <mat-option *ngFor="let typeoftravel of typeofTravelers" [value]="typeoftravel.value">
+                      {{ typeoftravel.viewValue }}
                     </mat-option>
-                </mat-optgroup>
-            </mat-autocomplete>
-            <mat-error>
-                <span *ngIf="!flightsearchForm.get('fromcity').valid && flightsearchForm.get('fromcity').touched">Please select origin</span>
-            </mat-error>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile rowspan="1" colspan ="1">
-        <mat-form-field>
-            <input type="text" matInput placeholder="To" formControlName="tocity" required [matAutocomplete]="autoGroup"
-            matTooltip="Choose destination city" [matTooltipPosition]="position.value"/>
-            <mat-error>
-                <span *ngIf="!flightsearchForm.get('tocity').valid && flightsearchForm.get('tocity').touched">Please select destination</span>
-            </mat-error>
-              <mat-autocomplete #autoGroup="matAutocomplete">
-                  <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
-                      <mat-option class="example-nested-option-text" *ngFor="let name of group.names" [value]="name">
-                    {{ destinationname }}
-                  </mat-option>
-              </mat-optgroup>
-            </mat-autocomplete>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile rowspan="1" colspan ="1">
-        <mat-form-field>
-            <input type="text" matInput placeholder="Optional" formControlName="connection_city" [matAutocomplete]="autoGroup" />
-              <mat-autocomplete #autoGroup="matAutocomplete">
-                  <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
-                      <mat-option class="example-nested-option-text" *ngFor="let name of group.names" [value]="name">
-                    {{ connectionname }}
-                  </mat-option>
-              </mat-optgroup>
-            </mat-autocomplete>
-            <mat-error>
-                <span *ngIf="!flightsearchForm.get('connection_city').valid && flightsearchForm.get('connection_city').touched">Please select connection city</span>
-            </mat-error>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile rowspan="1" colspan ="1">
-        <mat-form-field>
-            <input matInput [matDatepicker]="dp1" required placeholder="Depart" formControlName="depart_date" >
-            <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
-            <mat-datepicker #dp1 disabled="false"></mat-datepicker>
-            <mat-error>
-                <span *ngIf="!flightsearchForm.get('depart_date').valid && flightsearchForm.get('depart_date').touched">Please select depart date</span>
-            </mat-error>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile rowspan="1" colspan ="1">
-        <mat-form-field>
-            <mat-select placeholder="Time" required formControlName="depart_time" >
-              <mat-option>None</mat-option>
-              <mat-option *ngFor="let time of times" [value]="time">{{time}}</mat-option>
-            </mat-select>
-            <mat-error>
-                <span *ngIf="!flightsearchForm.get('depart_time').valid && flightsearchForm.get('depart_time').touched">Please select time of travel</span>
-            </mat-error>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile rowspan="1" colspan ="1">
-        <mat-form-field>
-            <input matInput [matDatepicker]="dp2" placeholder="Return" formControlName="return_date" >
-            <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
-            <mat-datepicker #dp2 disabled="false"></mat-datepicker>
-            <mat-error>
-                <span *ngIf="!flightsearchForm.get('return_date').valid && flightsearchForm.get('return_date').touched">Please select depart date</span>
-            </mat-error>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile rowspan="1" colspan ="1">
-        <button mat-raised-button type="submit" [disabled]="!flightsearchForm.valid" color="accent">SEARCH</button>
-      </mat-grid-tile>
-  </mat-grid-list>
-</form>
+                  </mat-select>
+                  <mat-error>
+                      <span *ngIf="!flightsearchForm.get('typeoftravel').valid && flightsearchForm.get('typeoftravel').touched">Please select type of travel</span>
+                  </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field>
+                  <mat-select placeholder="Type of travel" ng-model="flightsearchForm.classofTravel" required formControlName="typeoftravel" >
+                      <mat-option *ngFor="let typeoftravel of classofTravel" [value]="typeoftravel.value">
+                      {{ typeoftravel.viewValue }}
+                      </mat-option>
+                  </mat-select>
+                  <mat-error>
+                      <span *ngIf="!flightsearchForm.get('typeoftravel').valid && flightsearchForm.get('typeoftravel').touched">Please select type of travel</span>
+                  </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field>
+                  <input type="text" matInput placeholder="From" formControlName="fromcity" required [matAutocomplete]="newautoGroup"
+                  matTooltip="Choose origin city" [matTooltipPosition]="position.value"/>
+                    <mat-autocomplete #newautoGroup="matAutocomplete">
+                      
+                        <mat-optgroup *ngIf="airportcodes$ | async as airportcodes else noData">
+                                <mat-option class="example-nested-option-text" *ngFor="let airportcode of airportcodes" [value]="airportcode.airportcode">
+                                    {{ airportcode.airportcode }} - {{ airportcode.airportname }}
+                                </mat-option>
+                            <ng-template #noData>No Data Available</ng-template>
+                        </mat-optgroup>
+
+                  </mat-autocomplete>
+                  <mat-error>
+                      <span *ngIf="!flightsearchForm.get('fromcity').valid && flightsearchForm.get('fromcity').touched">Please select origin</span>
+                  </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field>
+                  <input type="text" matInput placeholder="To" formControlName="tocity" required [matAutocomplete]="newautoGroup"
+                  matTooltip="Choose destination city" [matTooltipPosition]="position.value"/>
+                  <mat-autocomplete #newautoGroup="matAutocomplete">
+                  <mat-optgroup *ngIf="airportcodes$ | async as airportcodes else noData">
+                    <mat-option class="example-nested-option-text" *ngFor="let airportcode of airportcodes" [value]="airportcode.airportcode">
+                        {{ airportcode.airportcode }} - {{ airportcode.airportname }}
+                    </mat-option>
+                    <ng-template #noData>No Data Available</ng-template>
+                    </mat-optgroup>
+                  </mat-autocomplete>
+                  <mat-error>
+                    <span *ngIf="!flightsearchForm.get('tocity').valid && flightsearchForm.get('tocity').touched">Please select destination</span>
+                </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field>
+                  <input type="text" matInput placeholder="Optional" formControlName="connection_city" [matAutocomplete]="autoGroup" />
+                    <mat-autocomplete #autoGroup="matAutocomplete">
+                        <mat-optgroup *ngFor="let group of cityGroupOptions | async" [label]="group.letter">
+                            <mat-option class="example-nested-option-text" *ngFor="let name of group.names" [value]="name">
+                          {{ connectionname }}
+                        </mat-option>
+                    </mat-optgroup>
+                  </mat-autocomplete>
+                  <mat-error>
+                      <span *ngIf="!flightsearchForm.get('connection_city').valid && flightsearchForm.get('connection_city').touched">Please select connection city</span>
+                  </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field>
+                  <input matInput [matDatepicker]="dp1" required placeholder="Depart" formControlName="depart_date" >
+                  <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                  <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+                  <mat-error>
+                      <span *ngIf="!flightsearchForm.get('depart_date').valid && flightsearchForm.get('depart_date').touched">Please select depart date</span>
+                  </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field>
+                  <mat-select placeholder="Time" required formControlName="depart_time" >
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let time of times" [value]="time">{{time}}</mat-option>
+                  </mat-select>
+                  <mat-error>
+                      <span *ngIf="!flightsearchForm.get('depart_time').valid && flightsearchForm.get('depart_time').touched">Please select time of travel</span>
+                  </mat-error>
+              </mat-form-field>
+      
+              <mat-form-field>
+                  <input matInput [matDatepicker]="dp2" placeholder="Return" formControlName="return_date" >
+                  <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                  <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+                  <mat-error>
+                      <span *ngIf="!flightsearchForm.get('return_date').valid && flightsearchForm.get('return_date').touched">Please select depart date</span>
+                  </mat-error>
+              </mat-form-field>
+      
+              <button mat-raised-button type="submit" [disabled]="!flightsearchForm.valid" color="accent">SEARCH</button>
+        </mat-card>
+      </form>

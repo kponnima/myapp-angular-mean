@@ -1,16 +1,23 @@
 import { Component, OnInit , ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgForm, FormControl } from '@angular/forms';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DataSource } from '@angular/cdk/collections';
+import { ObservableMedia } from '@angular/flex-layout';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { startWith, map} from 'rxjs/operators';
+import 'rxjs/add/operator/shareReplay';
+import 'rxjs/add/operator/catch';
 import { MatDatepicker, TooltipPosition } from '@angular/material';
 import { Moment } from 'moment';
 import * as moment from 'moment';
-export interface CityGroup {
-  letter: string;
-  names: string[];
+import { MessageService } from '../common-services/message.service';
+import { MatSnackBar } from '@angular/material';
+import { AuthService } from '../common-services/auth.service';
+import * as _ from 'lodash';
+export interface AirportGroup {
+  airportcode: string;
+  airportname: string;
 }
 @Component({
   selector: 'app-flight-search',
@@ -18,87 +25,41 @@ export interface CityGroup {
   styleUrls: ['./flight-search.component.css']
 })
 export class FlightSearchComponent implements OnInit {
+  private loading: boolean = false;
   DATE_DATA_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
   flightsearchForm: FormGroup;
   cityForm: FormGroup = this.formBuilder.group({
     cityGroup: '',
   });
+ 
+  airportcodes$: Observable<AirportGroup[]>;
+  
+  public cols: Observable<number>;
    @ViewChild( MatDatepicker) picker: MatDatepicker<Moment>;
   isValidMoment: boolean = false;
   positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[2]);
-
   checked = false;
   message = '';
 
   typeofTravel = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'}
+    {value: 'typeoftravel-0', viewValue: 'One Way'},
+    {value: 'typeoftravel-1', viewValue: 'Round Trip'},
+    {value: 'typeoftravel-2', viewValue: 'Multi City'}
   ];
 
-  cityGroups: CityGroup[] = [{
-    letter: 'A',
-    names: ['Alabama', 'Alaska', 'Arizona', 'Arkansas']
-  }, {
-    letter: 'C',
-    names: ['California', 'Colorado', 'Connecticut']
-  }, {
-    letter: 'D',
-    names: ['DFW']
-  }, {
-    letter: 'F',
-    names: ['Florida']
-  }, {
-    letter: 'G',
-    names: ['Georgia']
-  }, {
-    letter: 'H',
-    names: ['Hawaii']
-  }, {
-    letter: 'I',
-    names: ['Idaho', 'Illinois', 'Indiana', 'Iowa']
-  }, {
-    letter: 'K',
-    names: ['Kansas', 'Kentucky']
-  }, {
-    letter: 'L',
-    names: ['Louisiana']
-  }, {
-    letter: 'M',
-    names: ['Maine', 'Maryland', 'Massachusetts', 'Michigan',
-      'Minnesota', 'Mississippi', 'Missouri', 'Montana']
-  }, {
-    letter: 'N',
-    names: ['Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
-      'New Mexico', 'New York', 'North Carolina', 'North Dakota']
-  }, {
-    letter: 'O',
-    names: ['Ohio', 'Oklahoma', 'Oregon']
-  }, {
-    letter: 'P',
-    names: ['PHX']
-  }, {
-    letter: 'R',
-    names: ['Rhode Island']
-  }, {
-    letter: 'S',
-    names: ['South Carolina', 'South Dakota']
-  }, {
-    letter: 'T',
-    names: ['Tennessee', 'Texas']
-  }, {
-    letter: 'U',
-    names: ['Utah']
-  }, {
-    letter: 'V',
-    names: ['Vermont', 'Virginia']
-  }, {
-    letter: 'W',
-    names: ['Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
-  }];
+  typeofTravelers = [
+    {value: 'typeoftravelers-0', viewValue: 'One Way'},
+    {value: 'typeoftravelers-1', viewValue: 'Round Trip'},
+    {value: 'typeoftravelers-2', viewValue: 'Multi City'}
+  ];
 
-  cityGroupOptions: Observable<CityGroup[]>;
+  classofTravel = [
+    {value: 'clasoftravel-0', viewValue: 'Economy'},
+    {value: 'clasoftravel-1', viewValue: 'Premium Economy'},
+    {value: 'clasoftravel-2', viewValue: 'Business'},
+    {value: 'clasoftravel-3', viewValue: 'First'}
+  ];
 
   times = [
     '12 AM', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM',
@@ -106,7 +67,8 @@ export class FlightSearchComponent implements OnInit {
     '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM'
   ];
 
-  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder) { }
+  constructor(private observableMedia: ObservableMedia, private http: HttpClient, private router: Router, private formBuilder: FormBuilder,
+    private service:MessageService, private snackBar: MatSnackBar ) { }
 
   ngOnInit(): void {
     this.flightsearchForm = this.formBuilder.group({
@@ -119,12 +81,31 @@ export class FlightSearchComponent implements OnInit {
       'return_date' : [{value: null, disabled: true}, Validators.nullValidator],
       'return_time' : [null, Validators.nullValidator]
     });
-    this.cityGroupOptions = this.cityForm.get('cityGroup')!.valueChanges
-    .pipe(
-      startWith(''),
-      map(val => this.filterGroup(val))
-    );
+    
+    this.filterAirportGroup();
+
+    const grid = new Map([
+      ['xs', 1],
+      ['sm', 2],
+      ['md', 2],
+      ['lg', 3],
+      ['xl', 3]
+    ]);
+    let start: number;
+    grid.forEach((cols, mqAlias) => {
+      if (this.observableMedia.isActive(mqAlias)) {
+        start = cols;
+      }
+    });
+    this.cols = this.observableMedia.asObservable()
+      .map(change => {
+        console.log(change);
+        console.log(grid.get(change.mqAlias));
+        return grid.get(change.mqAlias);
+      })
+      .startWith(start);
   }
+
   ngAfterViewInit(){
     this.picker._selectedChanged.subscribe(
       (newDate: Moment) => {
@@ -135,6 +116,7 @@ export class FlightSearchComponent implements OnInit {
       }
     );
   }
+
   flightsearch(form:NgForm){
     let departDateTime = moment(this.flightsearchForm.controls.depart_date.value)
       .add(this.flightsearchForm.controls.depart_time.value, 'hours')
@@ -149,16 +131,35 @@ export class FlightSearchComponent implements OnInit {
     });
     this.router.navigate(['flight-search-results'],{ queryParams: { fromcity: this.flightsearchForm.controls.fromcity.value, 'tocity': this.flightsearchForm.controls.tocity.value } });
   }
-  filterGroup(val: string): CityGroup[] {
-    if (val) {
-      return this.cityGroups
-        .map(group => ({ letter: group.letter, names: this._filter(group.names, val) }))
-        .filter(group => group.names.length > 0);
-    }
-    return this.cityGroups;
+
+  filterAirportGroup(){
+    this.airportcodes$ = this.http.get<AirportGroup[]>('/api/airports')
+    .map(data => _.values(data))
+    .shareReplay()
+    .catch(this.handleError);
   }
-  private _filter(opt: string[], val: string) {
-    const filterValue = val.toLowerCase();
-    return opt.filter(item => item.toLowerCase().startsWith(filterValue));
+
+  sendMessage(message): void {
+    // send message to subscribers via observable subject
+    //this.service.sendMessage(message);
+    this.snackBar.open(message, 'Undo', {
+      duration: 3000
+    });
+  }
+
+  clearMessage():void{
+    this.service.clearMessage();
+  }
+
+  private handleError(err : HttpErrorResponse){
+    if (err.error instanceof Error) {
+      console.log("Client-side error occured.");
+      console.log(err);
+    } else {
+      console.log("Server-side error occured.");
+      console.log(err);
+    }
+    this.sendMessage(err);
+    return Observable.throw(err.message)
   }
 }

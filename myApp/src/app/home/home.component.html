@@ -1,64 +1,58 @@
-  <mat-grid-list [cols]="cols | async" gutterSize="16px">
+  <mat-grid-list [cols]="cols | async">
+    
     <mat-grid-tile [colspan]="cols | async">
-        <mat-grid-tile-header>Welcome!</mat-grid-tile-header>
-        <span><img src="../../favicon.ico"></span>
+      <mat-grid-tile-header>Welcome!</mat-grid-tile-header>
+      <span><img src="../../favicon.ico"></span>
     </mat-grid-tile>
-    <div>
-      <mat-divider></mat-divider>
-    </div>
+
     <mat-grid-tile [colspan]="cols | async">
       <mat-grid-tile-header>SEARCH</mat-grid-tile-header>
-        <div class="home-tab-group">
-          <mat-tab-group fxFlex="grow" class="home-tab-group">
-            <mat-tab color="primary">
-                <ng-template mat-tab-label>
-                  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-                    <mat-icon>flight</mat-icon>
-                    <span>FLIGHTS</span>
-                  </div>
-                </ng-template>
-              <div class="home-tab-content">
-                <app-flight-search></app-flight-search>
+      <mat-tab-group dynamicHeight>
+        <mat-tab>
+            <ng-template mat-tab-label>
+              <div fxLayout="column" fxLayoutAlign="center center">
+                <mat-icon>flight</mat-icon>
+                <span>FLIGHTS</span>
               </div>
-            </mat-tab>
-            <mat-tab color="primary">
-                <ng-template mat-tab-label>
-                  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-                    <mat-icon>hotels</mat-icon>
-                    <span>HOTELS</span>
-                  </div>
-                </ng-template>
-              <div class="home-tab-content">
-                  <app-hotel-search></app-hotel-search>
-              </div>  
-            </mat-tab>
-            <mat-tab color="primary">
-                <ng-template mat-tab-label>
-                  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-                    <mat-icon>directions_car</mat-icon>
-                    <span>CARS</span>
-                  </div>
-                </ng-template>
-              <div class="home-tab-content">
-                  <app-car-search></app-car-search>
-              </div> 
-            </mat-tab>
-            <mat-tab label="Tab 4" disabled>
-              <div class="home-tab-content">
-              </div>  
-            </mat-tab>
-          </mat-tab-group>
-        </div>
-      </mat-grid-tile>
-    <div>
-      <mat-divider></mat-divider>
-    </div>
+            </ng-template>
+            <div class="example-large-box mat-elevation-z4">
+            <ng-template matTabContent>
+                <app-flight-search></app-flight-search>
+            </ng-template>
+          </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+              <div fxLayout="column" fxLayoutAlign="center center">
+                <mat-icon>hotels</mat-icon>
+                <span>HOTELS</span>
+              </div>
+            </ng-template>
+            <app-hotel-search></app-hotel-search>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+              <div fxLayout="column" fxLayoutAlign="center center">
+                <mat-icon>directions_car</mat-icon>
+                <span>CARS</span>
+              </div>
+            </ng-template>
+            <app-car-search></app-car-search>
+        </mat-tab>
+        <mat-tab label="Tab 4" disabled>
+          <div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-grid-tile>
+
     <mat-grid-tile [colspan]="cols | async">
         <mat-grid-tile-header>TRIPS</mat-grid-tile-header>
         <app-trips></app-trips>
-      </mat-grid-tile>
+    </mat-grid-tile>
+
     <mat-grid-tile *ngIf="adminBoolean" [colspan]="cols | async">
       <mat-grid-tile-header>ADMIN</mat-grid-tile-header>
-      <app-admin></app-admin>
+        <app-admin></app-admin>
     </mat-grid-tile>
   </mat-grid-list>

@@ -1,32 +1,113 @@
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Personal data
-      </mat-panel-title>
-      <mat-panel-description>
-        Type your name and age
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-
-    <mat-form-field>
-      <input matInput placeholder="First name">
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Age">
-    </mat-form-field>
-  </mat-expansion-panel>
-  <mat-expansion-panel (opened)="panelOpenState = true"
-                        (closed)="panelOpenState = false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Self aware panel
-      </mat-panel-title>
-      <mat-panel-description>
-        Currently I am {{panelOpenState ? 'open' : 'closed'}}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <p>I'm visible because I am open</p>
-  </mat-expansion-panel>
-</mat-accordion>
+<div class="container">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>UPCOMING TRIPS</mat-panel-title>
+          <mat-panel-description>VIEW LIST OF UPCOMING TRIPS</mat-panel-description>
+        </mat-expansion-panel-header>
+        <div>
+          <table mat-table #table [dataSource]="dataSource">
+            <!-- Flight No Column -->
+            <ng-container matColumnDef="flight_no">
+              <th mat-header-cell *matHeaderCellDef><strong>FLIGHT_No</strong></th>
+              <td mat-cell *matCellDef="let element"> {{ element.flight_no }} </td>
+            </ng-container>
+        
+            <!-- Origin Column -->
+            <ng-container matColumnDef="origin">
+              <th mat-header-cell *matHeaderCellDef> Origin </th>
+              <td mat-cell *matCellDef="let element"> {{ element.origin }} </td>
+            </ng-container>
+        
+            <!-- Destination Column -->
+            <ng-container matColumnDef="destination">
+              <th mat-header-cell *matHeaderCellDef> Destination </th>
+              <td mat-cell *matCellDef="let element"> {{ element.destination }} </td>
+            </ng-container>
+        
+            <!-- Departure Column -->
+            <ng-container matColumnDef="departure">
+              <th mat-header-cell *matHeaderCellDef> Departure </th>
+              <td mat-cell *matCellDef="let element"> {{ element.departuredatetime | date : "medium" }} </td>
+            </ng-container>
+        
+            <!-- Arrival Column -->
+            <ng-container matColumnDef="arrival">
+              <th mat-header-cell *matHeaderCellDef> Arrival </th>
+              <td mat-cell *matCellDef="let element"> {{ element.arrivaldatetime | date : "medium" }} </td>
+            </ng-container>
+        
+            <!-- Aircraft Code Column -->
+            <ng-container matColumnDef="aircraft_id">
+              <th mat-header-cell *matHeaderCellDef> Aircraft code# </th>
+              <td mat-cell *matCellDef="let element"> {{ element.aircraft_id }} </td>
+            </ng-container>
+        
+            <!-- Carrier Code Column -->
+            <ng-container matColumnDef="carrier">
+              <th mat-header-cell *matHeaderCellDef> Carrier code# </th>
+              <td mat-cell *matCellDef="let element"> {{ element.carrier }} </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/flight-details/', row._id]"></tr>
+          </table>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                            (closed)="panelOpenState = false">
+        <mat-expansion-panel-header class="admin-accordion-panel-title">
+          <mat-panel-title>COMPLETED TRIPS</mat-panel-title>
+          <mat-panel-description>VIEW LIST OF COMPLETED TRIPS</mat-panel-description>
+        </mat-expansion-panel-header>
+        <div>
+          <table mat-table #table [dataSource]="dataSource">
+            <!-- Flight No Column -->
+            <ng-container matColumnDef="flight_no">
+              <th mat-header-cell *matHeaderCellDef><strong>FLIGHT_No</strong></th>
+              <td mat-cell *matCellDef="let element"> {{ element.flight_no }} </td>
+            </ng-container>
+        
+            <!-- Origin Column -->
+            <ng-container matColumnDef="origin">
+              <th mat-header-cell *matHeaderCellDef> Origin </th>
+              <td mat-cell *matCellDef="let element"> {{ element.origin }} </td>
+            </ng-container>
+        
+            <!-- Destination Column -->
+            <ng-container matColumnDef="destination">
+              <th mat-header-cell *matHeaderCellDef> Destination </th>
+              <td mat-cell *matCellDef="let element"> {{ element.destination }} </td>
+            </ng-container>
+        
+            <!-- Departure Column -->
+            <ng-container matColumnDef="departure">
+              <th mat-header-cell *matHeaderCellDef> Departure </th>
+              <td mat-cell *matCellDef="let element"> {{ element.departuredatetime | date : "medium" }} </td>
+            </ng-container>
+        
+            <!-- Arrival Column -->
+            <ng-container matColumnDef="arrival">
+              <th mat-header-cell *matHeaderCellDef> Arrival </th>
+              <td mat-cell *matCellDef="let element"> {{ element.arrivaldatetime | date : "medium" }} </td>
+            </ng-container>
+        
+            <!-- Aircraft Code Column -->
+            <ng-container matColumnDef="aircraft_id">
+              <th mat-header-cell *matHeaderCellDef> Aircraft code# </th>
+              <td mat-cell *matCellDef="let element"> {{ element.aircraft_id }} </td>
+            </ng-container>
+        
+            <!-- Carrier Code Column -->
+            <ng-container matColumnDef="carrier">
+              <th mat-header-cell *matHeaderCellDef> Carrier code# </th>
+              <td mat-cell *matCellDef="let element"> {{ element.carrier }} </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/flight-details/', row._id]"></tr>
+          </table>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>

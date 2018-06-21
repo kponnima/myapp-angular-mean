@@ -1,32 +1,59 @@
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Personal data
-      </mat-panel-title>
-      <mat-panel-description>
-        Type your name and age
-      </mat-panel-description>
-    </mat-expansion-panel-header>
+<div class="container">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>USERS</mat-panel-title>
+        <mat-panel-description>VIEW, ADD OR MODIFY USERS</mat-panel-description>
+      </mat-expansion-panel-header>
+        <mat-list>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <p mat-line>
+                    <span><strong>View Users</strong></span>
+                </p>
+              <button [routerLink]="['/users']" routerLinkActive="active"><mat-icon matListIcon>list</mat-icon></button>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <p mat-line>
+                    <span><strong>Create Users</strong></span>
+                </p>
+              <button [routerLink]="['/user-create']" routerLinkActive="active"><mat-icon matListIcon>add</mat-icon></button>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <p mat-line>
+                    <span><strong>Modify Users</strong></span>
+                </p>
+              <button [routerLink]="['/user-edit']" routerLinkActive="active"><mat-icon matListIcon>create</mat-icon></button>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-list>
 
-    <mat-form-field>
-      <input matInput placeholder="First name">
-    </mat-form-field>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                          (closed)="panelOpenState = false">
+      <mat-expansion-panel-header class="admin-accordion-panel-title">
+        <mat-panel-title>FLIGHTS</mat-panel-title>
+        <mat-panel-description>VIEW, CREATE OR MODIFY FLIGHTS</mat-panel-description>
+      </mat-expansion-panel-header>
 
-    <mat-form-field>
-      <input matInput placeholder="Age">
-    </mat-form-field>
-  </mat-expansion-panel>
-  <mat-expansion-panel (opened)="panelOpenState = true"
-                        (closed)="panelOpenState = false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Self aware panel
-      </mat-panel-title>
-      <mat-panel-description>
-        Currently I am {{panelOpenState ? 'open' : 'closed'}}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <p>I'm visible because I am open</p>
-  </mat-expansion-panel>
-</mat-accordion>
+        <mat-list>
+          <mat-divider></mat-divider>
+          <mat-list-item> View Flights -
+              <a mat-raised-button color="primary" [routerLink]="['/flights']"><mat-icon right>list</mat-icon></a>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item> Create Flights -
+              <a mat-raised-button color="primary" [routerLink]="['/flight-create']"><mat-icon right>add</mat-icon></a>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item> Modify Flights -
+              <a mat-raised-button color="primary" [routerLink]="['/flight-edit']"><mat-icon right>create</mat-icon></a>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

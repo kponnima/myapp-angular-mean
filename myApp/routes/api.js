@@ -64,7 +64,7 @@ router.get('/activeuser/:id', passport.authenticate('jwt', { session: false}), f
   var token = getToken(req.headers);
   if (token) {
     User.findById( req.params._id, function(err, user) {
-      if (err) throw err;
+      if (err) return next(err);
       if (!user) {
         res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
       } else {
@@ -81,12 +81,30 @@ router.get('/airports', passport.authenticate('jwt', { session: false}), functio
   if (token) {
     Airports.find({
       }, function(err, airports) {
-      if (err) throw err;
+      if (err) return next(err);
       if (!airports) {
         res.status(401).send({success: false, msg: 'Authentication failed!'});
       } else {
         // get the list of airports
         return res.json(airports);
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+/* GET ALL FLIGHTS data */
+router.get('/flights', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Flights.find({
+    }, function(err, flights) {
+      if (err) return next(err);
+      if (!flights) {
+        res.status(401).send({success: false, msg: 'No flights were found.'});
+      } else {
+        return res.json(flights);
       }
     });
   } else {
@@ -125,7 +143,7 @@ router.get('/flight-search', passport.authenticate('jwt', { session: false}), fu
     User.findOne({
       username: req.body.username
     }, function(err, user) {
-      if (err) throw err;
+      if (err) return next(err);
       if (!user) {
         res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
       } else {
@@ -148,7 +166,7 @@ router.get('/flight-search-results', passport.authenticate('jwt', { session: fal
       destination: req.query.tocity,
       //departuredatetime:req.query.departDateTime,
     }, function(err, flights) {
-      if (err) throw err;
+      if (err) return next(err);
       if (!flights) {
         res.status(401).send({success: false, msg: 'Search failed. Flight not found.'});
       } else {
