@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var FlightsSchema = new mongoose.Schema({
+var FlightsSchema = new Schema({
   flight_no: {
     type: Number,
     required: false

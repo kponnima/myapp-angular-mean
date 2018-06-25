@@ -48,11 +48,15 @@ export class FlightSearchComponent implements OnInit {
     {value: 'typeoftravel-2', viewValue: 'Multi City'}
   ];
 
+  public selected1 = this.typeofTravel[0].viewValue;
+
   typeofTravelers = [
-    {value: 'typeoftravelers-0', viewValue: 'One Way'},
-    {value: 'typeoftravelers-1', viewValue: 'Round Trip'},
-    {value: 'typeoftravelers-2', viewValue: 'Multi City'}
+    {value: 'typeoftravelers-0', viewValue: 'Adult - 1'},
+    {value: 'typeoftravelers-1', viewValue: 'Couple'},
+    {value: 'typeoftravelers-2', viewValue: 'Adult + Children'}
   ];
+
+  public selected2 = this.typeofTravelers[0].viewValue;
 
   classofTravel = [
     {value: 'clasoftravel-0', viewValue: 'Economy'},
@@ -60,6 +64,8 @@ export class FlightSearchComponent implements OnInit {
     {value: 'clasoftravel-2', viewValue: 'Business'},
     {value: 'clasoftravel-3', viewValue: 'First'}
   ];
+
+  public selected3 = this.classofTravel[0].viewValue;
 
   times = [
     '12 AM', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM',
@@ -72,7 +78,9 @@ export class FlightSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.flightsearchForm = this.formBuilder.group({
-      'typeoftravel' : ['', Validators.required],
+      'typeoftravel' : [this.selected1, Validators.required],
+      'typeoftraveler' : [this.selected2, Validators.required],
+      'classoftravel' : [this.selected3, Validators.required],
       'fromcity' : [null, Validators.required],
       'tocity' : [null, Validators.required],
       'connection_city' : [null, Validators.nullValidator],

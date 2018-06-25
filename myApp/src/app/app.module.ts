@@ -7,6 +7,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
+
+import {A11yModule} from '@angular/cdk/a11y';
+import {BidiModule} from '@angular/cdk/bidi';
+import {ObserversModule} from '@angular/cdk/observers';
+import {OverlayModule} from '@angular/cdk/overlay';
+import {PlatformModule} from '@angular/cdk/platform';
+import {PortalModule} from '@angular/cdk/portal';
+import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+import {CdkStepperModule} from '@angular/cdk/stepper';
+import {CdkTableModule} from '@angular/cdk/table';
+
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -65,6 +76,7 @@ import { FlightSearchResultsComponent } from './flight-search-results/flight-sea
 import { FlightTripOptionsComponent } from './flight-trip-options/flight-trip-options.component';
 import { FlightTripSummaryComponent } from './flight-trip-summary/flight-trip-summary.component';
 import { FlightTripConfirmationComponent } from './flight-trip-confirmation/flight-trip-confirmation.component';
+import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
 
 import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
@@ -151,6 +163,19 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     FlexLayoutModule,
     HttpClientModule,
+
+    // CDK
+    A11yModule,
+    BidiModule,
+    ObserversModule,
+    OverlayModule,
+    PlatformModule,
+    PortalModule,
+    ScrollDispatchModule,
+    CdkStepperModule,
+    CdkTableModule,
+
+    // Material
     MatMomentDateModule,
     MatAutocompleteModule,
     MatBadgeModule,
@@ -207,7 +232,8 @@ const appRoutes: Routes = [
     FlightTripSummaryComponent,
     FlightTripConfirmationComponent,
     AdminComponent,
-    TripsComponent
+    TripsComponent,
+    ShoppingcartComponent
   ],
   providers: [
     MessageService,
@@ -222,7 +248,8 @@ const appRoutes: Routes = [
       useValue: {duration: 2500}
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ShoppingcartComponent]
 })
 export class AppModule {
   constructor(

@@ -34,12 +34,13 @@ export class LoginComponent implements OnInit {
     });
   }
   login(form: NgForm) {
-    this.http.post('/api/signin',form).subscribe(resp => {
+    this.http.post('/api/signin',form)
+    .subscribe(resp => {
       this.data = resp;
       localStorage.setItem('jwtToken', this.data.token);
       localStorage.setItem('currentUser', JSON.stringify(this.data.profile));
       this.authService.login(this.signinForm.value);
-      this.router.navigate(['home']);
+      this.router.navigate(['home'], { "queryParams": resp });
     }, err => {
       // this.message = err.error.msg;
       this.sendMessage(err.error.msg);

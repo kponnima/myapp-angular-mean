@@ -8,6 +8,7 @@ var router = express.Router();
 var User = mongoose.model('User');
 var Flights = require('../models/Flights');
 var Airports = require('../models/Airports');
+var Inventory = require('../models/Inventory');
 
 /* REGISTER */
 router.post('/signup', function(req, res) {
@@ -112,30 +113,6 @@ router.get('/flights', passport.authenticate('jwt', { session: false}), function
   }
 });
 
-/* SAVE Flight */
-router.post('/flight-create', passport.authenticate('jwt', { session: false}), function(req, res) {
-    var token = getToken(req.headers);
-    console.log(token);
-    if (token) {
-        console.log(req.body);
-        var newFlight = new Flight({
-        isbn: req.body.isbn,
-        title: req.body.title,
-        author: req.body.author,
-        publisher: req.body.publisher
-        });
-
-        newFlight.save(function(err) {
-        if (err) {
-            return res.json({success: false, msg: 'Save flight failed.'});
-        }
-        res.json({success: true, msg: 'Successful created new flight.'});
-        });
-    } else {
-        return res.status(403).send({success: false, msg: 'Unauthorized.'});
-    }
-});
-
 /* GET DATA FOR Flight-search */
 router.get('/flight-search', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
@@ -161,14 +138,54 @@ router.get('/flight-search', passport.authenticate('jwt', { session: false}), fu
 router.get('/flight-search-results', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
   if (token) {
+    mongoose.model('Flights')
+      .aggregate([
+        { "$match": { 
+              "origin": req.query.fromcity,
+              "destination":req.query.tocity
+          },
+        },
+        {
+          "$lookup": {
+              "from": "inventory",
+              "localField": "inventory_id",
+              "foreignField": "inventory_id",
+              "as": "inventory"
+          }
+        },
+        {
+          "$replaceRoot": {
+            "newRoot": { "$mergeObjects": [ { 
+              "$arrayElemAt": [ "$inventory", 0 ] }, "$$ROOT" ] } }
+        },
+        {
+          "$project": { "inventory": 0 } }
+      ])
+      .exec(function(err, flights) {
+      if (err) {
+        console.log(err);
+        return next(err);
+      };
+      if (!flights) {
+        res.status(401).send({success: false, msg: 'Search failed. Flight not found.'});
+      } else {
+        return res.json(flights);
+      };
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+/* GET ALL FLIGHT-TRIP-OPTIONS data */
+router.get('/flight-trip-options', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
     Flights.find({
-      origin: req.query.fromcity,
-      destination: req.query.tocity,
-      //departuredatetime:req.query.departDateTime,
     }, function(err, flights) {
       if (err) return next(err);
       if (!flights) {
-        res.status(401).send({success: false, msg: 'Search failed. Flight not found.'});
+        res.status(401).send({success: false, msg: 'No flights were found.'});
       } else {
         return res.json(flights);
       }
@@ -189,6 +206,30 @@ router.get('/:id', passport.authenticate('jwt', { session: false}), function(req
     });
   } else {
     return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+/* SAVE Flight */
+router.post('/flight-create', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  console.log(token);
+  if (token) {
+      console.log(req.body);
+      var newFlight = new Flight({
+      isbn: req.body.isbn,
+      title: req.body.title,
+      author: req.body.author,
+      publisher: req.body.publisher
+      });
+
+      newFlight.save(function(err) {
+      if (err) {
+          return res.json({success: false, msg: 'Save flight failed.'});
+      }
+      res.json({success: true, msg: 'Successful created new flight.'});
+      });
+  } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
   }
 });
 

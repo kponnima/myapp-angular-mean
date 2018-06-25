@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var AirportsSchema = new mongoose.Schema({
+var AirportsSchema = new Schema({
     airportcode: {
         type: String,
         required: true
