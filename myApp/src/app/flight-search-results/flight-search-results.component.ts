@@ -1,33 +1,20 @@
-import { Component, OnInit, Inject, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, TemplateRef, ViewChild, Input} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Overlay } from '@angular/cdk/overlay'
 import { CollectionViewer, DataSource, SelectionModel } from '@angular/cdk/collections';
-import { MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material';
+import { MatTable, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatPaginator, MatSort } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Observable } from 'rxjs';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+
 import { Moment } from 'moment';
 import * as moment from 'moment';
 
-import {ShoppingcartComponent} from '../shoppingcart/shoppingcart.component';
+import { ShoppingcartComponent } from '../shoppingcart/shoppingcart.component';
+import { Flight } from '../_models/flight';
+import { CartService } from '../_services/cart.service';
+import { DISABLED } from '@angular/forms/src/model';
 
-export interface FlightData {
-  flight_no: Number;
-  origin: string;
-  destination: string;
-  departuredatetime: string;
-  arrivaldatetime: string;
-  aircraft_id: Number;
-  carrier: string;
-  duration: Number;
-  miles: Number;
-  inventory_id: Number;
-  equipment_id: Number;
-  cabintype:String;
-  aircraftcapacity:Number;
-  legseatsavailable:Number;
-  baseseatssold:Number
-}
 @Component({
   selector: 'app-flight-search-results',
   templateUrl: './flight-search-results.component.html',
@@ -41,26 +28,32 @@ export interface FlightData {
   ],
 })
 export class FlightSearchResultsComponent implements OnInit  {
+  @Input() flight: Flight;
   DATE_DATA_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
   flights: any;
   origin: any;
   destination: any;
-  displayedColumns = ['select','flight_no', 'origin', 'destination', 'departure', 'arrival', 'aircraft_id', 'carrier'];
+  displayedColumns = ['select','flight_no', 'origin', 'destination', 'departure', 'arrival', 'aircraft_id', 'carrier', 'price', 'details_button_col'];
   dataSource: FlightDataSource;
-  columnsToDisplay = [];
-  //flightData: Observable<FlightData>;
-  //flightdata: FlightData[] =[];
-  //dataSource = new MatTableDataSource<FlightData>(this.flightdata);
-  selection = new SelectionModel<FlightData>(true, []);
-  //private flightsdataSubject = new BehaviorSubject<FlightData[]>([]);
-  //dataChange: BehaviorSubject<FlightData[]> = new BehaviorSubject<FlightData[]>([]);
-  //get data(): FlightData[] { return this.dataChange.value};
-  //matTableDataSource = new MatTableDataSource<FlightData>(this.data.slice());
-  expandedElement: FlightData;
+  selection = new SelectionModel<Flight>(true, []);
+  expandedElement: Flight;
+  alreadyExpanded:Boolean = false;
   isDescriptionRow = (index, element) => element.cabintype;
   message='';
 
-  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, public dialog: MatDialog) { 
+  //@ViewChild(MatTable) table: MatTable<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  
+  public shoppingCartItems$: Observable<Flight[]> = of([]);
+  public shoppingCartItems: Flight[] = [];
+
+  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private dialog: MatDialog, private cartService: CartService,
+  private overlay: Overlay) {
+    this.shoppingCartItems$ = this
+    .cartService
+    .getItems();
+
+    this.shoppingCartItems$.subscribe(_ => this.shoppingCartItems = _);
   }
 
   ngOnInit() {
@@ -85,9 +78,10 @@ export class FlightSearchResultsComponent implements OnInit  {
     //this.http.get<FlightData>('/api/flight-search-results', { params: Params }).subscribe(data => {
     this.http.get('/api/flight-search-results', { params: Params }).subscribe(data => {
       this.flights = data;
+      //console.log(this.flights);
       this.dataSource = new FlightDataSource(this.flights);
       //this.flightData = Observable.of(data);
-      console.log(this.flights);
+      //console.log(this.flights.length);
     }, err => {
       if(err.status === 401) {
         this.router.navigate(['login']);
@@ -98,57 +92,64 @@ export class FlightSearchResultsComponent implements OnInit  {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    
     const numSelected = this.selection.selected.length;
-    //const numRows = this.dataSource.data.length;
-    //const numSelected = 4;
-    const numRows = 4;
-    //const numRows = this.data.length;
-    //const numRows = this.matTableataSource.data.length;
-    console.log(numRows);
-    console.log(numSelected);
-
+    //console.log('currently selected: ' +numSelected);
+    const numRows = this.flights.length;
+    //console.log('Datasource length: ' +numRows);
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  /*masterToggle() {
+  masterToggle() {
+    //this.cartService.removeAllFromCart();
     this.isAllSelected() ?
       this.selection.clear() :
-      //this.matTableDataSource.data.forEach(row => this.selection.select(row));
-      //this.data.forEach(row => this.selection.select(row));
-      this.dataSource.data.forEach(row => this.selection.select(row));
-  }*/
-  
-  getTotalFlightsSelected() {
-    return this.selection.selected.length;
+      this.flights.forEach(row => this.selection.select(row));
   }
-
-  onRowClicked(row) {
-    console.log('Row clicked: ', row);
+  
+  onDetailsButtonClick(element) {
+    //console.log('Expanded value : ' + this.alreadyExpanded);
+    if(this.alreadyExpanded){
+      this.expandedElement = null;
+      this.alreadyExpanded = false;
+      //console.log('Collapsed');
+    }else{
+      this.expandedElement = element;
+      this.alreadyExpanded = true;
+      //console.log('Expanded');
+    }
   }
 
   openShoppingCart(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = {
-          id: 1,
-          title: 'Angular For Beginners'
-    };
+    dialogConfig.scrollStrategy = this.overlay.scrollStrategies.noop();
+    dialogConfig.height = '90%';
+    dialogConfig.width = '90%';
+    dialogConfig.data = {origin: this.origin, destination: this.destination};
 
     let dialogRef = this.dialog.open(ShoppingcartComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      //console.log('The dialog was closed');
     });
   }
+
+  addFlightToCart(row) {
+    //alert(row['flight_no']);
+    if(!this.selection.isSelected(row)){
+      this.cartService.addToCart(row);
+    }else{
+      this.cartService.removeFromCart(row);
+    }
+   }
 }
-export class FlightDataSource extends DataSource<any> {
-  constructor(private data: FlightData[]) { 
+export class FlightDataSource extends DataSource<Flight> {
+  constructor(private data: Flight[]) { 
     super()
   }
-  connect(): Observable<FlightData[]> {
+  connect(): Observable<Flight[]> {
     return Observable.of(this.data);
   }
   disconnect() {

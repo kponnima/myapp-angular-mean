@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, Event as NavigationEvent } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { AuthService } from '../common-services/auth.service';
+import { Observable } from 'rxjs';
+import { AuthService } from '../_helpers/auth.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',

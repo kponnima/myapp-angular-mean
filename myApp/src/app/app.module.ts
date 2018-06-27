@@ -59,8 +59,8 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { MessageComponent } from './message/message.component';
 import { FooterComponent } from './footer/footer.component';
-import { AuthInterceptor } from './common-services/auth.interceptor';
-import { MessageService } from './common-services/message.service';
+import { AuthInterceptor } from './_helpers/auth.interceptor';
+import { MessageService } from './_helpers/message.service';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
@@ -82,8 +82,8 @@ import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { AdminComponent } from './admin/admin.component';
 import { TripsComponent } from './trips/trips.component';
-import { AuthGuard } from './common-services/auth.guard.service';
-import { AuthService } from './common-services/auth.service';
+import { AuthGuard } from './_helpers/auth.guard.service';
+import { AuthService } from './_helpers/auth.service';
 
 const appRoutes: Routes = [
   { path: '',
@@ -154,8 +154,8 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
+      appRoutes
+      //{ enableTracing: true } // <-- debugging purposes only
     ),
     BrowserModule.withServerTransition({ appId: 'myApp' }),
     FormsModule,

@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable, of } from 'rxjs';
+import { tap, catchError, map, takeWhile, startWith } from 'rxjs/operators';
+
 import { Moment } from 'moment';
 import * as moment from 'moment';
-import { MessageService } from '../common-services/message.service';
-import { MatSnackBar } from '@angular/material';
-import { AuthService } from '../common-services/auth.service';
+
+import { MessageService } from '../_helpers/message.service';
+import { AuthService } from '../_helpers/auth.service';
 export interface Data {}
 @Component({
   selector: 'app-trips',
@@ -35,7 +38,7 @@ export class TripsComponent implements OnInit {
     this.http.get('/api/flights').subscribe(data => {
       this.flights = data;
       this.dataSource = new FlightDataSource(this.flights);
-      console.log(this.flights);
+      //console.log(this.flights);
     }, err => {
       if(err.status === 401) {
         this.router.navigate(['login']);

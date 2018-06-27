@@ -5,16 +5,17 @@ import { DataSource } from '@angular/cdk/collections';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { startWith, map} from 'rxjs/operators';
-import 'rxjs/add/operator/shareReplay';
+import { tap, catchError, map, takeWhile, shareReplay, startWith } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
 import { MatDatepicker, TooltipPosition } from '@angular/material';
+
 import { Moment } from 'moment';
 import * as moment from 'moment';
-import { MessageService } from '../common-services/message.service';
-import { MatSnackBar } from '@angular/material';
-import { AuthService } from '../common-services/auth.service';
 import * as _ from 'lodash';
+
+import { MessageService } from '../_helpers/message.service';
+import { MatSnackBar } from '@angular/material';
+import { AuthService } from '../_helpers/auth.service';
 export interface AirportGroup {
   airportcode: string;
   airportname: string;
@@ -31,7 +32,6 @@ export class FlightSearchComponent implements OnInit {
   cityForm: FormGroup = this.formBuilder.group({
     cityGroup: '',
   });
- 
   airportcodes$: Observable<AirportGroup[]>;
   
   public cols: Observable<number>;
@@ -48,15 +48,11 @@ export class FlightSearchComponent implements OnInit {
     {value: 'typeoftravel-2', viewValue: 'Multi City'}
   ];
 
-  public selected1 = this.typeofTravel[0].viewValue;
-
   typeofTravelers = [
     {value: 'typeoftravelers-0', viewValue: 'Adult - 1'},
     {value: 'typeoftravelers-1', viewValue: 'Couple'},
     {value: 'typeoftravelers-2', viewValue: 'Adult + Children'}
-  ];
-
-  public selected2 = this.typeofTravelers[0].viewValue;
+  ]; 
 
   classofTravel = [
     {value: 'clasoftravel-0', viewValue: 'Economy'},
@@ -64,8 +60,6 @@ export class FlightSearchComponent implements OnInit {
     {value: 'clasoftravel-2', viewValue: 'Business'},
     {value: 'clasoftravel-3', viewValue: 'First'}
   ];
-
-  public selected3 = this.classofTravel[0].viewValue;
 
   times = [
     '12 AM', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM',
@@ -78,9 +72,9 @@ export class FlightSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.flightsearchForm = this.formBuilder.group({
-      'typeoftravel' : [this.selected1, Validators.required],
-      'typeoftraveler' : [this.selected2, Validators.required],
-      'classoftravel' : [this.selected3, Validators.required],
+      'typeoftravel' : ['', Validators.required],
+      'typeoftraveler' : ['', Validators.required],
+      'classoftravel' : ['', Validators.required],
       'fromcity' : [null, Validators.required],
       'tocity' : [null, Validators.required],
       'connection_city' : [null, Validators.nullValidator],
@@ -89,7 +83,11 @@ export class FlightSearchComponent implements OnInit {
       'return_date' : [{value: null, disabled: true}, Validators.nullValidator],
       'return_time' : [null, Validators.nullValidator]
     });
-    
+
+    this.flightsearchForm.get('typeoftravel').setValue(this.typeofTravel[0].viewValue);
+    this.flightsearchForm.get('typeoftraveler').setValue(this.typeofTravelers[0].viewValue);
+    this.flightsearchForm.get('classoftravel').setValue(this.classofTravel[0].viewValue);
+
     this.filterAirportGroup();
 
     const grid = new Map([

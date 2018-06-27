@@ -1,14 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Observable, Subscription } from 'rxjs';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/takeWhile';
-import 'rxjs/add/operator/startWith';
+import { tap, catchError, map, takeWhile, startWith } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from '../common-services/message.service';
 import { MatSnackBar } from '@angular/material';
-import { AuthService } from '../common-services/auth.service';
+
+import { MessageService } from '../_helpers/message.service';
+import { AuthService } from '../_helpers/auth.service';
 export interface UserProfile {
   _id: Number;
   username: string;
@@ -67,8 +66,8 @@ export class HomeComponent implements OnInit, OnDestroy  {
     });
     this.cols = this.observableMedia.asObservable()
       .map(change => {
-        console.log(change);
-        console.log(grid.get(change.mqAlias));
+        //console.log(change);
+        //console.log(grid.get(change.mqAlias));
         return grid.get(change.mqAlias);
       })
       .startWith(start);

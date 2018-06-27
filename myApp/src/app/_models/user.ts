@@ -1,11 +1,11 @@
 export interface User {
-    _id:Number;
+    _id:number;
     userName: string;
     password: string;
     email:string;
-    phone:Number;
+    phone:number;
     date_created:Date;
-    role_id: Number;
-    privilege_id:Number;
-    status_id:Number
+    role_id: number;
+    privilege_id:number;
+    status_id:number;
 }

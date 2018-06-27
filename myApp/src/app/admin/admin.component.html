@@ -6,29 +6,29 @@
         <mat-panel-description>VIEW, ADD OR MODIFY USERS</mat-panel-description>
       </mat-expansion-panel-header>
         <mat-list>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-                <p mat-line>
-                    <span><strong>View Users</strong></span>
-                </p>
-              <button [routerLink]="['/users']" routerLinkActive="active"><mat-icon matListIcon>list</mat-icon></button>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-                <p mat-line>
-                    <span><strong>Create Users</strong></span>
-                </p>
-              <button [routerLink]="['/user-create']" routerLinkActive="active"><mat-icon matListIcon>add</mat-icon></button>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-                <p mat-line>
-                    <span><strong>Modify Users</strong></span>
-                </p>
-              <button [routerLink]="['/user-edit']" routerLinkActive="active"><mat-icon matListIcon>create</mat-icon></button>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-          </mat-list>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+              <p mat-line>
+                  <span><strong>View Users</strong></span>
+              </p>
+            <button [routerLink]="['/users']" routerLinkActive="active"><mat-icon matListIcon>list</mat-icon></button>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+              <p mat-line>
+                  <span><strong>Create Users</strong></span>
+              </p>
+            <button [routerLink]="['/user-create']" routerLinkActive="active"><mat-icon matListIcon>add</mat-icon></button>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+              <p mat-line>
+                  <span><strong>Modify Users</strong></span>
+              </p>
+            <button [routerLink]="['/user-edit']" routerLinkActive="active"><mat-icon matListIcon>create</mat-icon></button>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list>
 
     </mat-expansion-panel>
     <mat-expansion-panel (opened)="panelOpenState = true"
@@ -37,19 +37,28 @@
         <mat-panel-title>FLIGHTS</mat-panel-title>
         <mat-panel-description>VIEW, CREATE OR MODIFY FLIGHTS</mat-panel-description>
       </mat-expansion-panel-header>
-
+      
         <mat-list>
           <mat-divider></mat-divider>
-          <mat-list-item> View Flights -
-              <a mat-raised-button color="primary" [routerLink]="['/flights']"><mat-icon right>list</mat-icon></a>
+          <mat-list-item>
+              <p mat-line>
+                  <span><strong>View Flights</strong></span>
+              </p>
+            <button [routerLink]="['/flights']" routerLinkActive="active"><mat-icon matListIcon>list</mat-icon></button>
           </mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item> Create Flights -
-              <a mat-raised-button color="primary" [routerLink]="['/flight-create']"><mat-icon right>add</mat-icon></a>
+          <mat-list-item>
+              <p mat-line>
+                  <span><strong>Create Flights</strong></span>
+              </p>
+            <button [routerLink]="['/flight-create']" routerLinkActive="active"><mat-icon matListIcon>add</mat-icon></button>
           </mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item> Modify Flights -
-              <a mat-raised-button color="primary" [routerLink]="['/flight-edit']"><mat-icon right>create</mat-icon></a>
+          <mat-list-item>
+              <p mat-line>
+                  <span><strong>Modify Flights</strong></span>
+              </p>
+            <button [routerLink]="['/flight-edit']" routerLinkActive="active"><mat-icon matListIcon>create</mat-icon></button>
           </mat-list-item>
           <mat-divider></mat-divider>
         </mat-list>

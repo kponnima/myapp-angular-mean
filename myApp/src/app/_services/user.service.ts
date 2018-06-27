@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+
 import { User } from '../_models/user';
 
 @Injectable({
@@ -9,13 +11,14 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  baseUrl: string = 'http://localhost:4200/api';
+  private baseUrl: string = 'api/user';  // web api end point
+  //baseUrl: string = 'http://localhost:4200/api';
 
-  getUsers() {
+  getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl);
   }
 
-  getUserById(id: number) {
+  getUserById(id: number): Observable<User> {
     return this.http.get<User>(this.baseUrl + '/' + id);
   }
 

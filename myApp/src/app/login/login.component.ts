@@ -6,8 +6,8 @@ import { tap, catchError } from 'rxjs/operators';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 
-import { MessageService } from '../common-services/message.service';
-import { AuthService } from '../common-services/auth.service';
+import { MessageService } from '../_helpers/message.service';
+import { AuthService } from '../_helpers/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('jwtToken', this.data.token);
       localStorage.setItem('currentUser', JSON.stringify(this.data.profile));
       this.authService.login(this.signinForm.value);
-      this.router.navigate(['home'], { "queryParams": resp });
+      this.router.navigate(['home']);
     }, err => {
       // this.message = err.error.msg;
       this.sendMessage(err.error.msg);

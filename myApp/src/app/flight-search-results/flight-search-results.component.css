@@ -27,10 +27,7 @@ table {
     display: flex;
   }
   .table-header {
-    width: 100%;
     text-align: center;
-    height: 60px;
-    background: cornflowerblue;
   }
   
   .darken {

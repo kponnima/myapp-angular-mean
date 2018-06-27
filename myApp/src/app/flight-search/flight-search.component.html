@@ -1,7 +1,7 @@
 <form method="GET" name="flightsearchForm" [formGroup]="flightsearchForm" class="form-flightsearch" (ngSubmit)="flightsearch(flightsearchForm.value)">
         <mat-card>
             <mat-form-field>
-                <mat-select placeholder="Type of travel" [(ngModel)]="selected1" required formControlName="typeoftravel" >
+                <mat-select placeholder="Type of travel" required formControlName="typeoftravel" >
                     <mat-option *ngFor="let typeoftravel of typeofTravel" [value]="typeoftravel.viewValue">
                     {{ typeoftravel.viewValue }}
                     </mat-option>
@@ -12,7 +12,7 @@
             </mat-form-field>
     
             <mat-form-field>
-                <mat-select placeholder="Traveler type" [(ngModel)]="selected2" required formControlName="typeoftraveler" >
+                <mat-select placeholder="Traveler type" required formControlName="typeoftraveler" >
                 <mat-option *ngFor="let typeoftraveler of typeofTravelers" [value]="typeoftraveler.viewValue">
                     {{ typeoftraveler.viewValue }}
                 </mat-option>
@@ -23,7 +23,7 @@
             </mat-form-field>
     
             <mat-form-field>
-                <mat-select placeholder="Class of travel" [(ngModel)]="selected3" required formControlName="classoftravel" >
+                <mat-select placeholder="Class of travel" required formControlName="classoftravel" >
                     <mat-option *ngFor="let classoftravel of classofTravel" [value]="classoftravel.viewValue">
                     {{ classoftravel.viewValue }}
                     </mat-option>
