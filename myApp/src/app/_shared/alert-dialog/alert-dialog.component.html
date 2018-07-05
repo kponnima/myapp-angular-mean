@@ -1,0 +1,12 @@
+<h1 mat-dialog-title><strong>CONFIRM !</strong></h1>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-content>
+    <p>Are you sure you want to cancel ?</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-raised-button (click)="close()">NO</button>
+    <button mat-raised-button color="primary" (click)="continue()">YES</button>
+</mat-dialog-actions>

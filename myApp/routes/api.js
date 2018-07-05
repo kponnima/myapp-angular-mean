@@ -1,3 +1,7 @@
+const keyPublishable = process.env.PUBLISHABLE_KEY;
+//const keySecret = process.env.SECRET_KEY;
+const keySecret = 'sk_test_qBQ7uEhbyUahpxrNTf5c8ugz';
+
 var mongoose = require('mongoose');
 var passport = require('passport');
 var config = require('../config/database');
@@ -5,10 +9,15 @@ require('../config/passport')(passport);
 var express = require('express');
 var jwt = require('jsonwebtoken');
 var router = express.Router();
+var stripe = require('stripe')(keySecret);
+
 var User = mongoose.model('User');
 var Flights = require('../models/Flights');
 var Airports = require('../models/Airports');
 var Inventory = require('../models/Inventory');
+var Travelers = require('../models/Travelers');
+var Payments = require('../models/Payments');
+var Reservations = require('../models/Reservations');
 
 /* REGISTER */
 router.post('/signup', function(req, res) {
@@ -49,8 +58,8 @@ router.post('/signin', function(req, res) {
             // if user is found and password is right create a token
             var token = jwt.sign(user.toJSON(), config.secret);
             // return the information including token as JSON
-            //res.json({success: true, token: 'JWT ' + token});
-            res.json({success: true, token: 'JWT ' + token, profile: user.toJSON()});
+            res.json({success: true, token: 'JWT ' + token});
+            //res.json({success: true, token: 'JWT ' + token, profile: user.toJSON()});
             //localStorage.setItem('currentUser', JSON.stringify(user));
           } else {
             res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
@@ -61,6 +70,25 @@ router.post('/signin', function(req, res) {
 });
 
 /* GET DATA for HOME */
+router.get('/user/:username', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    User.find(
+      { username: req.params.username },
+      { password: 0 },
+      function(err, user) {
+        if (err) return next(err);
+        if (!user) {
+          res.status(401).send({success: false, msg: 'Authentication failed. User not found.'});
+        } else {
+          return res.json(user);
+        }
+      });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
 router.get('/activeuser/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
   if (token) {
@@ -78,7 +106,6 @@ router.get('/activeuser/:id', passport.authenticate('jwt', { session: false}), f
 });
 router.get('/airports', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
-  console.log(req.body.username);
   if (token) {
     Airports.find({
       }, function(err, airports) {
@@ -195,10 +222,188 @@ router.get('/flight-trip-options', passport.authenticate('jwt', { session: false
   }
 });
 
+/* POST PAYMENT */
+router.post('/charge', function(req, res) {
+  //console.log(keySecret);
+  stripe.customers.create({
+    email: req.headers.email,
+    card: req.headers.token,
+  })
+  .then(customer =>
+    stripe.charges.create({
+      amount: req.headers.amount,
+      description: "Flight booking charge",
+      currency: "usd",
+      customer: customer.id,
+      source: req.body.token,
+      statement_descriptor: 'Flight booking charge',
+      metadata: {order_id: req.headers.orderid}
+    }))
+  .then(charge => res.send({
+    token: req.headers.token,
+    card_id: charge.source.id,
+    order_id: charge.metadata.order_id,
+    customer_id: charge.customer,
+    last4: charge.source.last4,
+    brand: charge.source.brand,
+    description: charge.description,
+    paid_status: charge.paid,
+    currency: charge.currency,
+    amount: charge.amount,
+    statement_description: charge.statement_descriptor,
+    status: charge.status }
+  ))
+  .catch(err => {
+    console.log("Error:", err);
+    res.status(500).send({error: "Purchase Failed"});
+  });
+});
+
+/* SAVE Payment Card */
+router.post('/paymentcard', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var newPayment = new Payments({
+      token : req.body.token,
+      card_id : req.body.card_id,
+      order_id: req.body.order_id,
+      customer_id: req.body.customer_id,
+      last4: req.body.last4,
+      brand: req.body.brand,
+      description: req.body.description,
+      paid_status: req.body.paid_status,
+      currency: req.body.currency,
+      amount: req.body.amount,
+      statement_description: req.body.statement_descriptor,
+      status: req.body.status
+    });
+    newPayment.save( function(err) {
+      if (err) {
+          return res.json({success: false, msg: 'Save payment cards failed.'});
+      }
+      res.json({success: true, msg: 'Successful saved payment card info.'});
+      });
+  } else {
+      return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+/* CREATE PNR - Flight booking */
+router.post('/flight-createreservation', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var newTravelers = new Travelers({
+        username : req.body.username,
+        pnrno: req.body.pnrno,
+        traveler_id: req.body.traveler_id,
+        travelerfirstname: req.body.travelerfirstname,
+        travelermiddlename: req.body.travelermiddlename,
+        travelerlastname: req.body.travelerlastname,
+        traveleraddress: req.body.traveleraddress,
+        travelerzipcode: req.body.travelerzipcode,
+        traveleremail: req.body.traveleremail,
+        travelerphone: req.body.travelerphone,
+        travelerseatpreference: req.body.travelerseatpreference,
+        travelerspecialservices:req.body.travelerspecialservices,
+        travelermealpreference: req.body.travelermealpreference,
+        needpassport: req.body.needpassport,
+        passportno: req.body.passportno,
+        passportexpiry: req.body.passportexpiry,
+        passportissuingcountry: req.body.passportissuingcountry,
+        passportcountryofcitizenship: req.body.passportcountryofcitizenship,
+        passportcountryofresidence: req.body.passportcountryofresidence,
+        emergencycontactfirstname: req.body.emergencycontactfirstname,
+        emergencycontactmiddlename: req.body.emergencycontactmiddlename,
+        emergencycontactlastname: req.body.emergencycontactlastname,
+        emergencycontactaddress: req.body.emergencycontactaddress,
+        emergencycontactzipcode: req.body.emergencycontactzipcode,
+        emergencycontactemail: req.body.emergencycontactemail,
+        emergencycontactphone: req.body.emergencycontactphone
+    });
+    var newReservation = new Reservations({
+        pnrno: req.body.pnrno,
+        total_amount: req.body.total_amount,
+        card_token: req.body.card_token,
+        paymentstatus: req.body.paymentstatus,
+        segment_count: req.body.segment_count,
+        segment_id: req.body.segment_id,
+        flight_no: req.body.flight_no,
+        origin: req.body.origin,
+        destination: req.body.destination,
+        departuredatetime: req.body.departuredatetime,
+        arrivaldatetime: req.body.arrivaldatetime,
+        price: req.body.price,
+        cabintype: req.body.cabintype,
+        seatno: req.body.seatno,
+        passenger_count: req.body.passenger_count,
+        traveler_id: req.body.traveler_id
+    });
+
+      //SAVE the Traveler first and THEN create the reservation
+      newTravelers.save( function(err, traveler) {
+        if (err) return next(err);
+        if (!traveler) {
+          res.status(401).send({success: false, msg: 'Failed to save travelers !'});
+        } else {
+          newReservation.save( function(err, reservation) {
+            if (err) return next(err);
+            if (!reservation) {
+              return res.json({success: false, msg: 'Create PNR failed.'});
+            }
+            res.json({success: true, msg: 'Successful created new flight reservation.', pnr: reservation.pnrno});
+          });
+        }
+      }); 
+    }
+  else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+/* GET ALL FLIGHT-TRIP-CONFIRMATION data */
+router.get('/reservation/:pnr', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Reservations.findOne({
+      pnrno: req.params.pnr
+    }, function(err, reservation) {
+      if (err) return next(err);
+      if (!reservation) {
+        res.status(401).send({success: false, msg: 'No reservations were found.'});
+      } else {
+        return res.json(reservation);
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+/* GET ALL PAYMENTCARDS data */
+router.get('/paymentcard', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Payments.find({ 
+      token: req.params.username
+    }, function(err, flights) {
+      if (err) return next(err);
+      if (!flights) {
+        res.status(401).send({success: false, msg: 'No flights were found.'});
+      } else {
+        return res.json(flights);
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+});
+
+
+//**********************************************MISC NOT USED********************************************************************************************************** */
+
 /* GET SINGLE FLIGHT BY ID */
 router.get('/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
-  console.log("You're here");
   if (token) {
     Flights.findById(req.params.id, function (err, post) {
       if (err) return next(err);
@@ -212,9 +417,7 @@ router.get('/:id', passport.authenticate('jwt', { session: false}), function(req
 /* SAVE Flight */
 router.post('/flight-create', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
-  console.log(token);
   if (token) {
-      console.log(req.body);
       var newFlight = new Flight({
       isbn: req.body.isbn,
       title: req.body.title,

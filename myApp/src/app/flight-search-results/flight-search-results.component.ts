@@ -6,6 +6,7 @@ import { CollectionViewer, DataSource, SelectionModel } from '@angular/cdk/colle
 import { MatTable, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatPaginator, MatSort } from '@angular/material';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Observable, BehaviorSubject, of } from 'rxjs';
+import 'rxjs/add/observable/of';
 
 import { Moment } from 'moment';
 import * as moment from 'moment';
@@ -13,8 +14,6 @@ import * as moment from 'moment';
 import { ShoppingcartComponent } from '../shoppingcart/shoppingcart.component';
 import { Flight } from '../_models/flight';
 import { CartService } from '../_services/cart.service';
-import { DISABLED } from '@angular/forms/src/model';
-
 @Component({
   selector: 'app-flight-search-results',
   templateUrl: './flight-search-results.component.html',
@@ -29,7 +28,7 @@ import { DISABLED } from '@angular/forms/src/model';
 })
 export class FlightSearchResultsComponent implements OnInit  {
   @Input() flight: Flight;
-  DATE_DATA_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
+  DATE_DATA_FORMAT = 'HH:mm:ssZ';
   flights: any;
   origin: any;
   destination: any;
@@ -40,6 +39,8 @@ export class FlightSearchResultsComponent implements OnInit  {
   alreadyExpanded:Boolean = false;
   isDescriptionRow = (index, element) => element.cabintype;
   message='';
+  datalength:number = 0;
+  //flightduration: any;
 
   //@ViewChild(MatTable) table: MatTable<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -47,8 +48,9 @@ export class FlightSearchResultsComponent implements OnInit  {
   public shoppingCartItems$: Observable<Flight[]> = of([]);
   public shoppingCartItems: Flight[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private dialog: MatDialog, private cartService: CartService,
-  private overlay: Overlay) {
+  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private dialog: MatDialog,
+    private cartService: CartService, private overlay: Overlay) {
+      
     this.shoppingCartItems$ = this
     .cartService
     .getItems();
@@ -58,7 +60,7 @@ export class FlightSearchResultsComponent implements OnInit  {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      console.log(params);
+      //console.log(params);
       this.origin = params['fromcity'];
       this.destination = params['tocity'];
     });
@@ -72,6 +74,10 @@ export class FlightSearchResultsComponent implements OnInit  {
     });
 
     this.findflights(Params);
+    
+    /*this.flightduration = moment(this.flights.duration)
+                .format(this.DATE_DATA_FORMAT);
+    console.log(this.flightduration);*/
   }
 
   findflights(Params:HttpParams){
@@ -81,6 +87,7 @@ export class FlightSearchResultsComponent implements OnInit  {
       //console.log(this.flights);
       this.dataSource = new FlightDataSource(this.flights);
       //this.flightData = Observable.of(data);
+      this.datalength = this.flights.length;
       //console.log(this.flights.length);
     }, err => {
       if(err.status === 401) {
@@ -144,13 +151,24 @@ export class FlightSearchResultsComponent implements OnInit  {
       this.cartService.removeFromCart(row);
     }
    }
+
+  isEmpty(){
+    //console.log(this.datalength);
+    if(this.datalength === 0){
+      return true;
+    }
+    return false;
+  }
+
 }
 export class FlightDataSource extends DataSource<Flight> {
   constructor(private data: Flight[]) { 
     super()
+
   }
   connect(): Observable<Flight[]> {
     return Observable.of(this.data);
+      //.do(data => this.empty = !data.length);
   }
   disconnect() {
   }

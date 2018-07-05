@@ -7,3 +7,9 @@ tr.mat-header-row {
 tr.mat-row {
     background:#eee;
 }
+.payment-success-message{
+    color:blueviolet;
+}
+.payment-processing-message{
+    color: red;
+}

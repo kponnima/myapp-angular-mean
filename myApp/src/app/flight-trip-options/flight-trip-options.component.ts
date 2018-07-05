@@ -1,53 +1,83 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
+import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Observable, BehaviorSubject, of } from 'rxjs';
+import { tap, catchError, filter, map, mergeMap, takeWhile, shareReplay, startWith } from 'rxjs/operators';
+import * as _ from 'lodash';
 
 import { Flight } from '../_models/flight';
+import { User } from '../_models/user';
+
 import { CartService } from '../_services/cart.service';
+import { UserService } from '../_services/user.service';
+import { MessageService } from '../_helpers/message.service';
+import { AuthService } from '../_helpers/auth.service';
 @Component({
   selector: 'app-flight-trip-options',
   templateUrl: './flight-trip-options.component.html',
   styleUrls: ['./flight-trip-options.component.css']
 })
 export class FlightTripOptionsComponent implements OnInit {
-  @Input() flight: Flight;
+ 
   origin: any;
   destination: any;
-  isLinear = true;
+
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
+  fourthFormGroup: FormGroup;
+  fifthFormGroup: FormGroup;
 
-  public shoppingCartItems$: Observable<Flight[]> = of([]);
-  public shoppingCartItems: Flight[] = [];
-  dataSource = this.shoppingCartItems$;
-  displayedColumns = ['flight_no', 'origin', 'destination', 'departure', 'arrival', 'aircraft_id'];
-  count:number = 0;
+  isLinear = true;
+  message: '';
 
-  constructor(private _formBuilder: FormBuilder, private cartService: CartService,
-    private router: Router, private route: ActivatedRoute,) {
-      this.shoppingCartItems$ = this.cartService.getItems();
-      this.shoppingCartItems$.subscribe(_ => this.shoppingCartItems = _);
-      this.count = this.cartService.getItemsCount(); 
+  loggedname: any;
+  _user: User[];
+
+  public loggedInUserItems$: Observable<User[]> = of([]);
+  public loggedInUserItems: User[] = [];
+
+  constructor(private formBuilder: FormBuilder, private cartService: CartService, private authService: AuthService,
+    private location: Location, private router: Router, private route: ActivatedRoute, private http: HttpClient) {
+      this.authService.getLoggedInUsers().subscribe(_ => {
+          this._user = _}
+      );
+      /*this.loggedInUserItems$ = this.authService.getLoggedInUsers();
+      this.loggedInUserItems$.subscribe(_ => {
+        this._user = _;
+        this.loggedInUserItems = _;
+        this.loggedname = this.loggedInUserItems["0"].username;
+      });*/
     }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      console.log(params);
+      //console.log(params);
       this.origin = params['fromcity'];
       this.destination = params['tocity'];
     });
 
-    this.firstFormGroup = this._formBuilder.group({
+    this.firstFormGroup = this.formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
-    this.secondFormGroup = this._formBuilder.group({
+    this.secondFormGroup = this.formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+    this.thirdFormGroup = this.formBuilder.group({
+      thirdCtrl: ['', Validators.required]
+    });
+    this.fourthFormGroup = this.formBuilder.group({
+      fourthCtrl: ['', Validators.required]
+    });
+    this.fifthFormGroup = this.formBuilder.group({
+      fifthCtrl: ['', Validators.required]
+    });
+  }
 
-    this.dataSource = this.cartService.getItems();
-
-    console.log('Selected flights count : ' + this.count);
+  goBack(): void {
+    this.location.back();
   }
 
   confirmFlight(){

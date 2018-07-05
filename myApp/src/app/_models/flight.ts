@@ -1,5 +1,3 @@
-import { NumberValueAccessor } from "@angular/forms/src/directives";
-
 export interface Flight {
     flight_no: number;
     origin: string;

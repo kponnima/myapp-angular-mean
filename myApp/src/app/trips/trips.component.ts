@@ -1,23 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable, of } from 'rxjs';
+import 'rxjs/add/observable/of';
 import { tap, catchError, map, takeWhile, startWith } from 'rxjs/operators';
 
 import { Moment } from 'moment';
 import * as moment from 'moment';
 
+import { Flight } from '../_models/flight';
 import { MessageService } from '../_helpers/message.service';
 import { AuthService } from '../_helpers/auth.service';
-export interface Data {}
 @Component({
   selector: 'app-trips',
   templateUrl: './trips.component.html',
   styleUrls: ['./trips.component.css']
 })
 export class TripsComponent implements OnInit {
+  @Input() flight: Flight;
   panelOpenState: boolean = false;
   DATE_DATA_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
   flights: any;
@@ -58,11 +60,11 @@ export class TripsComponent implements OnInit {
     this.service.clearMessage();
   }
 }
-export class FlightDataSource extends DataSource<any> {
-  constructor(private data: Data[]) { 
-    super()
+export class FlightDataSource extends DataSource<Flight> {
+  constructor(private data: Flight[]) { 
+    super();
   }
-  connect(): Observable<Data[]> {
+  connect(): Observable<Flight[]> {
     return Observable.of(this.data);
   }
   disconnect() {

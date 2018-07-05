@@ -2,64 +2,29 @@
     <h1><strong>TRIP OPTIONS -- {{ origin | uppercase }} :: {{ destination | uppercase }}</strong></h1>
 </div>
 
-<section>
-<table mat-table #table [dataSource]="dataSource" class="container mat-elevation-z8">
-    <!-- Flight No Column -->
-    <ng-container matColumnDef="flight_no">
-      <th mat-header-cell *matHeaderCellDef><strong>FLIGHT NO</strong></th>
-      <td mat-cell *matCellDef="let element"> {{ element.flight_no }} </td>
-    </ng-container>
-  
-    <!-- Origin Column -->
-    <ng-container matColumnDef="origin">
-      <th mat-header-cell *matHeaderCellDef><strong>ORIGIN</strong></th>
-      <td mat-cell *matCellDef="let element"> {{ element.origin }} </td>
-    </ng-container>
-  
-    <!-- Destination Column -->
-    <ng-container matColumnDef="destination">
-      <th mat-header-cell *matHeaderCellDef><strong>DESTINATION</strong></th>
-      <td mat-cell *matCellDef="let element"> {{ element.destination }} </td>
-    </ng-container>
-  
-    <!-- Departure Column -->
-    <ng-container matColumnDef="departure">
-      <th mat-header-cell *matHeaderCellDef><strong>DEPARTURE</strong></th>
-      <td mat-cell *matCellDef="let element"> {{ element.departuredatetime | date : "medium" }} </td>
-    </ng-container>
-  
-    <!-- Arrival Column -->
-    <ng-container matColumnDef="arrival">
-      <th mat-header-cell *matHeaderCellDef><strong>ARRIVAL</strong></th>
-      <td mat-cell *matCellDef="let element"> {{ element.arrivaldatetime | date : "medium" }} </td>
-    </ng-container>
-  
-    <!-- Aircraft Code Column -->
-    <ng-container matColumnDef="aircraft_id">
-      <th mat-header-cell *matHeaderCellDef><strong>AIRCRAFT</strong></th>
-      <td mat-cell *matCellDef="let element"> {{ element.aircraft_id }} </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</section>
+<button (click)="goBack()">Back</button>
 
 <mat-vertical-stepper [linear]="isLinear" #stepper>
+  
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Fill out your name</ng-template>
+      <ng-template matStepLabel>Fill out traveler information</ng-template>      
       <mat-form-field>
-        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+          <mat-label mdPrefix>Firstname</mat-label>
+          <input matInput placeholder="{{ loggedname }}" required formControlName="firstCtrl" value="{{ loggedname }}">
+          <mat-error>
+              <span *ngIf="!firstFormGroup.get('firstCtrl').valid && firstFormGroup.get('firstCtrl').touched">Please enter firstname</span>
+          </mat-error>
       </mat-form-field>
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-raised-button color="accent" matStepperNext>Next</button>
       </div>
     </form>
   </mat-step>
+
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out your address</ng-template>
+      <ng-template matStepLabel>Fill out traveler address</ng-template>
       <mat-form-field>
         <input matInput placeholder="Address" formControlName="secondCtrl" required>
       </mat-form-field>
@@ -69,12 +34,39 @@
       </div>
     </form>
   </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup">
+      <form [formGroup]="thirdFormGroup">
+        <ng-template matStepLabel>Fill out contact address</ng-template>
+        <mat-form-field>
+          <input matInput placeholder="Contact" formControlName="thirdCtrl" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+  </mat-step>
+
+  <mat-step [stepControl]="fourthFormGroup">
+      <form [formGroup]="fourthFormGroup">
+        <ng-template matStepLabel>Fill out travel docs</ng-template>
+        <mat-form-field>
+          <input matInput placeholder="Contact" formControlName="fourthCtrl" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+  </mat-step>
+
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button (click)="stepper.reset()">Reset</button>
-      <button mat-raised-button type="submit" color="primary" (click)="confirmFlight()">CONFIRM</button>
+      <button mat-raised-button type="submit" color="primary" (click)="confirmFlight()">CONTINUE</button>
     </div>
   </mat-step>
 </mat-vertical-stepper>

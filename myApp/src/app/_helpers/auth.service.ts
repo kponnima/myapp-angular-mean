@@ -1,31 +1,50 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { User } from '../_models/user';
 
 @Injectable()
 export class AuthService {  
     // Create a stream of logged in status to communicate throughout app
     private loggedIn = new BehaviorSubject<boolean>(false);
+    private loggedInUserSubject: BehaviorSubject<User[]> = new BehaviorSubject([]);
+    private loggedInUser: User[] = [];
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
 
   constructor(private router: Router) {
+    this.loggedInUserSubject.subscribe(_ => this.loggedInUser = _);
   }
 
   login(user: User){
-    if (user.userName !== '' && user.password !== '' ) {
+    if (user.username !== '' && user.password !== '' ) {
       this.loggedIn.next(true);
-      this.router.navigate(['']);
+      this.addLoggedInUser(user);
+      this.router.navigate(['home']);
     }
   }
 
   logout() {
     this.loggedIn.next(false);
+    this.loggedInUserSubject.unsubscribe;
     localStorage.removeItem('jwtToken');
-    localStorage.removeItem('currentUser');
+    //localStorage.removeItem('currentUser');
     this.router.navigate(['signin']);
+  }
+
+  public addLoggedInUser(user: User) {
+    this.loggedInUserSubject.next([...this.loggedInUser, user]);
+  }
+
+  public getLoggedInUsers(): Observable<User[]> {
+    return this.loggedInUserSubject;
+  }
+
+  public removeLoggedInUser(user: User) {
+    const currentItems = [...this.loggedInUser];
+    const itemsWithoutRemoved = currentItems.filter(_ => _._id !== user._id);
+    this.loggedInUserSubject.next(itemsWithoutRemoved);
   }
 }

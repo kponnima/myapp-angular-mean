@@ -9,7 +9,9 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    console.log('intercepted request ...');
+    console.log('intercepted request ...' + req.url);
+    //console.log('request headers ...' + req.headers);
+    //console.log('request body ...' + req.body);
     /*
     * The verbose way:
     // Clone the request and replace the original headers with
@@ -18,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
       headers: req.headers.set('Authorization', authToken)
     });
     */
-    if (req.url.match('/api/signin') || req.url.match('/api/signup')) {
+    if (req.url.match('/api/signin') || req.url.match('/api/signup') || req.url.match('/api/charge')) {
         console.log('Sending request with default headers ...');
         return next.handle(req);
     } else{

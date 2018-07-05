@@ -22,16 +22,6 @@ export class SignupComponent implements OnInit {
   role_id: Number = Number(2);
   privilege_id: Number = Number(1);
   status_id: Number = Number(1);
-  /*signupData = {
-    username:'',
-    password:'' ,
-    email:'',
-    phone:'',
-    date_created: new Date(),
-    role_id: Number(2),
-    privilege_id: Number(1),
-    status_id:Number(1)
-  };*/
   message = '';
 
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder) { }
@@ -58,7 +48,7 @@ export class SignupComponent implements OnInit {
         //form.resetForm();
         this.router.navigate(['login']);
       }*/
-
+      
       // form.resetForm();
       this.router.navigate(['login']);
     }, err => {

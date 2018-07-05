@@ -84,6 +84,7 @@ import { AdminComponent } from './admin/admin.component';
 import { TripsComponent } from './trips/trips.component';
 import { AuthGuard } from './_helpers/auth.guard.service';
 import { AuthService } from './_helpers/auth.service';
+import { AlertDialogComponent } from './_shared/alert-dialog/alert-dialog.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -233,7 +234,8 @@ const appRoutes: Routes = [
     FlightTripConfirmationComponent,
     AdminComponent,
     TripsComponent,
-    ShoppingcartComponent
+    ShoppingcartComponent,
+    AlertDialogComponent
   ],
   providers: [
     MessageService,
@@ -249,7 +251,7 @@ const appRoutes: Routes = [
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ShoppingcartComponent]
+  entryComponents: [ShoppingcartComponent, AlertDialogComponent]
 })
 export class AppModule {
   constructor(

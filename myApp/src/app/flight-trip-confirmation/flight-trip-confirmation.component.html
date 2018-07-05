@@ -1,3 +1,90 @@
-<p>
-  flight-trip-confirmation works!
-</p>
+<div *ngIf="reservation" class="container">
+  <h1><strong>You're reservation is confirmed !</strong></h1>
+  <h3>Confirmation # : <strong> {{ reservation.pnrno }}</strong></h3>
+
+  <mat-divider></mat-divider>
+  <p>*Expand each of the sections below to view the details of the reservation.</p>
+
+  <mat-accordion class="container" displayMode="flat">
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+          <mat-panel-title>
+            Flight Info
+          </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div fxLayout="row" fxLayoutGap="20px">
+          Total Segments : {{ reservation.segment_count}}
+          {{ reservation.origin }} -> {{ reservation.destination }}
+          {{ reservation.flight_no }}
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-divider></mat-divider>
+  
+  <mat-accordion class="container" displayMode="flat">
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header>
+          <mat-panel-title>
+            Traveler Info
+          </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div fxLayout="row" fxLayoutGap="20px">
+          Total passengers : {{ reservation.passenger_count}}
+          {{ reservation.travelerfirstname}}
+          {{ reservation.travelermiddlename}}
+          {{ reservation.travelerlastname}}
+          {{ reservation.traveleraddress}}
+          {{ reservation.travelerzipcode}}
+          {{ reservation.traveleremail}}
+          {{ reservation.travelerphone}}
+      </div>
+      <div fxLayout="row" fxLayoutGap="20px">
+          {{ reservation.travelerseatpreference}}
+          {{ reservation.travelerspecialservices}}
+          {{ reservation.travelermealpreference}}
+          {{ reservation.needpassport}}
+      </div>
+      <div fxLayout="row" fxLayoutGap="20px">
+          {{ reservation.emergencycontactfirstname}}
+          {{ reservation.emergencycontactmiddlename}}
+          {{ reservation.emergencycontactlastname}}
+          {{ reservation.emergencycontactaddress}}
+          {{ reservation.emergencycontactzipcode}}
+          {{ reservation.emergencycontactemail}}
+          {{ reservation.emergencycontactphone}}
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-divider></mat-divider>
+
+  <mat-accordion class="container" displayMode="flat">
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header>
+          <mat-panel-title>
+            Payment Info
+          </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div fxLayout="row" fxLayoutGap="20px">
+          <p>Total Price : {{ reservation.total_amount}}</p>
+          
+          <p>Card Used: {{ reservation.brand}} ending in - {{ reservation.last4}}</p>
+          
+          <p>Payment Status : {{ reservation.paymentstatus}}</p>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div fxLayout="row" fxLayoutGap="20px">
+    <div>
+        <button mat-raised-button (click)="cancelBooking()">VIEW TRIPS</button>
+    </div>
+    <div>
+        <button mat-raised-button type="submit" color="accent" (click)="confirmBooking()">BOOK NEW FLIGHT</button>
+    </div>
+    <div>
+        <button mat-raised-button type="submit" color="primary" (click)="confirmBooking()">CHECKIN FLIGHT</button>
+    </div>
+  </div>
+</div>

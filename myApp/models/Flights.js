@@ -23,6 +23,10 @@ var FlightsSchema = new Schema({
     required: false
   },
   aircraft_id: {
+    type: String,
+    required: false
+  },
+  price: {
     type: Number,
     required: false
   },
@@ -46,6 +50,7 @@ var FlightsSchema = new Schema({
     type: Number,
     required: true
   }
-});
+},
+ { collection: 'flights' });
 
 module.exports = mongoose.model('Flights', FlightsSchema);

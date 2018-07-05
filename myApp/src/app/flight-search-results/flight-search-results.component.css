@@ -1,35 +1,31 @@
 table {
     width: 100%;
   }
-  
-  .mat-column-select {
+    .mat-column-select {
     overflow: initial;
   }
-
   tr.example-detail-row {
     height: 0;
   }
-  
-  tr.example-element-row:not(.example-expanded-row):hover {
+    tr.example-element-row:not(.example-expanded-row):hover {
     background: #f5f5f5;
   }
-  
-  tr.example-element-row:not(.example-expanded-row):active {
+    tr.example-element-row:not(.example-expanded-row):active {
     background: #efefef;
   }
-  
-  .example-element-row td {
+    .example-element-row td {
     border-bottom-width: 0;
   }
-  
-  .example-element-detail {
+    .example-element-detail {
     overflow: hidden;
     display: flex;
   }
   .table-header {
     text-align: center;
   }
-  
-  .darken {
+    .darken {
     background: rgba(0,0,0,0.05);
+  }
+  .noflightrecords{
+    color:red;
   }

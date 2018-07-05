@@ -34,6 +34,7 @@ var InventorySchema = new Schema({
     type: String,
     required: true
   }
-});
+},
+{ collection: 'inventory' });
 
 module.exports = mongoose.model('Inventory', InventorySchema);

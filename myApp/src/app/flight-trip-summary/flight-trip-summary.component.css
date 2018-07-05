@@ -1,0 +1,9 @@
+.mat-table {
+    width: 98%;
+}
+tr.mat-header-row {
+    background:#ddd;
+}
+tr.mat-row {
+    background:#eee;
+}

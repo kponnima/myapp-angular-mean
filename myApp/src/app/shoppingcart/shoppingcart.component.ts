@@ -19,7 +19,7 @@ export class ShoppingcartComponent implements OnInit {
   public shoppingCartItems$: Observable<Flight[]> = of([]);
   public shoppingCartItems: Flight[] = [];
   dataSource = this.shoppingCartItems$;
-  displayedColumns = ['flight_no', 'origin', 'destination', 'departure', 'arrival', 'aircraft_id', 'button'];
+  displayedColumns = ['flight_no', 'origin', 'destination', 'departure', 'arrival', 'aircraft_id', 'price', 'button'];
   count:number = 0;
 
   constructor(private dialogRef: MatDialogRef<ShoppingcartComponent>, private cartService: CartService,
@@ -47,13 +47,7 @@ export class ShoppingcartComponent implements OnInit {
       .cartService
       .getTotalAmount;
   }
-  /*datasourceCondition(){
-    this.count = this
-    .cartService
-    .getItemsCount();
-    if
-  }*/
-
+  
   isEmptyCart(){
     if(this.count === 0){
       //console.log('Cart is empty');

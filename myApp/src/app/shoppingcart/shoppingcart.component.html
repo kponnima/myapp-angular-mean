@@ -49,6 +49,13 @@
         <td mat-cell *matCellDef="let element"> {{ element.aircraft_id }} </td>
       </ng-container>
 
+      <!-- Price Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef><strong>PRICE</strong></th>
+        <td mat-cell *matCellDef="let element"><strong>{{ element.price | currency }}</strong></td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
       <!-- Remove item button Column -->
       <ng-container matColumnDef="button">
           <th mat-header-cell *matHeaderCellDef></th>

@@ -1,55 +1,54 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription, of, Subject } from 'rxjs';
 import { tap, catchError, map, takeWhile, startWith } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
+import { User } from '../_models/user';
 import { MessageService } from '../_helpers/message.service';
 import { AuthService } from '../_helpers/auth.service';
-export interface UserProfile {
-  _id: Number;
-  username: string;
-  email:string;
-  phone:Number;
-  date_created:Date;
-  role_id: Number;
-  privilege_id:Number;
-  status_id:Number
-}
+import { UserService } from '../_services/user.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy  {
+export class HomeComponent implements OnInit {
+  @Input() user: User;
   loggedInSub: Subscription;
-  public cols: Observable<number>;
   adminBoolean: boolean = false;
-  sub: any;
-  userProfile: UserProfile[] = [];
-  id: Number;
-  username: string;
-  email: string;
-  phone: Number;
-  date_created: Date;
-  role_id: Number;
-  privilege_id: Number;
-  status_id: Number;
+  loggedname: any;
+  roleID:Number = 0;
 
+  public cols: Observable<number>;
+  
+  public loggedInUserItems$: Observable<User[]> = of([]);
+  public loggedInUserItems: User[] = [];
 
-  constructor(private observableMedia: ObservableMedia, private auth: AuthService, private http: HttpClient, private route: ActivatedRoute, private router: Router,
+  constructor(private observableMedia: ObservableMedia, private authService: AuthService, private http: HttpClient,
+    private route: ActivatedRoute, private router: Router, private userService: UserService,
     private service:MessageService, private snackBar: MatSnackBar) {
+      this.loggedInUserItems$ = this.authService.getLoggedInUsers();
+      this.loggedInUserItems$.subscribe(_ => {
+        this.loggedInUserItems = _;
+        this.loggedname = this.loggedInUserItems["0"].username;
+      });
+      //this.loggedname = this.loggedInUserItems["0"].username;
+      //this.loggedInUserItems$.subscribe(_ => _["0"].username ? this.loggedname : null);
+      //console.log(this.loggedInUserItems.length);
+      //this.loggedInUserItems.map(_ => _ ? this.loggedname : null);
+      //console.log(this.loggedname);
+      //console.log(this.loggedInUserItems["0"].username);
     }
 
   ngOnInit() {
-    this.loggedInSub = this.auth.isLoggedIn.subscribe(
+    /*this.loggedInSub = this.authService.isLoggedIn.subscribe(
       loggedIn => loggedIn ? true : null
-    )
-    //this.findActiveUser();
-    this.getActiveUserProfile();
-    this.isAdmin(this.role_id);
+    );*/
+
+    this.getUserProfile();
 
     const grid = new Map([
       ['xs', 1],
@@ -65,36 +64,40 @@ export class HomeComponent implements OnInit, OnDestroy  {
       }
     });
     this.cols = this.observableMedia.asObservable()
-      .map(change => {
+      .pipe(
+        map(change => {
         //console.log(change);
         //console.log(grid.get(change.mqAlias));
         return grid.get(change.mqAlias);
-      })
-      .startWith(start);
+      }),
+        startWith(start));
   }
-  ngOnDestroy() {
-    this.loggedInSub.unsubscribe();
+
+  getUserProfile(){
+    if(this.loggedname !== undefined){
+        this.userService.getUserByUsername(this.loggedname)
+        .subscribe(data => {
+          this.roleID = data.role_id;
+          this.isAdmin();
+          //console.log(data);
+          //console.log("User role ID : " + data.role_id);
+          },(err: HttpErrorResponse) => {
+              if (err.error instanceof Error) {
+                console.log("Client-side error occured.");
+                console.log(err);
+              } else {
+                console.log("Server-side error occured.");
+                console.log(err);
+              }
+              this.sendMessage(err);
+            }
+        );
+    }
   }
-  findActiveUser(){
-    this.http.get<UserProfile>('/api/activeuser/:1')
-      .subscribe(data => {
-        console.log(data);
-        console.log("User role ID : " + data.role_id);
-      },(err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log("Client-side error occured.");
-          console.log(err);
-        } else {
-          console.log("Server-side error occured.");
-          console.log(err);
-        }
-        this.sendMessage(err);
-      }
-    );
-  }
+
   getActiveUserProfile(){
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser){
+    //let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    /*if (currentUser){
       this.id = currentUser._id;
       this.username = currentUser.username;
       this.email = currentUser.email;
@@ -103,13 +106,15 @@ export class HomeComponent implements OnInit, OnDestroy  {
       this.role_id = currentUser.role_id;
       this.privilege_id = currentUser.privilege_id;
       this.status_id = currentUser.status_id;
-    }
+    }*/
   }
-  isAdmin(roleid){
-    if(roleid === 1){
+
+  isAdmin(){
+    if(this.roleID === 1){
       this.adminBoolean = true;
     }
   }
+
   sendMessage(message): void {
     // send message to subscribers via observable subject
     //this.service.sendMessage(message);
@@ -117,6 +122,7 @@ export class HomeComponent implements OnInit, OnDestroy  {
       duration: 3000
     });
   }
+  
   clearMessage():void{
     this.service.clearMessage();
   }

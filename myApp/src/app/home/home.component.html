@@ -1,5 +1,7 @@
   <mat-grid-list [cols]="cols | async">
+    
     <mat-grid-tile [colspan]="cols | async">
+      <mat-grid-tile-header>WELCOME {{ loggedname | uppercase }} !!</mat-grid-tile-header>
       <img src="../../assets/aaa-flights.jpg" height="98%" width="98%">
     </mat-grid-tile>
 

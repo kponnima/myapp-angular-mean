@@ -4,7 +4,7 @@ import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http'
 import { DataSource } from '@angular/cdk/collections';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { tap, catchError, map, takeWhile, shareReplay, startWith } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
 import { MatDatepicker, TooltipPosition } from '@angular/material';
@@ -103,13 +103,13 @@ export class FlightSearchComponent implements OnInit {
         start = cols;
       }
     });
-    this.cols = this.observableMedia.asObservable()
-      .map(change => {
+    this.cols = this.observableMedia.asObservable().pipe(
+      map(change => {
         console.log(change);
         console.log(grid.get(change.mqAlias));
         return grid.get(change.mqAlias);
-      })
-      .startWith(start);
+      }),
+      startWith(start));
   }
 
   ngAfterViewInit(){
@@ -140,8 +140,9 @@ export class FlightSearchComponent implements OnInit {
 
   filterAirportGroup(){
     this.airportcodes$ = this.http.get<AirportGroup[]>('/api/airports')
-    .map(data => _.values(data))
-    .shareReplay()
+    .pipe(
+      map(data => _.values(data)),
+      shareReplay())
     .catch(this.handleError);
   }
 

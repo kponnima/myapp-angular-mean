@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { tap, catchError, filter, map, mergeMap, takeWhile, shareReplay, startWith } from 'rxjs/operators';
 
 import { Flight } from '../_models/flight';
-import { last } from 'rxjs-compat/operator/last';
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +30,13 @@ export class CartService {
   }
 
   public getTotalAmount(): Observable<number> {
-    return this.itemsInCartSubject.map((items: Flight[]) => {
-      return items.reduce((prev, curr: Flight) => {
-        return prev + curr.price;
-      }, 0);
-    });
+    return this.itemsInCartSubject.pipe(
+      map((items: Flight[]) => {
+        return items.reduce((prev, curr: Flight) => {
+          return prev + curr.price;
+        }, 0);
+      })
+    );
   }
 
   public removeFromCart(item: Flight) {
@@ -44,7 +46,6 @@ export class CartService {
   }
 
   public removeAllFromCart() {
-    console.log('Whoa whoa');
     this.itemsInCartSubject.unsubscribe;
   }
 }

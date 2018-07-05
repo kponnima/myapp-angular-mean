@@ -1,12 +1,12 @@
 <div class="container">
   <div id="signup">
-    <div class="signup-screen">
-      <div class="space-bot text-center">
+    <div>
+      <div>
         <h1>Sign up</h1>
         <mat-divider></mat-divider>
       </div>
-      <form [formGroup]="signupForm" class="form-signup" (ngSubmit)="signup(signupForm.value)">
-          <div class="alert alert-warning alert-dismissible" role="alert" *ngIf="message !== ''">
+      <form [formGroup]="signupForm" (ngSubmit)="signup(signupForm.value)">
+          <div role="alert" *ngIf="message !== ''">
             <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             {{message}}
           </div>
@@ -44,13 +44,13 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="space-top text-center">
-            <button mat-button type="submit" [disabled]="!signupForm.valid" class="waves-effect waves-light btn done">
-              <mat-icon class="material-icons left">done</mat-icon> Sign Up
-            </button>
-            <button mat-button type="button" class="waves-effect waves-light btn cancel" [routerLink]="['/']">
+          <div>
+            <button mat-button type="button" [routerLink]="['/']">
               <mat-icon class="material-icons left">clear</mat-icon> Cancel
             </button>
+            <button mat-button type="submit" [disabled]="!signupForm.valid">
+                <mat-icon class="material-icons">done</mat-icon> Sign Up
+              </button>
           </div>
       </form>
     </div>
