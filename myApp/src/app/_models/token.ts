@@ -6,7 +6,7 @@ export interface Token {
     created: number;
     email: string;
     livemode: string;
-    type:string;
+    type: string;
     used: string;
 }
 

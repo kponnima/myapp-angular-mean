@@ -1,58 +1,51 @@
-  <mat-grid-list [cols]="cols | async">
-    
-    <mat-grid-tile [colspan]="cols | async">
-      <mat-grid-tile-header>WELCOME {{ loggedname | uppercase }} !!</mat-grid-tile-header>
-      <img src="../../assets/aaa-flights.jpg" height="98%" width="98%">
-    </mat-grid-tile>
-
-    <mat-grid-tile [colspan]="cols | async">
-      <mat-grid-tile-header>SEARCH</mat-grid-tile-header>
-      <mat-tab-group dynamicHeight>
-        <mat-tab>
-            <ng-template mat-tab-label>
-              <div fxLayout="column" fxLayoutAlign="center center">
-                <mat-icon>flight</mat-icon>
-                <span>FLIGHTS</span>
-              </div>
-            </ng-template>
-            <div class="example-large-box mat-elevation-z4">
-            <ng-template matTabContent>
-                <app-flight-search></app-flight-search>
-            </ng-template>
+<div class="containerX">
+  <div class="container">
+    <a mat-raised-button *ngIf="isAdmin$ | async" color="accent" (click)="adminView()">
+      <mat-icon>supervisor_account</mat-icon>
+    </a>
+    <h1>WELCOME {{ loggedname | uppercase }} !!</h1>
+  </div>
+  <div class="container">
+    <mat-tab-group mat-stretch-tabs>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-icon>flight</mat-icon>
+            <span>FLIGHTS</span>
           </div>
-        </mat-tab>
-        <mat-tab>
-            <ng-template mat-tab-label>
-              <div fxLayout="column" fxLayoutAlign="center center">
-                <mat-icon>hotels</mat-icon>
-                <span>HOTELS</span>
-              </div>
-            </ng-template>
-            <app-hotel-search></app-hotel-search>
-        </mat-tab>
-        <mat-tab>
-            <ng-template mat-tab-label>
-              <div fxLayout="column" fxLayoutAlign="center center">
-                <mat-icon>directions_car</mat-icon>
-                <span>CARS</span>
-              </div>
-            </ng-template>
-            <app-car-search></app-car-search>
-        </mat-tab>
-        <mat-tab label="Tab 4" disabled>
-          <div>
+        </ng-template>
+        <div class="example-large-box mat-elevation-z4">
+          <ng-template matTabContent>
+            <app-flight-search></app-flight-search>
+          </ng-template>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-icon>hotels</mat-icon>
+            <span>HOTELS</span>
           </div>
-        </mat-tab>
-      </mat-tab-group>
-    </mat-grid-tile>
+        </ng-template>
+        <app-hotel-search></app-hotel-search>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <mat-icon>directions_car</mat-icon>
+            <span>CARS</span>
+          </div>
+        </ng-template>
+        <app-car-search></app-car-search>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 
-    <mat-grid-tile [colspan]="cols | async">
-        <mat-grid-tile-header>TRIPS</mat-grid-tile-header>
-        <app-trips></app-trips>
-    </mat-grid-tile>
+  <div class="container">
+    <h1>TRIPS</h1>
+  </div>
 
-    <mat-grid-tile *ngIf="adminBoolean" [colspan]="cols | async">
-      <mat-grid-tile-header>ADMIN</mat-grid-tile-header>
-        <app-admin></app-admin>
-    </mat-grid-tile>
-  </mat-grid-list>
+  <div>
+    <app-trips></app-trips>
+  </div>
+</div>

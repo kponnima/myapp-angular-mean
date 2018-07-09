@@ -7,7 +7,7 @@ export interface Payment {
     brand: string;
     description: string;
     paid_status: boolean;
-    currency:string;
+    currency: string;
     amount: number;
     statement_description: string;
     status: string;

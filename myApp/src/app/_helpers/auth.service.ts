@@ -22,7 +22,15 @@ export class AuthService {
     if (user.username !== '' && user.password !== '' ) {
       this.loggedIn.next(true);
       this.addLoggedInUser(user);
+      localStorage.setItem('username', user.username);
       this.router.navigate(['home']);
+    }else{
+      this.loggedIn.next(false);
+      this.loggedInUserSubject.unsubscribe;
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('username');
+      localStorage.removeItem('isAdminUser');
+      this.router.navigate(['signin']);
     }
   }
 
@@ -30,7 +38,8 @@ export class AuthService {
     this.loggedIn.next(false);
     this.loggedInUserSubject.unsubscribe;
     localStorage.removeItem('jwtToken');
-    //localStorage.removeItem('currentUser');
+    localStorage.removeItem('username');
+    localStorage.removeItem('isAdminUser');
     this.router.navigate(['signin']);
   }
 

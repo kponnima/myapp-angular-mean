@@ -18,101 +18,72 @@ import { UserService } from '../_services/user.service';
 export class HomeComponent implements OnInit {
   @Input() user: User;
   loggedInSub: Subscription;
-  adminBoolean: boolean = false;
   loggedname: any;
-  roleID:Number = 0;
+  isAdmin$: Observable<boolean>;
+  roleID: Number = 0;
 
-  public cols: Observable<number>;
-  
   public loggedInUserItems$: Observable<User[]> = of([]);
   public loggedInUserItems: User[] = [];
 
   constructor(private observableMedia: ObservableMedia, private authService: AuthService, private http: HttpClient,
     private route: ActivatedRoute, private router: Router, private userService: UserService,
-    private service:MessageService, private snackBar: MatSnackBar) {
-      this.loggedInUserItems$ = this.authService.getLoggedInUsers();
-      this.loggedInUserItems$.subscribe(_ => {
-        this.loggedInUserItems = _;
-        this.loggedname = this.loggedInUserItems["0"].username;
-      });
-      //this.loggedname = this.loggedInUserItems["0"].username;
-      //this.loggedInUserItems$.subscribe(_ => _["0"].username ? this.loggedname : null);
-      //console.log(this.loggedInUserItems.length);
-      //this.loggedInUserItems.map(_ => _ ? this.loggedname : null);
-      //console.log(this.loggedname);
-      //console.log(this.loggedInUserItems["0"].username);
-    }
+    private service: MessageService, private snackBar: MatSnackBar) {
+    //this.loggedname = this.loggedInUserItems["0"].username;
+    //this.loggedInUserItems$.subscribe(_ => _["0"].username ? this.loggedname : null);
+    //console.log(this.loggedInUserItems.length);
+    //this.loggedInUserItems.map(_ => _ ? this.loggedname : null);
+    //console.log(this.loggedname);
+    //console.log(this.loggedInUserItems["0"].username);
+  }
 
   ngOnInit() {
     /*this.loggedInSub = this.authService.isLoggedIn.subscribe(
       loggedIn => loggedIn ? true : null
     );*/
 
+    this.loggedInUserItems$ = this.authService.getLoggedInUsers();
+    this.loggedInUserItems$.subscribe(_ => {
+      this.loggedInUserItems = _;
+      this.loggedname = (this.loggedInUserItems["0"].username !== undefined) ? localStorage.getItem('username') : null;
+    });
+
     this.getUserProfile();
 
-    const grid = new Map([
-      ['xs', 1],
-      ['sm', 2],
-      ['md', 2],
-      ['lg', 3],
-      ['xl', 3]
-    ]);
-    let start: number;
-    grid.forEach((cols, mqAlias) => {
-      if (this.observableMedia.isActive(mqAlias)) {
-        start = cols;
-      }
-    });
-    this.cols = this.observableMedia.asObservable()
-      .pipe(
-        map(change => {
-        //console.log(change);
-        //console.log(grid.get(change.mqAlias));
-        return grid.get(change.mqAlias);
-      }),
-        startWith(start));
+    this.isAdmin$ = this.userService.isAdmin;
   }
 
-  getUserProfile(){
-    if(this.loggedname !== undefined){
-        this.userService.getUserByUsername(this.loggedname)
+  getUserProfile() {
+    if (localStorage.getItem('username') !== null || localStorage.getItem('username') !== undefined) {
+      if (this.loggedname === undefined) {
+        this.loggedname = localStorage.getItem('username');
+      }
+      this.userService.getUserByUsername(this.loggedname)
         .subscribe(data => {
-          this.roleID = data.role_id;
-          this.isAdmin();
           //console.log(data);
-          //console.log("User role ID : " + data.role_id);
-          },(err: HttpErrorResponse) => {
-              if (err.error instanceof Error) {
-                console.log("Client-side error occured.");
-                console.log(err);
-              } else {
-                console.log("Server-side error occured.");
-                console.log(err);
-              }
-              this.sendMessage(err);
-            }
+          //console.log("User role ID : " + data["0"].role_id);
+          this.roleID = data["0"].role_id;
+          //if user is ADMIN set the admin flag
+          if (this.roleID === 1) {
+            localStorage.setItem('isAdminUser', 'true');
+          } else {
+            localStorage.setItem('isAdminUser', 'false');
+          }
+        }, (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            console.log("Client-side error occured.");
+            console.log(err);
+          } else {
+            console.log("Server-side error occured.");
+            console.log(err);
+          }
+          this.sendMessage(err);
+        }
         );
     }
   }
 
-  getActiveUserProfile(){
-    //let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    /*if (currentUser){
-      this.id = currentUser._id;
-      this.username = currentUser.username;
-      this.email = currentUser.email;
-      this.phone = currentUser.phone;
-      this.date_created = currentUser.date_created;
-      this.role_id = currentUser.role_id;
-      this.privilege_id = currentUser.privilege_id;
-      this.status_id = currentUser.status_id;
-    }*/
-  }
-
-  isAdmin(){
-    if(this.roleID === 1){
-      this.adminBoolean = true;
-    }
+  adminView() {
+    this.router.navigate(['admin']);
   }
 
   sendMessage(message): void {
@@ -122,8 +93,8 @@ export class HomeComponent implements OnInit {
       duration: 3000
     });
   }
-  
-  clearMessage():void{
+
+  clearMessage(): void {
     this.service.clearMessage();
   }
 }

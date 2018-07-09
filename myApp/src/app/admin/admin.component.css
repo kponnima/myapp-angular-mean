@@ -1,0 +1,21 @@
+.users-admin-accordion{
+    margin: 16px;
+}
+.users-admin-accordion-panel-title{
+    background:cornsilk;
+}
+.flights-admin-accordion{
+    margin: 16px;
+}
+.flights-admin-accordion-panel-title{
+    background:bisque;
+}
+.airports-admin-accordion-panel-title{
+    background:khaki;
+}
+.aircrafts-admin-accordion{
+    margin: 16px;
+}
+.aircrafts-admin-accordion-panel-title{
+    background:burlywood;
+}

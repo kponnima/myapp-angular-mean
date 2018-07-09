@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
+import { delay, map, filter } from 'rxjs/operators';
 
 import { User } from '../_models/user';
 
@@ -11,6 +12,8 @@ export class UserService {
   private loggedInUserSubject: BehaviorSubject<User[]> = new BehaviorSubject([]);
   private loggedInUser: User[] = [];
 
+  private Admin = new BehaviorSubject<boolean>(false);
+
   constructor(private http: HttpClient) {
     this.loggedInUserSubject.subscribe(_ => this.loggedInUser = _);
   }
@@ -18,8 +21,22 @@ export class UserService {
   private baseUrl: string = 'api/user';  // web api end point
   //baseUrl: string = 'http://localhost:4200/api';
 
+  private delayMs = 500;
+
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl);
+    return this.http.get<User[]>(this.baseUrl)
+    .pipe(delay(this.delayMs)); // simulate latency with delay;;
+  }
+
+  get isAdmin() {
+    var value = JSON.parse(localStorage.getItem('isAdminUser'));
+    console.log('Admin value : ' + value);
+    if(value){
+      this.Admin.next(true);
+    }else{
+      this.Admin.next(false);
+    }
+    return this.Admin.asObservable();
   }
 
   getUserById(id: number): Observable<User> {
@@ -27,7 +44,7 @@ export class UserService {
   }
 
   getUserByUsername(username: any): Observable<User> {
-    return this.http.get<User>(this.baseUrl + '/' + username);
+    return this.http.get<User>(this.baseUrl + '/' + username)    
   }
 
   createUser(user: User) {
@@ -54,5 +71,16 @@ export class UserService {
     const currentItems = [...this.loggedInUser];
     const itemsWithoutRemoved = currentItems.filter(_ => _._id !== user._id);
     this.loggedInUserSubject.next(itemsWithoutRemoved);
+  }
+
+  private _checkAdmin(user: User) {
+    // Check if the user has admin role
+    if(user.role_id === 1) {
+      this.Admin.next(true);
+      localStorage.setItem('isAdminUser', 'true');
+    }else{
+      this.Admin.next(false);
+      localStorage.setItem('isAdminUser', 'false');
+    }
   }
 }

@@ -1,17 +1,2 @@
-<div class="container" layout="row">
-    <!-- HEADER -->
-    <app-header></app-header>
-    
-    <!-- MESSAGES -->
-    <app-message></app-message>
-
-    <!-- CONTENT -->
-    <router-outlet>
-        <div *ngIf="loading">
-            <mat-progress-bar mode="indeterminate" value = "50"></mat-progress-bar>
-        </div>
-    </router-outlet>
-
-    <!-- FOOTER -->
-    <app-footer></app-footer>
-</div>
+<!-- SIDENAV -->
+<app-sidenav></app-sidenav>

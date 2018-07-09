@@ -8,7 +8,7 @@ import { AuthService } from '../_helpers/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  mybool: boolean;
+  //mybool: boolean;
   title = 'MYAPP';
   isLoggedIn$: Observable<boolean>;
 

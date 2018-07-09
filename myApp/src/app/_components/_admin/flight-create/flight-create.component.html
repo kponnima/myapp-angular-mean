@@ -1,0 +1,129 @@
+<div class="button-row">
+  <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
+  <button mat-raised-button color="primary" matTooltip="View list of flights" [routerLink]="['/flights']">
+    <mat-icon>list</mat-icon>
+  </button>
+</div>
+<form class="example-form" [formGroup]="flightCreateForm" (ngSubmit)="flightCreate(flightCreateForm.value)">
+
+  <mat-form-field class="example-full-width">
+    <input type="number" matInput placeholder="Flight No" required formControlName="flight_no">
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('flight_no').valid && flightCreateForm.get('flight_no').touched">Please enter flight no</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+      <input type="text" matInput placeholder="Origin" formControlName="origin" required [matAutocomplete]="autoGroup" matTooltip="Choose origin city"
+        [matTooltipPosition]="position.value" />
+      <mat-autocomplete #autoGroup="matAutocomplete">
+        <mat-optgroup *ngIf="airportcodes$ | async as airportcodes else noData">
+          <mat-option *ngFor="let airportcode of airportcodes" [value]="airportcode.airportcode">
+            {{ airportcode.airportcode }} - {{ airportcode.airportname }}
+          </mat-option>
+          <ng-template #noData>No Data Available</ng-template>
+        </mat-optgroup>
+      </mat-autocomplete>
+      <mat-error>
+        <span *ngIf="!flightCreateForm.get('origin').valid && flightCreateForm.get('origin').touched">Please select origin</span>
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field class="example-full-width">
+      <input type="text" matInput placeholder="Destination" formControlName="destination" required [matAutocomplete]="autoGroup"
+        matTooltip="Choose destination city" [matTooltipPosition]="position.value" />
+      <mat-autocomplete #autoGroup="matAutocomplete">
+        <mat-optgroup *ngIf="airportcodes$ | async as airportcodes">
+          <mat-option *ngFor="let airportcode of airportcodes" [value]="airportcode.airportcode">
+            {{ airportcode.airportcode }} - {{ airportcode.airportname }}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+      <mat-error>
+        <span *ngIf="!flightCreateForm.get('destination').valid && flightCreateForm.get('destination').touched">Please select destination</span>
+      </mat-error>
+    </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp1" required placeholder="Depart" formControlName="depart_date">
+    <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+    <mat-datepicker #dp1 disabled="false"></mat-datepicker>
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('depart_date').valid && flightCreateForm.get('depart_date').touched">Please select depart date</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Depart time" required formControlName="depart_time">
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let time of times" [value]="time">{{time}}</mat-option>
+    </mat-select>
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('depart_time').valid && flightCreateForm.get('depart_time').touched">Please select depart time</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput [matDatepicker]="dp2" required placeholder="Arrival" formControlName="arrival_date">
+    <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+    <mat-datepicker #dp2 disabled="false"></mat-datepicker>
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('arrival_date').valid && flightCreateForm.get('arrival_date').touched">Please select arrival date</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Arrival time" required formControlName="arrival_time">
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let time of times" [value]="time">{{time}}</mat-option>
+    </mat-select>
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('arrival_time').valid && flightCreateForm.get('arrival_time').touched">Please select arrival time</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input type="text" matInput placeholder="Aircraft ID" required formControlName="aircraft_id">
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('aircraft_id').valid && flightCreateForm.get('aircraft_id').touched">Please enter aircraft id</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input type="number" matInput placeholder="Price" required formControlName="price">
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('price').valid && flightCreateForm.get('price').touched">Please enter price</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input type="text" matInput placeholder="Carrier" required formControlName="carrier">
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('carrier').valid && flightCreateForm.get('carrier').touched">Please enter aircraft carrier</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input type="number" matInput placeholder="Inventory ID" required formControlName="inventory_id">
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('inventory_id').valid && flightCreateForm.get('inventory_id').touched">Please enter inventory id</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input type="number" matInput placeholder="Equipment ID" required formControlName="equipment_id">
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('equipment_id').valid && flightCreateForm.get('equipment_id').touched">Please enter equipment id</span>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="button-row">
+    <button type="reset" class="flight-create-reset-button" mat-raised-button (click)="resetForm()" color="accent">
+        <mat-icon>clear</mat-icon>
+    </button>
+
+    <button type="submit" [disabled]="!flightCreateForm.valid" mat-raised-button color="primary">
+      <mat-icon>save</mat-icon>
+    </button>
+  </div>
+</form>

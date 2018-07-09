@@ -13,7 +13,7 @@ export interface Charge {
     description: string;
     destination: string;
     dispute: string;
-    failure_code:string;
+    failure_code: string;
     failure_message: string;
     fraud_details: {};
     invoice: string;

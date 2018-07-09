@@ -39,7 +39,11 @@ var UserSchema = new Schema({
         type: Number,
         required: true
     }
-});
+},
+    {
+        collection: 'users'
+    }
+);
 
 UserSchema.pre('save', function (next) {
     var user = this;

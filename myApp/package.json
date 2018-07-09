@@ -33,6 +33,7 @@
     "@angular/platform-browser": "^6.0.7",
     "@angular/platform-browser-dynamic": "^6.0.7",
     "@angular/platform-server": "^6.0.7",
+    "@angular/pwa": "^0.6.8",
     "@angular/router": "^6.0.7",
     "@nguniversal/express-engine": "^6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "^6.0.0",
@@ -51,7 +52,8 @@
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.0",
     "save": "^2.3.2",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "@angular/service-worker": "^6.0.7"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.6.8",

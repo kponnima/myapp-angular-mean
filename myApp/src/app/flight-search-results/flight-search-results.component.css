@@ -21,6 +21,9 @@ table {
     display: flex;
   }
   .table-header {
+    margin-bottom: 24px;
+  }
+  .table-header-text {
     text-align: center;
   }
     .darken {

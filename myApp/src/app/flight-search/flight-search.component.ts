@@ -7,19 +7,17 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap, catchError, map, takeWhile, shareReplay, startWith } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
-import { MatDatepicker, TooltipPosition } from '@angular/material';
+import { MatSnackBar, MatDatepicker, TooltipPosition } from '@angular/material';
 
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
+import { Airport } from '../_models/airport';
+
 import { MessageService } from '../_helpers/message.service';
-import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../_helpers/auth.service';
-export interface AirportGroup {
-  airportcode: string;
-  airportname: string;
-}
+
 @Component({
   selector: 'app-flight-search',
   templateUrl: './flight-search.component.html',
@@ -29,10 +27,7 @@ export class FlightSearchComponent implements OnInit {
   private loading: boolean = false;
   DATE_DATA_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
   flightsearchForm: FormGroup;
-  cityForm: FormGroup = this.formBuilder.group({
-    cityGroup: '',
-  });
-  airportcodes$: Observable<AirportGroup[]>;
+  airportcodes$: Observable<Airport[]>;
   
   public cols: Observable<number>;
    @ViewChild( MatDatepicker) picker: MatDatepicker<Moment>;
@@ -61,12 +56,6 @@ export class FlightSearchComponent implements OnInit {
     {value: 'clasoftravel-3', viewValue: 'First'}
   ];
 
-  times = [
-    '12 AM', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM',
-    '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM',
-    '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM'
-  ];
-
   constructor(private observableMedia: ObservableMedia, private http: HttpClient, private router: Router, private formBuilder: FormBuilder,
     private service:MessageService, private snackBar: MatSnackBar ) { }
 
@@ -79,12 +68,10 @@ export class FlightSearchComponent implements OnInit {
       'tocity' : [null, Validators.required],
       'connection_city' : [null, Validators.nullValidator],
       'depart_date' : [{value: null, disabled: true}, Validators.required],
-      'depart_time' : [null, Validators.required],
       'return_date' : [{value: null, disabled: true}, Validators.nullValidator],
-      'return_time' : [null, Validators.nullValidator]
     });
 
-    this.flightsearchForm.get('typeoftravel').setValue(this.typeofTravel[0].viewValue);
+    this.flightsearchForm.get('typeoftravel').setValue(this.typeofTravel[1].viewValue);
     this.flightsearchForm.get('typeoftraveler').setValue(this.typeofTravelers[0].viewValue);
     this.flightsearchForm.get('classoftravel').setValue(this.classofTravel[0].viewValue);
 
@@ -105,8 +92,8 @@ export class FlightSearchComponent implements OnInit {
     });
     this.cols = this.observableMedia.asObservable().pipe(
       map(change => {
-        console.log(change);
-        console.log(grid.get(change.mqAlias));
+        //console.log(change);
+        //console.log(grid.get(change.mqAlias));
         return grid.get(change.mqAlias);
       }),
       startWith(start));
@@ -124,22 +111,15 @@ export class FlightSearchComponent implements OnInit {
   }
 
   flightsearch(form:NgForm){
-    let departDateTime = moment(this.flightsearchForm.controls.depart_date.value)
+    /*let departDateTime = moment(this.flightsearchForm.controls.depart_date.value)
       .add(this.flightsearchForm.controls.depart_time.value, 'hours')
-      .format(this.DATE_DATA_FORMAT)
+      .format(this.DATE_DATA_FORMAT)*/
 
-    const Params = new HttpParams({
-      fromObject: {
-        fromcity: this.flightsearchForm.controls.fromcity.value,
-        tocity: this.flightsearchForm.controls.tocity.value,
-        //departDateTime: departDateTime
-      }
-    });
     this.router.navigate(['flight-search-results'],{ queryParams: { fromcity: this.flightsearchForm.controls.fromcity.value, 'tocity': this.flightsearchForm.controls.tocity.value } });
   }
 
   filterAirportGroup(){
-    this.airportcodes$ = this.http.get<AirportGroup[]>('/api/airports')
+    this.airportcodes$ = this.http.get<Airport[]>('/api/airports')
     .pipe(
       map(data => _.values(data)),
       shareReplay())

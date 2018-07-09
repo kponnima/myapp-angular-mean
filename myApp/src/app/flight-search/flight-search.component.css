@@ -1,4 +1,6 @@
-.example-large-box {
-    height: 80%;
-    width: 80%;
-  }
+.flight-search-grid-list{
+    height: 600px;
+}
+.flight-search-button{
+    width: 240px;
+}

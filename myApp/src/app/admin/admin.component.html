@@ -1,7 +1,9 @@
 <div class="container">
-  <mat-accordion>
+
+  <!-- USERS admin panel -->
+  <mat-accordion class="users-admin-accordion">
     <mat-expansion-panel>
-      <mat-expansion-panel-header>
+      <mat-expansion-panel-header class="users-admin-accordion-panel-title">
         <mat-panel-title>USERS</mat-panel-title>
         <mat-panel-description>VIEW, ADD OR MODIFY USERS</mat-panel-description>
       </mat-expansion-panel-header>
@@ -31,9 +33,12 @@
         </mat-list>
 
     </mat-expansion-panel>
-    <mat-expansion-panel (opened)="panelOpenState = true"
-                          (closed)="panelOpenState = false">
-      <mat-expansion-panel-header class="admin-accordion-panel-title">
+  </mat-accordion>
+
+  <!-- FLIGHTS admin panel -->
+    <mat-accordion class="flights-admin-accordion">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="flights-admin-accordion-panel-title">
         <mat-panel-title>FLIGHTS</mat-panel-title>
         <mat-panel-description>VIEW, CREATE OR MODIFY FLIGHTS</mat-panel-description>
       </mat-expansion-panel-header>
@@ -64,5 +69,77 @@
         </mat-list>
 
     </mat-expansion-panel>
+  </mat-accordion>
+
+    <!-- AIRPORTS admin panel -->
+    <mat-accordion class="airports-admin-accordion">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header class="airports-admin-accordion-panel-title">
+            <mat-panel-title>AIRPORTS</mat-panel-title>
+            <mat-panel-description>VIEW, CREATE OR MODIFY AIRPORTS</mat-panel-description>
+          </mat-expansion-panel-header>
+          
+            <mat-list>
+              <mat-divider></mat-divider>
+              <mat-list-item>
+                  <p mat-line>
+                      <span><strong>View Airports</strong></span>
+                  </p>
+                <button [routerLink]="['/airports']" routerLinkActive="active"><mat-icon matListIcon>list</mat-icon></button>
+              </mat-list-item>
+              <mat-divider></mat-divider>
+              <mat-list-item>
+                  <p mat-line>
+                      <span><strong>Create Airports</strong></span>
+                  </p>
+                <button [routerLink]="['/airport-create']" routerLinkActive="active"><mat-icon matListIcon>add</mat-icon></button>
+              </mat-list-item>
+              <mat-divider></mat-divider>
+              <mat-list-item>
+                  <p mat-line>
+                      <span><strong>Modify Airports</strong></span>
+                  </p>
+                <button [routerLink]="['/airport-edit']" routerLinkActive="active"><mat-icon matListIcon>create</mat-icon></button>
+              </mat-list-item>
+              <mat-divider></mat-divider>
+            </mat-list>
+    
+        </mat-expansion-panel>
+      </mat-accordion>
+
+  <!-- AIRCRAFT admin panel -->
+  <mat-accordion class="aircrafts-admin-accordion">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="aircrafts-admin-accordion-panel-title">
+        <mat-panel-title>AIRCRAFTS</mat-panel-title>
+        <mat-panel-description>VIEW, ADD OR MODIFY AIRCRAFTS</mat-panel-description>
+      </mat-expansion-panel-header>
+        <mat-list>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+              <p mat-line>
+                  <span><strong>View Aircrafts</strong></span>
+              </p>
+            <button [routerLink]="['/aircrafts']" routerLinkActive="active"><mat-icon matListIcon>list</mat-icon></button>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+              <p mat-line>
+                  <span><strong>Create Aircrafts</strong></span>
+              </p>
+            <button [routerLink]="['/aircraft-create']" routerLinkActive="active"><mat-icon matListIcon>add</mat-icon></button>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+              <p mat-line>
+                  <span><strong>Modify Aircrafts</strong></span>
+              </p>
+            <button [routerLink]="['/aircraft-edit']" routerLinkActive="active"><mat-icon matListIcon>create</mat-icon></button>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list>
+
+    </mat-expansion-panel>
+      
   </mat-accordion>
 </div>

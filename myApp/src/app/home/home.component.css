@@ -1,3 +1,9 @@
-.mat-grid-tile .mat-grid-tile-footer, .mat-grid-tile .mat-grid-tile-header {
-  background: #26a69a;
-}
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  color:white;
+  background-color: #673ab7;
+  }
+
+  ::ng-deep .mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus, .mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus, .mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus, .mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus{
+    color:white;
+    background-color: #673ab7;
+  }

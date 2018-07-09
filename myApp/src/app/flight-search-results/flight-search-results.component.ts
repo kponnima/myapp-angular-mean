@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, TemplateRef, ViewChild, Input} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Location } from '@angular/common';
 import { Overlay } from '@angular/cdk/overlay'
 import { CollectionViewer, DataSource, SelectionModel } from '@angular/cdk/collections';
 import { MatTable, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatPaginator, MatSort } from '@angular/material';
@@ -48,7 +49,7 @@ export class FlightSearchResultsComponent implements OnInit  {
   public shoppingCartItems$: Observable<Flight[]> = of([]);
   public shoppingCartItems: Flight[] = [];
 
-  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient, private dialog: MatDialog,
+  constructor(private router: Router, private route: ActivatedRoute, private location: Location, private http: HttpClient, private dialog: MatDialog,
     private cartService: CartService, private overlay: Overlay) {
       
     this.shoppingCartItems$ = this
@@ -158,6 +159,10 @@ export class FlightSearchResultsComponent implements OnInit  {
       return true;
     }
     return false;
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }

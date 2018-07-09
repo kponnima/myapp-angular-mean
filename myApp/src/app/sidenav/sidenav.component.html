@@ -1,0 +1,66 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+    <!-- Space for application title -->  
+    <h1 class="example-app-name">{{title}}</h1>
+    <!-- This fills the remaining space of the current row -->
+    <span *ngIf="isLoggedIn$ | async" class="example-fill-remaining-space">
+        <button mat-button [routerLink]="['/home']">Home</button>
+        <button mat-button [matMenuTriggerFor]="animals">Animal index</button>
+        <mat-menu #animals="matMenu">
+            <button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>
+            <button mat-menu-item [matMenuTriggerFor]="invertebrates">Invertebrates</button>
+        </mat-menu>
+          <mat-menu #vertebrates="matMenu">
+            <button mat-menu-item>Fishes</button>
+            <button mat-menu-item>Amphibians</button>
+            <button mat-menu-item>Reptiles</button>
+            <button mat-menu-item>Birds</button>
+            <button mat-menu-item>Mammals</button>
+          </mat-menu>
+          <mat-menu #invertebrates="matMenu">
+            <button mat-menu-item>Insects</button>
+            <button mat-menu-item>Molluscs</button>
+            <button mat-menu-item>Crustaceans</button>
+            <button mat-menu-item>Corals</button>
+            <button mat-menu-item>Arachnids</button>
+            <button mat-menu-item>Velvet worms</button>
+            <button mat-menu-item>Horseshoe crabs</button>
+          </mat-menu>
+    </span>
+    <!-- Space for additional text/links -->  
+    <span>
+        <a mat-raised-button *ngIf="isLoggedIn$ | async" color="primary" (click)="logout()"><mat-icon>exit_to_app</mat-icon></a>
+    </span>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-sidenav-container"
+                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+      <mat-nav-list *ngIf="isLoggedIn$ | async">
+        <a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+      <!-- MESSAGES -->
+      <app-message></app-message>
+
+      <!-- CONTENT -->
+      <router-outlet>
+
+          <div *ngIf="loading">
+              <mat-progress-bar mode="indeterminate" value = "50"></mat-progress-bar>
+          </div>
+  
+      </router-outlet>
+      
+      <!-- FOOTER -->
+      <app-footer></app-footer>
+
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+</div>

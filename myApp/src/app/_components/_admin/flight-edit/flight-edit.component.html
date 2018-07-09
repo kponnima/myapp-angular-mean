@@ -1,0 +1,99 @@
+<div class="button-row">
+  <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
+  <button mat-raised-button color="primary" matTooltip="View flight detail" (click)="flightDetails()">
+    <mat-icon>list</mat-icon>
+  </button>
+</div>
+
+<form [formGroup]="flightEditForm" (ngSubmit)="onFormSubmit(flightEditForm.value)">
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Flight No" formControlName="flight_no">
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('flight_no').valid && flightEditForm.get('flight_no').touched">Please enter flight no</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Origin" formControlName="origin">
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('origin').valid && flightEditForm.get('origin').touched">Please enter origin</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Destination" formControlName="destination">
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('destination').valid && flightEditForm.get('destination').touched">Please enter destination</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="Departure date" formControlName="depart_date"></textarea>
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('depart_date').valid && flightEditForm.get('depart_date').touched">Please enter departure date</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Arrival date" formControlName="arrival_date">
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('arrival_date').valid && flightEditForm.get('arrival_date').touched">Please enter arrival date</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Aircraft ID" formControlName="aircraft_id">
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('aircraft_id').valid && flightEditForm.get('aircraft_id').touched">Please enter aircraft id</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Price" formControlName="price">
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('price').valid && flightEditForm.get('price').touched">Please enter price</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Carrier" formControlName="carrier">
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('carrier').valid && flightEditForm.get('carrier').touched">Please enter carrier</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Duration" formControlName="duration">
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('duration').valid && flightEditForm.get('duration').touched">Please enter duration</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Miles" formControlName="miles">
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('miles').valid && flightEditForm.get('miles').touched">Please enter miles</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Inventory ID" formControlName="inventory_id">
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('inventory_id').valid && flightEditForm.get('inventory_id').touched">Please enter inventory id</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Equipment ID" formControlName="equipment_id">
+    <mat-error>
+      <span *ngIf="!flightEditForm.get('equipment_id').valid && flightEditForm.get('equipment_id').touched">Please enter equipment id</span>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="button-row">
+    <button type="submit" [disabled]="!flightEditForm.valid" mat-raised-button color="primary">
+      <mat-icon>save</mat-icon>
+    </button>
+  </div>
+</form>
