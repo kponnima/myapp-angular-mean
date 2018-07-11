@@ -7,3 +7,28 @@
     color:white;
     background-color: #673ab7;
   }
+
+.home-welcome-header-content {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  color: blue;
+}
+.home-admin-button{
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.home-search-content {
+  margin-bottom: 4px;
+}
+.home-trips-header-content {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  color: blue;
+}
+.home-trips-content {
+  margin-bottom: 12px;
+}
+.home-content-divider{
+  margin-top:12px;
+  margin-bottom:8px;
+}

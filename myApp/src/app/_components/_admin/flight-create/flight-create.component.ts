@@ -46,6 +46,10 @@ export class FlightCreateComponent implements OnInit, OnChanges {
     '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM', '11:00 PM'
   ];
 
+  occurences: string[] = [
+    'Once', 'Daily', 'Weekly'
+  ];
+
   constructor(private flightService: FlightService, private http: HttpClient, private router: Router, private formBuilder: FormBuilder,
     private location: Location, private service: MessageService, private snackBar: MatSnackBar) { }
 

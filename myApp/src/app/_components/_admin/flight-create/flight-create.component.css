@@ -24,3 +24,10 @@
   .flight-create-reset-button{
     margin-right: 24px;
   }
+
+  .example-radio-group {
+    margin: 48px;
+  }
+  .example-radio-button{
+    margin: 5px;
+  }

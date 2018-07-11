@@ -65,6 +65,7 @@ export class HomeComponent implements OnInit {
           //if user is ADMIN set the admin flag
           if (this.roleID === 1) {
             localStorage.setItem('isAdminUser', 'true');
+            this.isAdmin$ = this.userService.isAdmin;
           } else {
             localStorage.setItem('isAdminUser', 'false');
           }

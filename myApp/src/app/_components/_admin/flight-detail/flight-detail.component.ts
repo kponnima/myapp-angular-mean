@@ -22,7 +22,7 @@ export class FlightDetailComponent implements OnInit {
     private location: Location, private service: MessageService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.getFlightDetails(this.route.snapshot.params['id']);
+    this.getFlightDetails(this.route.snapshot.params['flight_no']);
   }
 
   getFlightDetails(flight_no) {

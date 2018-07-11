@@ -1,3 +1,65 @@
-<p>
-  airport-create works!
-</p>
+<div class="button-row">
+  <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
+  <button mat-raised-button color="primary" matTooltip="View list of airports" [routerLink]="['/airports']" routerLinkActive="active">
+    <mat-icon>list</mat-icon>
+  </button>
+</div>
+
+<div class="example-full-width" *ngIf="loading">
+  <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
+</div>
+
+<form class="example-form" [formGroup]="airportCreateForm" (ngSubmit)="airportCreate(airportCreateForm.value)">
+  <!-- AirportCode Column -->
+  <mat-form-field class="example-full-width">
+    <mat-label mdPrefix>Airport code</mat-label>
+    <input matInput #airportcode class="airportcreate-form-input-text" placeholder="Airport code" ng-minlength='3' ng-maxlength='3' #airportcode [value]="airportcode.value.toUpperCase()"
+    required formControlName="airportcode">
+    <mat-hint align="end">{{airportcode.value.length}} / 3</mat-hint>
+    <mat-error>
+      <span *ngIf="!airportCreateForm.get('airportcode').valid && airportCreateForm.get('airportcode').touched">Please enter airport code and must be 3 characters</span>
+    </mat-error>
+  </mat-form-field>
+  <!-- Airport name Column -->
+  <mat-form-field class="example-full-width">
+    <mat-label mdPrefix>Airport name</mat-label>
+    <input matInput class="airportcreate-form-input-text" placeholder="Airport name" #airportname [value]="airportname.value.toUpperCase()" required formControlName="airportname">
+    <mat-error>
+      <span *ngIf="!airportCreateForm.get('airportname').valid && airportCreateForm.get('airportname').touched">Please enter valid airportname</span>
+    </mat-error>
+  </mat-form-field>
+  <!-- City name Column -->
+  <mat-form-field class="example-full-width">
+    <mat-label mdPrefix>City name</mat-label>
+    <input matInput class="airportcreate-form-input-text" placeholder="City name" #cityname [value]="cityname.value.toUpperCase()" required formControlName="cityname">
+    <mat-error>
+      <span *ngIf="!airportCreateForm.get('cityname').valid && airportCreateForm.get('cityname').touched">Please enter valid city name</span>
+    </mat-error>
+  </mat-form-field>
+  <!-- Country code Column -->
+  <mat-form-field class="example-full-width">
+    <mat-label mdPrefix>Country code</mat-label>
+    <input matInput class="airportcreate-form-input-text" placeholder="Country code" #countrycode [value]="countrycode.value.toUpperCase()" required formControlName="countrycode">
+    <mat-error>
+      <span *ngIf="!airportCreateForm.get('countrycode').valid && airportCreateForm.get('countrycode').touched">Please enter valid country code</span>
+    </mat-error>
+  </mat-form-field>
+  <!-- Country name Column -->
+  <mat-form-field class="example-full-width">
+    <mat-label mdPrefix>Country name</mat-label>
+    <input matInput class="airportcreate-form-input-text" placeholder="Country name" #countryname [value]="countryname.value.toUpperCase()" required formControlName="countryname">
+    <mat-error>
+      <span *ngIf="!airportCreateForm.get('countryname').valid && airportCreateForm.get('countryname').touched">Please enter valid country name</span>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="button-row">
+    <button type="reset" class="airport-create-reset-button" mat-raised-button (click)="resetForm()" color="accent">
+      <mat-icon>clear</mat-icon>
+    </button>
+
+    <button type="submit" [disabled]="!airportCreateForm.valid" mat-raised-button color="primary">
+      <mat-icon>save</mat-icon>
+    </button>
+  </div>
+</form>

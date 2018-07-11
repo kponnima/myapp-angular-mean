@@ -18,6 +18,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   title = 'MYAPP';
   isLoggedIn$: Observable<boolean>;
   loading: boolean = true;
+  loggedin: boolean = false; //delete once the observable is fixed for refresh issue
 
   fillerNav = Array.from({ length: 5 }, (_, i) => `Nav Item ${i + 1}`);
 
@@ -37,6 +38,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
+    this.loggedin = localStorage.getItem('jwtToken') ? !null : null; //delete once the observable is fixed for refresh issue and update html with *ngIf="isLoggedIn$ | async"
 
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd)
@@ -55,23 +57,28 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+    this.loggedin = localStorage.getItem('jwtToken') ? !null : null; 
   }
 
   // Shows and hides the loading spinner during RouterEvent changes
   navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
       this.loading = true;
+      this.loggedin = localStorage.getItem('jwtToken') ? !null : null; 
     }
     if (event instanceof NavigationEnd) {
       setTimeout(() => { this.loading = false; }, 1000)
       // this.loading = false;
+      this.loggedin = localStorage.getItem('jwtToken') ? !null : null; 
     }
     // Set loading state to false in both of the below events to hide the spinner in case a request fails
     if (event instanceof NavigationCancel) {
       this.loading = false;
+      this.loggedin = localStorage.getItem('jwtToken') ? !null : null; 
     }
     if (event instanceof NavigationError) {
       this.loading = false;
+      this.loggedin = localStorage.getItem('jwtToken') ? !null : null; 
     }
   }
 

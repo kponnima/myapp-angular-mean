@@ -5,7 +5,7 @@
                     <mat-grid-tile>
                         <mat-form-field>
                             <mat-select placeholder="Type of travel" required formControlName="typeoftravel">
-                                <mat-option *ngFor="let typeoftravel of typeofTravel" [value]="typeoftravel.viewValue">
+                                <mat-option *ngFor="let typeoftravel of typeofTravel" autofocus [value]="typeoftravel.viewValue">
                                     {{ typeoftravel.viewValue }}
                                 </mat-option>
                             </mat-select>

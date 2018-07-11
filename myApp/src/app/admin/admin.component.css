@@ -10,6 +10,9 @@
 .flights-admin-accordion-panel-title{
     background:bisque;
 }
+.airports-admin-accordion{
+    margin: 16px;
+}
 .airports-admin-accordion-panel-title{
     background:khaki;
 }

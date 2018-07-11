@@ -1,3 +1,54 @@
-<p>
-  airport-edit works!
-</p>
+<div class="button-row">
+  <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
+  <button mat-raised-button color="primary" matTooltip="View airport detail" (click)="airportDetails()">
+    <mat-icon>list</mat-icon>
+  </button>
+</div>
+
+<div class="example-full-width" *ngIf="loading">
+  <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
+</div>
+
+<form [formGroup]="airportEditForm" (ngSubmit)="onFormSubmit(airportEditForm.value)">
+  <!-- Airportcode Column -->
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Airport Code" ng-minlength='3' ng-maxlength='3' formControlName="airportcode">
+    <mat-error>
+      <span *ngIf="!airportEditForm.get('airportcode').valid && airportEditForm.get('airportcode').touched">Please enter airport code</span>
+    </mat-error>
+  </mat-form-field>
+  <!-- Airportname Column -->
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Airport name" formControlName="airportname">
+    <mat-error>
+      <span *ngIf="!airportEditForm.get('airportname').valid && airportEditForm.get('airportname').touched">Please enter airport name</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="City name" formControlName="cityname">
+    <mat-error>
+      <span *ngIf="!airportEditForm.get('cityname').valid && airportEditForm.get('cityname').touched">Please enter cityname</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Country code" formControlName="countrycode">
+    <mat-error>
+      <span *ngIf="!airportEditForm.get('countrycode').valid && airportEditForm.get('countrycode').touched">Please enter country code</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="country name" formControlName="countryname">
+    <mat-error>
+      <span *ngIf="!airportEditForm.get('countryname').valid && airportEditForm.get('countryname').touched">Please enter country name</span>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="button-row">
+    <button type="submit" [disabled]="!airportEditForm.valid" mat-raised-button color="primary">
+      <mat-icon>save</mat-icon>
+    </button>
+  </div>
+</form>

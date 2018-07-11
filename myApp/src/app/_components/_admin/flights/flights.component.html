@@ -1,8 +1,10 @@
 <div class="button-row">
-  <a mat-raised-button color="primary" [routerLink]="['/flight-create']">
+  <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
+  <button mat-raised-button color="primary" matTooltip="Create Flight" [routerLink]="['/flight-create']">
     <mat-icon>add</mat-icon>
-  </a>
+  </button>
 </div>
+
 <div class="example-container mat-elevation-z8">
   <table mat-table #table [dataSource]="dataSource">
 

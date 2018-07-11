@@ -1,10 +1,19 @@
 <div class="containerX">
+
   <div class="container">
-    <a mat-raised-button *ngIf="isAdmin$ | async" color="accent" (click)="adminView()">
+    <h3 class="home-welcome-header-content">WELCOME | {{ loggedname | uppercase }} !!</h3>
+
+    <mat-divider class="home-content-divider"></mat-divider>
+  </div>
+
+  <div *ngIf="isAdmin$ | async" class="container">
+    <a mat-raised-button class="home-admin-button" color="accent" (click)="adminView()">
       <mat-icon>supervisor_account</mat-icon>
     </a>
-    <h1>WELCOME {{ loggedname | uppercase }} !!</h1>
+
+    <mat-divider class="home-content-divider"></mat-divider>
   </div>
+
   <div class="container">
     <mat-tab-group mat-stretch-tabs>
       <mat-tab>
@@ -42,10 +51,15 @@
   </div>
 
   <div class="container">
-    <h1>TRIPS</h1>
+    <mat-divider class="home-content-divider"></mat-divider>
+
+    <h3 class="home-trips-header-content">TRIPS</h3>
+
+    <mat-divider class="home-content-divider"></mat-divider>
   </div>
 
-  <div>
+  <div class="home-trips-content">
     <app-trips></app-trips>
   </div>
+
 </div>

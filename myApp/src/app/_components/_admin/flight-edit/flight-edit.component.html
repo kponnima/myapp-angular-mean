@@ -6,7 +6,7 @@
 </div>
 
 <form [formGroup]="flightEditForm" (ngSubmit)="onFormSubmit(flightEditForm.value)">
-
+<!-- Departure Column -->
   <mat-form-field class="example-full-width">
     <input matInput placeholder="Flight No" formControlName="flight_no">
     <mat-error>
@@ -29,7 +29,7 @@
   </mat-form-field>
 
   <mat-form-field class="example-full-width">
-    <textarea matInput placeholder="Departure date" formControlName="depart_date"></textarea>
+    <input matInput placeholder="Departure date" formControlName="depart_date">
     <mat-error>
       <span *ngIf="!flightEditForm.get('depart_date').valid && flightEditForm.get('depart_date').touched">Please enter departure date</span>
     </mat-error>

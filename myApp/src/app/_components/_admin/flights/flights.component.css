@@ -6,12 +6,15 @@
     overflow: auto;
     margin: 20px;
   }
-  
   .isbn-col {
     flex: 0 0 100px !important;
     white-space: unset !important;
   }
-  
   .button-row {
-    margin: 10px 0;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+  .back-button{
+    margin-right: 24px;
   }

@@ -1,3 +1,33 @@
-<p>
-  user-detail works!
-</p>
+<div class="button-row">
+    <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
+    <button mat-raised-button color="primary" matTooltip="View list of users" [routerLink]="['/users']" routerLinkActive="active">
+      <mat-icon>list</mat-icon>
+    </button>
+  </div>
+
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title><h2>USERNAME: {{user?.username}}</h2></mat-card-title>
+      <mat-card-subtitle>EMAIL: {{user?.email}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <dl>
+        <dt>PASSWORD:</dt>
+        <dd>{{user?.password}}</dd>
+        <dt>PHONE:</dt>
+        <dd>{{user?.phone }}</dd>
+        <dt>DATE CREATED:</dt>
+        <dd>{{user?.date_created | date : 'medium' }}</dd>
+        <dt>ROLE ID:</dt>
+        <dd>{{user?.role_id}}</dd>
+        <dt>PRIVILEGE ID:</dt>
+        <dd>{{user?.privilege_id}}</dd>
+        <dt>STATUS ID:</dt>
+        <dd>{{user?.status_id}}</dd>
+      </dl>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-raised-button *ngIf="user" color="primary" [routerLink]="['/user-edit', user?.username]" routerLinkActive="active"><mat-icon>edit</mat-icon></a>
+      <a mat-raised-button *ngIf="user" color="warn" (click)="deleteUser(user?.username)"><mat-icon>delete</mat-icon></a>
+    </mat-card-actions>
+  </mat-card>

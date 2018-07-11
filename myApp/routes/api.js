@@ -105,13 +105,13 @@ router.get('/users', passport.authenticate('jwt', { session: false }), function 
   var token = getToken(req.headers);
   if (token) {
     User.find({
-    }, function (err, airports) {
+    }, function (err, users) {
       if (err) return next(err);
-      if (!airports) {
+      if (!users) {
         res.status(401).send({ success: false, msg: 'Authentication failed!' });
       } else {
-        // get the list of airports
-        return res.json(airports);
+        // get the list of users
+        return res.json(users);
       }
     });
   } else {
@@ -136,12 +136,60 @@ router.post('/user-create', passport.authenticate('jwt', { session: false }), fu
     
     newUser.save(function (err) {
       if (err) {
-        return res.status(403).send({ success: false, msg: 'Save airport failed.' });
+        return res.status(403).send({ success: false, msg: 'Save user failed.' });
       }
-      res.json({ success: true, msg: 'Successful created new airport.' });
+      res.json({ success: true, msg: 'Successful created new user.' });
     });
   } else {
     return res.status(401).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+/* GET SINGLE USER BY USERNAME */
+router.get('/user-detail/:username', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    User.find(
+      { username: req.params.username }
+    , function (err, user) {
+        if (err) return next(err);
+        if (!user) {
+          res.status(403).send({ success: false, msg: 'Search failed. User not found.' });
+        } else {
+          return res.json(user);
+        }
+      });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+/* UDPATE USER */
+router.put('/user-edit/:username', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    User.findOneAndUpdate(
+      req.params.username, req.body
+    , function (err, user) {
+      if (err) return next(err);
+      res.json(user);
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+/* DELETE USER */
+router.delete('/user/:username', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);  
+  if (token) {
+    User.findOneAndRemove(
+      req.params.username, function (err) {
+      if (err) return next(err);
+      res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
 });
 
@@ -233,9 +281,9 @@ router.delete('/flight/:flight_no', passport.authenticate('jwt', { session: fals
   console.log(req.params.flight_no);
   if (token) {
     Flight.findOneAndRemove(
-      req.params.flight_no, function (err, flight) {
+      req.params.flight_no, function (err) {
       if (err) return next(err);
-      res.json(flight);
+      res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
     });
   } else {
     return res.status(403).send({ success: false, msg: 'Unauthorized.' });
@@ -267,7 +315,7 @@ router.post('/airport-create', passport.authenticate('jwt', { session: false }),
   if (token) {
     var newAirport = new Airport({
       airportcode: req.body.airportcode,
-      origin: req.body.airportname,
+      airportname: req.body.airportname,
       cityname: req.body.cityname,
       countrycode: req.body.countrycode,
       countryname: req.body.countryname
@@ -278,6 +326,55 @@ router.post('/airport-create', passport.authenticate('jwt', { session: false }),
         return res.json({ success: false, msg: 'Save airport failed.' });
       }
       res.json({ success: true, msg: 'Successful created new airport.' });
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+/* GET SINGLE AIRPORT BY ID */
+router.get('/airport-detail/:airportcode', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Airport.find(
+      { airportcode: req.params.airportcode }
+    , function (err, airport) {
+        if (err) return next(err);
+        if (!airport) {
+          res.status(403).send({ success: false, msg: 'Search failed. Airport not found.' });
+        } else {
+          return res.json(airport);
+        }
+      });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+/* UDPATE AIRPORT */
+router.put('/airport-edit/:airportcode', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Airport.findOneAndUpdate(
+      req.params.airportcode, req.body
+    , function (err, airport) {
+      if (err) return next(err);
+      res.json(airport);
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+/* DELETE AIRPORT */
+router.delete('/airport/:airportcode', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  console.log(req.params.airportcode);
+  if (token) {
+    Airport.findOneAndRemove(
+      req.params.airportcode, function (err) {
+      if (err) return next(err);
+      res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
     });
   } else {
     return res.status(403).send({ success: false, msg: 'Unauthorized.' });
@@ -308,8 +405,9 @@ router.post('/aircraft-create', passport.authenticate('jwt', { session: false })
   var token = getToken(req.headers);
   if (token) {
     var newAircraft = new Aircraft({
+      aircraft_no: req.body.aircraft_no,
       aircraft_id: req.body.aircraft_id,
-      aircraft_name: req.body.aircraft_name,
+      aircraftname: req.body.aircraftname,
       carrier: req.body.carrier,
       inventory_id: req.body.inventory_id,
       equipment_Id: req.body.equipment_Id
@@ -326,6 +424,56 @@ router.post('/aircraft-create', passport.authenticate('jwt', { session: false })
   }
 });
 
+/* GET SINGLE AIRCRAFT BY ID */
+router.get('/aircraft-detail/:aircraft_no', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Aircraft.find(
+      { aircraft_no: req.params.aircraft_no }
+    , function (err, aircraft) {
+        if (err) return next(err);
+        if (!aircraft) {
+          res.status(403).send({ success: false, msg: 'Search failed. Aircraft not found.' });
+        } else {
+          return res.json(aircraft);
+        }
+      });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+/* UDPATE FLIGHT */
+router.put('/aircraft-edit/:aircraft_no', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Aircraft.findOneAndUpdate(
+      req.params.aircraft_no, req.body
+    , function (err, aircraft) {
+      if (err) return next(err);
+      res.json(aircraft);
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+/* DELETE FLIGHT */
+router.delete('/aircraft/:aircraft_no', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  console.log(req.params.aircraft_no);
+  if (token) {
+    Aircraft.findOneAndRemove(
+      req.params.aircraft_no, function (err) {
+      if (err) return next(err);
+      res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+//********************************************** END OF ADMIN ********************************************************************************************************** */
 
 /* GET DATA FOR Flight-search */
 router.get('/flight-search', passport.authenticate('jwt', { session: false }), function (req, res) {

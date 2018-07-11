@@ -4,7 +4,7 @@
     <!-- Space for application title -->  
     <h1 class="example-app-name">{{title}}</h1>
     <!-- This fills the remaining space of the current row -->
-    <span *ngIf="isLoggedIn$ | async" class="example-fill-remaining-space">
+    <span *ngIf="loggedin" class="example-fill-remaining-space">
         <button mat-button [routerLink]="['/home']">Home</button>
         <button mat-button [matMenuTriggerFor]="animals">Animal index</button>
         <mat-menu #animals="matMenu">
@@ -30,7 +30,7 @@
     </span>
     <!-- Space for additional text/links -->  
     <span>
-        <a mat-raised-button *ngIf="isLoggedIn$ | async" color="primary" (click)="logout()"><mat-icon>exit_to_app</mat-icon></a>
+        <a mat-raised-button *ngIf="loggedin" color="primary" (click)="logout()"><mat-icon>exit_to_app</mat-icon></a>
     </span>
   </mat-toolbar>
 
@@ -38,7 +38,7 @@
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
                  [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-      <mat-nav-list *ngIf="isLoggedIn$ | async">
+      <mat-nav-list *ngIf="loggedin">
         <a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>
       </mat-nav-list>
     </mat-sidenav>

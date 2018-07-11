@@ -1,10 +1,10 @@
 <div class="button-row">
     <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
-    <button mat-raised-button color="primary" matTooltip="View list of flights" [routerLink]="['/flights']">
+    <button mat-raised-button color="primary" matTooltip="View list of flights" [routerLink]="['/flights']" routerLinkActive="active">
       <mat-icon>list</mat-icon>
     </button>
   </div>
-
+  
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title><h2>FLIGHT NO:   {{flight?.flight_no}}</h2></mat-card-title>
@@ -35,7 +35,7 @@
       </dl>
     </mat-card-content>
     <mat-card-actions>
-      <a mat-raised-button *ngIf="flight" color="primary" [routerLink]="['/flight-edit', flight?.flight_no]"><mat-icon>edit</mat-icon></a>
+      <a mat-raised-button *ngIf="flight" color="primary" [routerLink]="['/flight-edit', flight?.flight_no]" routerLinkActive="active"><mat-icon>edit</mat-icon></a>
       <a mat-raised-button *ngIf="flight" color="warn" (click)="deleteFlight(flight?.flight_no)"><mat-icon>delete</mat-icon></a>
     </mat-card-actions>
   </mat-card>

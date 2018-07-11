@@ -19,18 +19,22 @@ export class UserService {
   }
 
   private baseUrl: string = 'api/user';  // web api end point
+  private usersFetchUrl: string = 'api/users';  // web api end point
+  private userCreateUrl: string = 'api/user-create';  // web api end point
+  private userDetailUrl: string = 'api/user-detail';  // web api end point
+  private userEditUrl: string = 'api/user-edit';  // web api end point
   //baseUrl: string = 'http://localhost:4200/api';
 
-  private delayMs = 500;
+  private delayMs = 10000;
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl)
+    return this.http.get<User[]>(this.usersFetchUrl)
     .pipe(delay(this.delayMs)); // simulate latency with delay;;
   }
 
   get isAdmin() {
     var value = JSON.parse(localStorage.getItem('isAdminUser'));
-    console.log('Admin value : ' + value);
+    //console.log('Admin value : ' + value);
     if(value){
       this.Admin.next(true);
     }else{
@@ -40,23 +44,33 @@ export class UserService {
   }
 
   getUserById(id: number): Observable<User> {
-    return this.http.get<User>(this.baseUrl + '/' + id);
+    return this.http.get<User>(this.baseUrl + '/' + id)
+    .pipe(delay(this.delayMs));
   }
 
-  getUserByUsername(username: any): Observable<User> {
-    return this.http.get<User>(this.baseUrl + '/' + username)    
+  getUserByUsername(username: string): Observable<User> {
+    return this.http.get<User>(this.baseUrl + '/' + username)
+    .pipe(delay(this.delayMs));
+  }
+
+  getUserDetailByUsername(username: string): Observable<User> {
+    return this.http.get<User>(this.userDetailUrl + '/' + username)
+    .pipe(delay(this.delayMs));
   }
 
   createUser(user: User) {
-    return this.http.post(this.baseUrl, user);
+    return this.http.post(this.userCreateUrl, user)
+    .pipe(delay(this.delayMs));
   }
 
   updateUser(user: User) {
-    return this.http.put(this.baseUrl + '/' + user._id, user);
+    return this.http.put(this.userEditUrl + '/' + user.username, user)
+    .pipe(delay(this.delayMs));
   }
 
-  deleteUser(id: number) {
-    return this.http.delete(this.baseUrl + '/' + id);
+  deleteUser(username: string) {
+    return this.http.delete(this.baseUrl + '/' + username)
+    .pipe(delay(this.delayMs));
   }
 
   public addLoggedInUser(user: User) {

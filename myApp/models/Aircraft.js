@@ -3,17 +3,22 @@ var Schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 
 var AircraftSchema = new Schema({
+  aircraft_no: {
+    type: Number,
+    required: true,
+    unique: true
+  },
   aircraft_id: {
     type: String,
-    required: false
+    required: true
   },
-  aircraft_name: {
+  aircraftname: {
     type: String,
     required: false
   },
   carrier: {
     type: String,
-    required: false
+    required: true
   },
   inventory_id: {
     type: Number,

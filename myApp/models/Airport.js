@@ -5,6 +5,7 @@ var autoIncrement = require('mongoose-auto-increment');
 var AirportSchema = new Schema({
     airportcode: {
         type: String,
+        unique:true,
         required: true
     },
     airportname: {
@@ -17,7 +18,7 @@ var AirportSchema = new Schema({
     },
     countrycode: {
         type: String,
-        required: false
+        required: true
     },
     countryname: {
         type: String,
@@ -26,5 +27,8 @@ var AirportSchema = new Schema({
 },
     { collection: 'airports' });
 
-AirportSchema.plugin(autoIncrement.plugin, 'Airport');
+AirportSchema.plugin(autoIncrement.plugin, {
+    model:'Airport',
+    startAt: 1
+});
 module.exports = mongoose.model('Airport', AirportSchema);

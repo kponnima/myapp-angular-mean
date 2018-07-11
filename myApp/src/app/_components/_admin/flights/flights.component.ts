@@ -18,6 +18,7 @@ import { FlightService } from '../../../_services/flight.service';
   styleUrls: ['./flights.component.css']
 })
 export class FlightsComponent implements OnInit {
+  private loading: boolean = true;
   @Input() flight: Flight;
   flights: any;
   displayedColumns = ['flight_no', 'origin', 'destination', 'departure', 'arrival'];

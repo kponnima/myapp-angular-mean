@@ -165,6 +165,26 @@ const appRoutes: Routes = [
     component: FlightTripConfirmationComponent,
     data: { title: 'Flight Trip Confirmation' }
   },
+    {
+    path: 'users',
+    component: UsersComponent,
+    data: { title: 'Users List' }
+  },
+  {
+    path: 'user-create',
+    component: UserCreateComponent,
+    data: { title: 'Create User' }
+  },
+  {
+    path: 'user-edit/:username',
+    component: UserEditComponent,
+    data: { title: 'Edit User' }
+  },
+  {
+    path: 'user-detail/:username',
+    component: UserDetailComponent,
+    data: { title: 'User Details' }
+  },
   {
     path: 'flights',
     component: FlightsComponent,
@@ -176,34 +196,14 @@ const appRoutes: Routes = [
     data: { title: 'Create Flight' }
   },
   {
-    path: 'flight-edit/:id',
+    path: 'flight-edit/:flight_no',
     component: FlightEditComponent,
     data: { title: 'Edit Flight' }
   },
   {
-    path: 'flight-detail/:id',
+    path: 'flight-detail/:flight_no',
     component: FlightDetailComponent,
     data: { title: 'Flight Details' }
-  },
-  {
-    path: 'users',
-    component: UsersComponent,
-    data: { title: 'Users List' }
-  },
-  {
-    path: 'user-create',
-    component: UserCreateComponent,
-    data: { title: 'Create User' }
-  },
-  {
-    path: 'user-edit/:id',
-    component: UserEditComponent,
-    data: { title: 'Edit User' }
-  },
-  {
-    path: 'user-detail/:id',
-    component: UserDetailComponent,
-    data: { title: 'User Details' }
   },
   {
     path: 'airports',
@@ -216,12 +216,12 @@ const appRoutes: Routes = [
     data: { title: 'Create Airport' }
   },
   {
-    path: 'airport-edit/:id',
+    path: 'airport-edit/:airportcode',
     component: AirportEditComponent,
     data: { title: 'Edit Airport' }
   },
   {
-    path: 'airport-detail/:id',
+    path: 'airport-detail/:airportcode',
     component: AirportDetailComponent,
     data: { title: 'Airport Details' }
   },
@@ -236,12 +236,12 @@ const appRoutes: Routes = [
     data: { title: 'Create Aircraft' }
   },
   {
-    path: 'aircraft-edit/:id',
+    path: 'aircraft-edit/:aircraft_no',
     component: AircraftEditComponent,
     data: { title: 'Edit Aircraft' }
   },
   {
-    path: 'aircraft-detail/:id',
+    path: 'aircraft-detail/:aircraft_no',
     component: AircraftDetailComponent,
     data: { title: 'Aircraft Details' }
   },

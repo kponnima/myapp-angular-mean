@@ -4,7 +4,14 @@
     <mat-icon>list</mat-icon>
   </button>
 </div>
+
 <form class="example-form" [formGroup]="flightCreateForm" (ngSubmit)="flightCreate(flightCreateForm.value)">
+
+  <mat-radio-group class="example-radio-group">
+    <mat-radio-button class="example-radio-button" *ngFor="let occurence of occurences" [value]="occurence">
+        {{ occurence }}
+    </mat-radio-button>
+  </mat-radio-group>
 
   <mat-form-field class="example-full-width">
     <input type="number" matInput placeholder="Flight No" required formControlName="flight_no">
@@ -14,35 +21,35 @@
   </mat-form-field>
 
   <mat-form-field class="example-full-width">
-      <input type="text" matInput placeholder="Origin" formControlName="origin" required [matAutocomplete]="autoGroup" matTooltip="Choose origin city"
-        [matTooltipPosition]="position.value" />
-      <mat-autocomplete #autoGroup="matAutocomplete">
-        <mat-optgroup *ngIf="airportcodes$ | async as airportcodes else noData">
-          <mat-option *ngFor="let airportcode of airportcodes" [value]="airportcode.airportcode">
-            {{ airportcode.airportcode }} - {{ airportcode.airportname }}
-          </mat-option>
-          <ng-template #noData>No Data Available</ng-template>
-        </mat-optgroup>
-      </mat-autocomplete>
-      <mat-error>
-        <span *ngIf="!flightCreateForm.get('origin').valid && flightCreateForm.get('origin').touched">Please select origin</span>
-      </mat-error>
-    </mat-form-field>
-  
-    <mat-form-field class="example-full-width">
-      <input type="text" matInput placeholder="Destination" formControlName="destination" required [matAutocomplete]="autoGroup"
-        matTooltip="Choose destination city" [matTooltipPosition]="position.value" />
-      <mat-autocomplete #autoGroup="matAutocomplete">
-        <mat-optgroup *ngIf="airportcodes$ | async as airportcodes">
-          <mat-option *ngFor="let airportcode of airportcodes" [value]="airportcode.airportcode">
-            {{ airportcode.airportcode }} - {{ airportcode.airportname }}
-          </mat-option>
-        </mat-optgroup>
-      </mat-autocomplete>
-      <mat-error>
-        <span *ngIf="!flightCreateForm.get('destination').valid && flightCreateForm.get('destination').touched">Please select destination</span>
-      </mat-error>
-    </mat-form-field>
+    <input type="text" matInput placeholder="Origin" formControlName="origin" required [matAutocomplete]="autoGroup" matTooltip="Choose origin city"
+      [matTooltipPosition]="position.value" />
+    <mat-autocomplete #autoGroup="matAutocomplete">
+      <mat-optgroup *ngIf="airportcodes$ | async as airportcodes else noData">
+        <mat-option *ngFor="let airportcode of airportcodes" [value]="airportcode.airportcode">
+          {{ airportcode.airportcode }} - {{ airportcode.airportname }}
+        </mat-option>
+        <ng-template #noData>No Data Available</ng-template>
+      </mat-optgroup>
+    </mat-autocomplete>
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('origin').valid && flightCreateForm.get('origin').touched">Please select origin</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input type="text" matInput placeholder="Destination" formControlName="destination" required [matAutocomplete]="autoGroup"
+      matTooltip="Choose destination city" [matTooltipPosition]="position.value" />
+    <mat-autocomplete #autoGroup="matAutocomplete">
+      <mat-optgroup *ngIf="airportcodes$ | async as airportcodes">
+        <mat-option *ngFor="let airportcode of airportcodes" [value]="airportcode.airportcode">
+          {{ airportcode.airportcode }} - {{ airportcode.airportname }}
+        </mat-option>
+      </mat-optgroup>
+    </mat-autocomplete>
+    <mat-error>
+      <span *ngIf="!flightCreateForm.get('destination').valid && flightCreateForm.get('destination').touched">Please select destination</span>
+    </mat-error>
+  </mat-form-field>
 
   <mat-form-field class="example-full-width">
     <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dp1" required placeholder="Depart" formControlName="depart_date">
@@ -119,7 +126,7 @@
 
   <div class="button-row">
     <button type="reset" class="flight-create-reset-button" mat-raised-button (click)="resetForm()" color="accent">
-        <mat-icon>clear</mat-icon>
+      <mat-icon>clear</mat-icon>
     </button>
 
     <button type="submit" [disabled]="!flightCreateForm.valid" mat-raised-button color="primary">

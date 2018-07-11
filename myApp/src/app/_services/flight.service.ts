@@ -19,7 +19,7 @@ export class FlightService {
   private flightDeleteUrl: string = 'api/flight';  // web api end point
     //baseUrl: string = 'http://localhost:4200/api/flights';
 
-  private delayMs = 500;
+  private delayMs = 10000;
 
   getFlights() {
     return this.http.get<Flight[]>(this.baseUrl)
@@ -27,18 +27,22 @@ export class FlightService {
   }
 
   getFlightById(flight_no: number) {
-    return this.http.get<Flight>(this.flightDetailUrl + '/' + flight_no);
+    return this.http.get<Flight>(this.flightDetailUrl + '/' + flight_no)
+    .pipe(delay(this.delayMs));
   }
 
   createFlight(flight: Flight) {
-    return this.http.post(this.flightCreateUrl, flight);
+    return this.http.post(this.flightCreateUrl, flight)
+    .pipe(delay(this.delayMs));
   }
 
   updateFlight(flight: Flight) {
-    return this.http.put(this.flightEditUrl + '/' + flight.flight_no, flight);
+    return this.http.put(this.flightEditUrl + '/' + flight.flight_no, flight)
+    .pipe(delay(this.delayMs));
   }
 
   deleteFlight(flight_no: number) {
-    return this.http.delete(this.flightDeleteUrl + '/' + flight_no);
+    return this.http.delete(this.flightDeleteUrl + '/' + flight_no)
+    .pipe(delay(this.delayMs));
   }
 }

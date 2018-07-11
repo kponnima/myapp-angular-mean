@@ -16,9 +16,10 @@ import { MessageService } from '../../../_helpers/message.service';
   styleUrls: ['./flight-edit.component.css']
 })
 export class FlightEditComponent implements OnInit {
+  private loading: boolean = true;
   flightEditForm: FormGroup;
   flightno: number;
-  id: string = '';
+
   flight_no: number;
   origin: string = '';
   destination: string = '';
@@ -36,7 +37,7 @@ export class FlightEditComponent implements OnInit {
     private location: Location, private service: MessageService, private snackBar: MatSnackBar, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.flightno = this.route.snapshot.params['id'];
+    this.flightno = this.route.snapshot.params['flight_no'];
 
     this.flightEditForm = this.formBuilder.group({
       'flight_no': [null, Validators.compose([Validators.minLength(1), Validators.required])],
@@ -49,8 +50,8 @@ export class FlightEditComponent implements OnInit {
       'aircraft_id': [null, Validators.required],
       'price': [null, Validators.required],
       'carrier': [null, Validators.required],
-      'duration': [Number(8400000), Validators.nullValidator],
-      'miles': [Number(868), Validators.nullValidator],
+      'duration': [null, Validators.nullValidator],
+      'miles': [null, Validators.nullValidator],
       'inventory_id': [null, Validators.required],
       'equipment_id': [null, Validators.required]
     });
@@ -85,8 +86,8 @@ export class FlightEditComponent implements OnInit {
       //this.http.put('/api/flight-edit', form)
       .subscribe(res => {
         const upadtedflight_no = res['flight_no'];
-        this.sendMessage('Flight no ' + upadtedflight_no + 'updated successfully! ');
-        this.router.navigate(['/flight-details', upadtedflight_no]);
+        this.sendMessage('Flight no [ ' + upadtedflight_no + ' ] updated successfully! ');
+        this.router.navigate(['/flight-detail', upadtedflight_no]);
       }, (err) => {
         console.log(err);
       }
@@ -94,7 +95,7 @@ export class FlightEditComponent implements OnInit {
   }
 
   flightDetails() {
-    this.router.navigate(['/flight-details', this.flightno]);
+    this.router.navigate(['/flight-detail', this.flightno]);
   }
 
   goBack(): void {
