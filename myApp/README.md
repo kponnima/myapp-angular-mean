@@ -16,6 +16,10 @@ Angular App
 	- Stores JWT in order to maintain user's session
 	- Checks the validity of JWT when displaying protected views
 
+![Alt text](https://github.com/kponnima/myapp-angular-mean/screenshots/loading.jpg?raw=true "Loading Screen")
+![Alt text](https://github.com/kponnima/myapp-angular-mean/screenshots/login.jpg?raw=true "Login Screen")
+![Alt text](https://github.com/kponnima/myapp-angular-mean/screenshots/home.jpg?raw=true "Home Screen")
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
