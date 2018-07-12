@@ -2,6 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
 
+## Key components
 MongoDB 
 	- Stores user data
 	- Sends user data back when requested
@@ -16,9 +17,26 @@ Angular App
 	- Stores JWT in order to maintain user's session
 	- Checks the validity of JWT when displaying protected views
 
-![Alt text](https://github.com/kponnima/myapp-angular-mean/screenshots/loading.jpg?raw=true "Loading Screen")
-![Alt text](https://github.com/kponnima/myapp-angular-mean/screenshots/login.jpg?raw=true "Login Screen")
-![Alt text](https://github.com/kponnima/myapp-angular-mean/screenshots/home.jpg?raw=true "Home Screen")
+## Installation
+`Development Platform - VS Code`
+1] Clone this repository and import it to VS Code [repository](https://github.com/kponnima/myapp-angular-mean.git)
+
+2] MongoDB -Install [MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/) and start server
+
+3] Configure your databse configuration in `database.js` under `\config`
+
+4] Start `NodeJS/Express/Moongoose` connection server using `start-server` npm-script
+
+5] `Proxy Serve` Angular app using `serve-proxy` npm-script
+
+6] Browser should automatically serve the website on `http://localhost:4200/`.  Else fire up a browser and launch the app using the url.
+
+### Startup Screen
+![Alt text](/screenshots/loading.jpg?raw=true "Loading Screen")
+### Login Screen
+![Alt text](/screenshots/login.jpg?raw=true "Login Screen")
+### Home Screen
+![Alt text](/screenshots/home.jpg?raw=true "Home Screen")
 
 ## Development server
 
