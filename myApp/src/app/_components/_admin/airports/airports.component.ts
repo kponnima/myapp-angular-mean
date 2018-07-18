@@ -40,16 +40,6 @@ export class AirportsComponent implements OnInit {
       });
   }
 
-  deleteFlight(id) {
-    this.http.delete(id)
-      .subscribe(res => {
-        this.router.navigate(['/airports']);
-      }, (err) => {
-        console.log(err);
-      }
-      );
-  }
-
   goBack(): void {
     this.location.back();
   }

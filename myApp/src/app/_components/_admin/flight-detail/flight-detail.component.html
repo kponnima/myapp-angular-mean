@@ -1,41 +1,51 @@
 <div class="button-row">
-    <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
-    <button mat-raised-button color="primary" matTooltip="View list of flights" [routerLink]="['/flights']" routerLinkActive="active">
-      <mat-icon>list</mat-icon>
-    </button>
+  <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
+  <button mat-raised-button color="primary" matTooltip="View list of flights" [routerLink]="['/flights']" routerLinkActive="active">
+    <mat-icon>list</mat-icon>
+  </button>
+</div>
+
+<mat-card class="example-card">
+  <div *ngIf="loading">
+    <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
   </div>
-  
-  <mat-card class="example-card">
-    <mat-card-header>
-      <mat-card-title><h2>FLIGHT NO:   {{flight?.flight_no}}</h2></mat-card-title>
-      <mat-card-subtitle>ORIGIN: {{flight?.origin}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <dl>
-        <dt>DESTINATION:</dt>
-        <dd>{{flight?.destination}}</dd>
-        <dt>DEPARTURE DATETIME:</dt>
-        <dd>{{flight?.departuredatetime | date : 'medium' }}</dd>
-        <dt>ARRIVAL DATETIME:</dt>
-        <dd>{{flight?.arrivaldatetime | date : 'medium' }}</dd>
-        <dt>AIRCRAFT ID:</dt>
-        <dd>{{flight?.aircraft_id}}</dd>
-        <dt>PRICE:</dt>
-        <dd>{{flight?.price}}</dd>
-        <dt>CARRIER:</dt>
-        <dd>{{flight?.carrier}}</dd>
-        <dt>DURATION:</dt>
-        <dd>{{flight?.duration}}</dd>
-        <dt>MILES:</dt>
-        <dd>{{flight?.miles}}</dd>
-        <dt>INVENTORY ID:</dt>
-        <dd>{{flight?.inventory_id}}</dd>
-        <dt>EQUIPMENT ID:</dt>
-        <dd>{{flight?.equipment_id}}</dd>
-      </dl>
-    </mat-card-content>
-    <mat-card-actions>
-      <a mat-raised-button *ngIf="flight" color="primary" [routerLink]="['/flight-edit', flight?.flight_no]" routerLinkActive="active"><mat-icon>edit</mat-icon></a>
-      <a mat-raised-button *ngIf="flight" color="warn" (click)="deleteFlight(flight?.flight_no)"><mat-icon>delete</mat-icon></a>
-    </mat-card-actions>
-  </mat-card>
+
+  <mat-card-header>
+    <mat-card-title>
+      <h2>FLIGHT NO: {{flight?.flight_no}}</h2>
+    </mat-card-title>
+    <mat-card-subtitle>ORIGIN: {{flight?.origin}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <dl>
+      <dt>DESTINATION:</dt>
+      <dd>{{flight?.destination}}</dd>
+      <dt>DEPARTURE DATETIME:</dt>
+      <dd>{{flight?.departuredatetime | date : 'medium' }}</dd>
+      <dt>ARRIVAL DATETIME:</dt>
+      <dd>{{flight?.arrivaldatetime | date : 'medium' }}</dd>
+      <dt>AIRCRAFT ID:</dt>
+      <dd>{{flight?.aircraft_id}}</dd>
+      <dt>PRICE:</dt>
+      <dd>{{flight?.price}}</dd>
+      <dt>CARRIER:</dt>
+      <dd>{{flight?.carrier}}</dd>
+      <dt>DURATION:</dt>
+      <dd>{{flight?.duration}}</dd>
+      <dt>MILES:</dt>
+      <dd>{{flight?.miles}}</dd>
+      <dt>INVENTORY ID:</dt>
+      <dd>{{flight?.inventory_id}}</dd>
+      <dt>EQUIPMENT ID:</dt>
+      <dd>{{flight?.equipment_id}}</dd>
+    </dl>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-raised-button *ngIf="flight" color="primary" [routerLink]="['/flight-edit', flight?.flight_no]" routerLinkActive="active">
+      <mat-icon>edit</mat-icon>
+    </a>
+    <a mat-raised-button *ngIf="flight" color="warn" (click)="deleteFlight(flight?.flight_no)">
+      <mat-icon>delete</mat-icon>
+    </a>
+  </mat-card-actions>
+</mat-card>

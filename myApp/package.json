@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
+    "version": "ng version",
+    "update": "ng update",
     "start": "npm start",
     "start-server": "node ./bin/www",
     "serve": "ng serve",
@@ -16,6 +18,11 @@
     "lint": "ng lint",
     "tslint": "tslint ./src/**/*.ts -t verbose",
     "e2e": "ng e2e",
+    "e2e-noupdate": "ng e2e --no-webdriver-update",
+    "driver-update": "webdriver-manager update",
+    "driver-update-noSSL": "webdriver-manager update --ignore_ssl",
+    "driver-version": "webdriver-manager status",
+    "driver-clean": "webdriver-manager clean",
     "mongo-win": "md mongo-db & \"C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe\" --auth --port 27017 --dbpath mongo-db",
     "mongo-win-noauth": "md mongo-db & \"C:/Program Files/MongoDB/Server/3.6/bin/mongod.exe\" --port 27017 --dbpath mongo-db"
   },

@@ -1,15 +1,12 @@
-.mat-table {
-    width: 98%;
+.flight-trip-options-header-card {
+    margin-bottom: 24px;
 }
-tr.mat-header-row {
-    background:#ddd;
+.flight-trip-options-stepper-container {
+    margin-bottom: 24px;
 }
-tr.mat-row {
-    background:#eee;
+.travelerform-back-button {
+    margin-right: 16px;
 }
-.payment-success-message{
-    color:blueviolet;
-}
-.payment-processing-message{
-    color: red;
+.travelerform-next-button {
+    margin-top: 16px;
 }

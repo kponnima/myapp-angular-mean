@@ -1,4 +1,3 @@
-<div flex fxLayout="row" fxLayout.lt-sm="column">
   <mat-toolbar color="primary">
     <!-- Space for application title -->  
     <span>{{title}}</span>
@@ -32,4 +31,3 @@
         <a mat-raised-button *ngIf="isLoggedIn$ | async" color="primary" (click)="logout()"><mat-icon>exit_to_app</mat-icon></a>
     </span>
   </mat-toolbar>
-</div>

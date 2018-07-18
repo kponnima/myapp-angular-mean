@@ -3,7 +3,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 import { Observable, BehaviorSubject, Subscription, of, Subject } from 'rxjs';
 import { tap, catchError, map, takeWhile, startWith } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
 import { User } from '../_models/user';
@@ -16,6 +16,8 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  private loading: boolean = true;
+  private fragment: string;
   @Input() user: User;
   loggedInSub: Subscription;
   loggedname: any;
@@ -41,6 +43,18 @@ export class HomeComponent implements OnInit {
       loggedIn => loggedIn ? true : null
     );*/
 
+    this.route.fragment.subscribe(fragment => { this.fragment = fragment; });
+
+    this.router.events.subscribe(s => {
+      if (s instanceof NavigationEnd) {
+        const tree = this.router.parseUrl(this.router.url);
+        if (tree.fragment) {
+          document.querySelector('#' + tree.fragment).scrollIntoView();
+          const ourelement = document.querySelector("#" + tree.fragment);
+        }
+      }
+    });
+
     this.loggedInUserItems$ = this.authService.getLoggedInUsers();
     this.loggedInUserItems$.subscribe(_ => {
       this.loggedInUserItems = _;
@@ -53,6 +67,7 @@ export class HomeComponent implements OnInit {
   }
 
   getUserProfile() {
+    this.loading = true;
     if (localStorage.getItem('username') !== null || localStorage.getItem('username') !== undefined) {
       if (this.loggedname === undefined) {
         this.loggedname = localStorage.getItem('username');
@@ -69,6 +84,7 @@ export class HomeComponent implements OnInit {
           } else {
             localStorage.setItem('isAdminUser', 'false');
           }
+          this.loading = false;
         }, (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
             console.log("Client-side error occured.");
@@ -77,6 +93,7 @@ export class HomeComponent implements OnInit {
             console.log("Server-side error occured.");
             console.log(err);
           }
+          this.loading = false;
           this.sendMessage(err);
         }
         );

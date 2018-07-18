@@ -43,7 +43,11 @@ var PaymentSchema = new Schema({
     required: false
   },
   statement_description: {
-    type: Number,
+    type: String,
+    required: false
+  },
+  status: {
+    type: String,
     required: false
   }
 },

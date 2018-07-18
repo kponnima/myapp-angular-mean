@@ -3,8 +3,8 @@
             <mat-card-content>
                 <mat-grid-list [cols]="cols | async" rowHeight="fit" [gutterSize]="1" class= "flight-search-grid-list">
                     <mat-grid-tile>
-                        <mat-form-field>
-                            <mat-select placeholder="Type of travel" required formControlName="typeoftravel">
+                        <mat-form-field appearance="fill">
+                            <mat-select matTooltip="Select travel type" placeholder="Type of travel" required formControlName="typeoftravel">
                                 <mat-option *ngFor="let typeoftravel of typeofTravel" autofocus [value]="typeoftravel.viewValue">
                                     {{ typeoftravel.viewValue }}
                                 </mat-option>
@@ -16,8 +16,8 @@
                     </mat-grid-tile>
 
                     <mat-grid-tile>
-                        <mat-form-field>
-                            <mat-select placeholder="Traveler type" required formControlName="typeoftraveler">
+                        <mat-form-field appearance="fill">
+                            <mat-select matTooltip="Select traveler type" placeholder="Traveler type" required formControlName="typeoftraveler">
                                 <mat-option *ngFor="let typeoftraveler of typeofTravelers" [value]="typeoftraveler.viewValue">
                                     {{ typeoftraveler.viewValue }}
                                 </mat-option>
@@ -29,8 +29,8 @@
                     </mat-grid-tile>
 
                     <mat-grid-tile>
-                        <mat-form-field>
-                            <mat-select placeholder="Class of travel" required formControlName="classoftravel">
+                        <mat-form-field appearance="fill">
+                            <mat-select matTooltip="Select travel class" placeholder="Class of travel" required formControlName="classoftravel">
                                 <mat-option *ngFor="let classoftravel of classofTravel" [value]="classoftravel.viewValue">
                                     {{ classoftravel.viewValue }}
                                 </mat-option>
@@ -42,7 +42,8 @@
                     </mat-grid-tile>
 
                     <mat-grid-tile>
-                        <mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>From</mat-label>
                             <input type="text" matInput placeholder="From" formControlName="fromcity" required [matAutocomplete]="autoGroup" matTooltip="Choose origin city"
                                 [matTooltipPosition]="position.value" />
                             <mat-autocomplete #autoGroup="matAutocomplete">
@@ -59,7 +60,8 @@
                     </mat-grid-tile>
 
                     <mat-grid-tile>
-                        <mat-form-field>
+                        <mat-form-field appearance="outline">
+                                <mat-label>To</mat-label>
                             <input type="text" matInput placeholder="To" formControlName="tocity" required [matAutocomplete]="autoGroup" matTooltip="Choose destination city"
                                 [matTooltipPosition]="position.value" />
                             <mat-autocomplete #autoGroup="matAutocomplete">
@@ -76,7 +78,8 @@
                     </mat-grid-tile>
 
                     <mat-grid-tile>
-                        <mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Optional</mat-label>
                             <input type="text" matInput placeholder="Optional" formControlName="connection_city" [matAutocomplete]="autoGroup" matTooltip="Choose connection city"
                                 [matTooltipPosition]="position.value" />
                             <mat-autocomplete #autoGroup="matAutocomplete">
@@ -93,8 +96,8 @@
                     </mat-grid-tile>
 
                     <mat-grid-tile>
-                        <mat-form-field>
-                            <input matInput [matDatepicker]="dp1" required placeholder="Depart" formControlName="depart_date">
+                        <mat-form-field appearance="outline">
+                            <input matInput matTooltip="Select depart date" [matDatepicker]="dp1" required placeholder="Depart" formControlName="depart_date">
                             <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
                             <mat-datepicker #dp1 disabled="false"></mat-datepicker>
                             <mat-error>
@@ -104,8 +107,8 @@
                     </mat-grid-tile>
 
                     <mat-grid-tile>
-                        <mat-form-field *ngIf="flightsearchForm.get('typeoftravel').value === 'Round Trip'">
-                            <input matInput [matDatepicker]="dp2" placeholder="Return" formControlName="return_date">
+                        <mat-form-field appearance="outline" *ngIf="flightsearchForm.get('typeoftravel').value === 'Round Trip'">
+                            <input matInput matTooltip="Select return date" [matDatepicker]="dp2" placeholder="Return" formControlName="return_date">
                             <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
                             <mat-datepicker #dp2 disabled="false"></mat-datepicker>
                             <mat-error>

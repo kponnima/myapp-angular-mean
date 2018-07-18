@@ -9,7 +9,11 @@ import { Flight } from '../_models/flight';
 })
 export class FlightService {
 
+  private selectedFlightSubject: BehaviorSubject<Flight[]> = new BehaviorSubject([]);
+  private selectedFlight: Flight[] = [];
+
   constructor(private http: HttpClient) {
+    this.selectedFlightSubject.subscribe(_ => this.selectedFlight = _);
    }
 
   private baseUrl: string = 'api/flights';  // web api end point
@@ -44,5 +48,19 @@ export class FlightService {
   deleteFlight(flight_no: number) {
     return this.http.delete(this.flightDeleteUrl + '/' + flight_no)
     .pipe(delay(this.delayMs));
+  }
+
+  public addSelectedFlight(flight: Flight) {
+    this.selectedFlightSubject.next([...this.selectedFlight, flight]);
+  }
+
+  public getSelectedFlights(): Observable<Flight[]> {
+    return this.selectedFlightSubject;
+  }
+
+  public removeSelectedFlight(flight: Flight) {
+    const currentItems = [...this.selectedFlight];
+    const itemsWithoutRemoved = currentItems.filter(_ => _.flight_no !== flight.flight_no);
+    this.selectedFlightSubject.next(itemsWithoutRemoved);
   }
 }

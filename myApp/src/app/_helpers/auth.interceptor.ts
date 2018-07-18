@@ -14,11 +14,22 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     console.log('intercepted request ...' + req.url);
 
-    const cachedResponse = this.cacheService.get(req.url);
-    return cachedResponse
-      ? Observable.of(cachedResponse)
-      : this.sendRequest(req, next);
+    if(req.url.match('/api/flight-search-results')) { //Do not cache certain requests at all
+      console.log('Request NOT cached for...' + req.url);
+      // Get the auth token from the service.
+      const authToken = this.getAuthorizationToken();
 
+      // Clone the request and set the new header in one step.
+      const authReq = req.clone({ setHeaders: { Authorization: authToken } });
+      console.log('Sending request with auth header added ...');
+      // send cloned request with header to the next handler.
+      return next.handle(authReq)
+    }else{
+      const cachedResponse = this.cacheService.get(req.url);
+      return cachedResponse
+        ? Observable.of(cachedResponse)
+        : this.sendRequest(req, next);
+    }
   }
 
   sendRequest(

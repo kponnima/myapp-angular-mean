@@ -9,16 +9,17 @@
       {{message}}
     </div>
     <div>
-      <mat-form-field>
+      <mat-form-field class="login-username-field">
         <mat-label mdPrefix>Username</mat-label>
-        <input matInput placeholder="Username" required formControlName="username">
+        <input matInput placeholder="Username" id="username" required formControlName="username">
         <mat-error>
             <span *ngIf="!signinForm.get('username').valid && signinForm.get('username').touched">Username is <strong>required</strong></span>
         </mat-error>
       </mat-form-field>
+
       <mat-form-field>
         <mat-label mdPrefix>Password</mat-label>
-        <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" ng-minlength='7' required
+        <input matInput placeholder="Enter your password" id="password" [type]="hide ? 'password' : 'text'" ng-minlength='7' required
           formControlName="password">
         <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
         <mat-error>
@@ -26,12 +27,15 @@
         </mat-error>
       </mat-form-field>
     </div>
-      <div class="space-top text-center">
-        <button mat-raised-button type="submit" [disabled]="!signinForm.valid" color="primary">Sign In</button>
+
+      <div>
+        <button mat-raised-button type="submit" id="signinbutton" [disabled]="!signinForm.valid" color="primary">Sign In</button>
       </div>
+
       <p>
           <a [routerLink]="['/forgotpswd']">Forgot Password</a>
       </p>
+
       <p>
           Not a member? <a [routerLink]="['/signup']">Signup here</a>
       </p>

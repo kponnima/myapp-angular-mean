@@ -28,6 +28,7 @@ import { CartService } from '../_services/cart.service';
   ],
 })
 export class FlightSearchResultsComponent implements OnInit  {
+  private loading:Boolean = true;
   @Input() flight: Flight;
   DATE_DATA_FORMAT = 'HH:mm:ssZ';
   flights: any;
@@ -82,6 +83,7 @@ export class FlightSearchResultsComponent implements OnInit  {
   }
 
   findflights(Params:HttpParams){
+    this.loading = true;
     //this.http.get<FlightData>('/api/flight-search-results', { params: Params }).subscribe(data => {
     this.http.get('/api/flight-search-results', { params: Params }).subscribe(data => {
       this.flights = data;
@@ -90,7 +92,9 @@ export class FlightSearchResultsComponent implements OnInit  {
       //this.flightData = Observable.of(data);
       this.datalength = this.flights.length;
       //console.log(this.flights.length);
+      this.loading = false;
     }, err => {
+      this.loading = false;
       if(err.status === 401) {
         this.router.navigate(['login']);
       }
@@ -148,14 +152,16 @@ export class FlightSearchResultsComponent implements OnInit  {
     //alert(row['flight_no']);
     if(!this.selection.isSelected(row)){
       this.cartService.addToCart(row);
+      localStorage.setItem('flights', JSON.stringify(row));
     }else{
       this.cartService.removeFromCart(row);
+      localStorage.removeItem('flights');
     }
    }
 
   isEmpty(){
     //console.log(this.datalength);
-    if(this.datalength === 0){
+    if(this.datalength === 0 && !this.loading){
       return true;
     }
     return false;

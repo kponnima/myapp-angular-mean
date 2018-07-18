@@ -12,7 +12,8 @@ var TravelerSchema = new Schema({
     },
     traveler_id: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     travelerfirstname: {
         type: String,

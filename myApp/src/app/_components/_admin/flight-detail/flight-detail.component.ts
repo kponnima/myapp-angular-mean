@@ -15,6 +15,7 @@ import { MessageService } from '../../../_helpers/message.service';
   styleUrls: ['./flight-detail.component.css']
 })
 export class FlightDetailComponent implements OnInit {
+  private loading: boolean = true;
   flight: {};
   flightno:number;
 
@@ -26,22 +27,27 @@ export class FlightDetailComponent implements OnInit {
   }
 
   getFlightDetails(flight_no) {
+    this.loading = true;
     this.flightService.getFlightById(flight_no)
       .subscribe(data => {
         //console.log(data);
         //this.flight = data;
         this.flight = data["0"];
         this.flightno = data["0"].flight_no;
+        this.loading = false;
       });
   }
 
   deleteFlight(flight_no) {
+    this.loading = true;
     this.flightService.deleteFlight(flight_no)
       .subscribe(res => {
         this.sendMessage('Flight no [' + flight_no + '] deleted successfully! ');
+        this.loading = false;
         this.router.navigate(['/flights']);
       }, (err) => {
         console.log(err);
+        this.loading = false;
         this.sendMessage('Failed to deleted flight with no '+ flight_no);
       });
   }

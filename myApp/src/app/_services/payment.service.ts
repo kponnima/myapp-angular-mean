@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-import { tap, catchError, filter, map, mergeMap, takeWhile, shareReplay, startWith } from 'rxjs/operators';
+import { tap, catchError, filter, map, mergeMap, takeWhile, shareReplay, startWith, delay } from 'rxjs/operators';
 
 import { Payment } from '../_models/payment';
 
@@ -18,6 +18,9 @@ export class PaymentService {
   }
 
   private baseUrl: string = 'api/paymentcard';  // web api end point
+  //private getCardByTokenUrl: string = 'api/flight-traveler';  // web api end point
+
+  private delayMs = 10000;
 
   public addCard(item: Payment) {
     this.paymentCardSubject.next([...this.paymentCard, item]);
@@ -32,6 +35,11 @@ export class PaymentService {
 
   public getCards(): Observable<Payment[]> {
     return this.paymentCardSubject;
+  }
+
+  public getCardByToken(token: String) {
+    return this.http.get<Payment>(this.baseUrl + '/' + token)
+    .pipe(delay(this.delayMs));
   }
 
   public getCardsCount() {

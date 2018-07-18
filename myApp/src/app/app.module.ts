@@ -165,7 +165,7 @@ const appRoutes: Routes = [
     component: FlightTripConfirmationComponent,
     data: { title: 'Flight Trip Confirmation' }
   },
-    {
+  {
     path: 'users',
     component: UsersComponent,
     data: { title: 'Users List' }

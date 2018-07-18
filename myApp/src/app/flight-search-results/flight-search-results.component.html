@@ -1,19 +1,19 @@
 <div class="container">
   <mat-card class="table-header">
     <button mat-raised-button (click)="goBack()">Back to Search</button>
-    <h1 class="table-header-text">
-        <strong>SEARCH RESULTS -- {{ origin }} :: {{ destination }}</strong>
-    </h1>
+    <h3 class="table-header-text">
+      <strong>SEARCH RESULTS -- {{ origin }} :: {{ destination }}</strong>
+    </h3>
   </mat-card>
 
   <!-- WHEN NO FLIGHTS ARE ADDED TO CART -->
-  <div *ngIf="isEmpty()">
+  <div class="container" *ngIf="isEmpty(); else flightTable">
     <h4 class="noflightrecords">
       <strong>No records found</strong>
     </h4>
   </div>
-
-  <table mat-table #flightTable [dataSource]="dataSource" multiTemplateDataRows class="container mat-elevation-z8">
+  <ng-template #flightTable>
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="container mat-elevation-z8">
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
@@ -155,4 +155,5 @@
 
     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
   </table>
+</ng-template>
 </div>

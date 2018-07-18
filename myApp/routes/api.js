@@ -11,6 +11,8 @@ var jwt = require('jsonwebtoken');
 var router = express.Router();
 var stripe = require('stripe')(keySecret);
 
+var moment = require('moment');
+
 var User = mongoose.model('User');
 var Flight = require('../models/Flight');
 var Airport = require('../models/Airport');
@@ -231,6 +233,40 @@ router.post('/flight-create', passport.authenticate('jwt', { session: false }), 
     });
 
     newFlight.save(function (err) {
+      if (err) {
+        return res.status(403).send({ success: false, msg: 'Save flight failed.' });
+      }
+      res.json({ success: true, msg: 'Successful created new flight.' });
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+/* SAVE Multiple Flights */
+router.post('/flight-bulk-create', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var flightArray = new Array;
+    for (var i=0; i < 999; i++) {
+      var newFlight = new Flight({
+        flight_no: req.body.flight_no,
+        origin: req.body.origin,
+        destination: req.body.destination,
+        departuredatetime: moment(req.body.depart_time).add(i , 'days'),
+        arrivaldatetime: moment(req.body.arrival_time).add(i , 'days'),
+        aircraft_id: req.body.aircraft_id,
+        price: req.body.price,
+        carrier: req.body.carrier,
+        duration: req.body.duration,
+        miles: req.body.miles,
+        inventory_id: req.body.inventory_id,
+        equipment_id: req.body.equipment_id
+      });
+      flightArray.push(newFlight);
+    }
+
+    flightArray.insertMany(function (err) {
       if (err) {
         return res.status(403).send({ success: false, msg: 'Save flight failed.' });
       }
@@ -597,7 +633,7 @@ router.post('/charge', function (req, res) {
 router.post('/paymentcard', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
   if (token) {
-    var newPayment = new Payments({
+    var newPayment = new Payment({
       token: req.body.token,
       card_id: req.body.card_id,
       order_id: req.body.order_id,
@@ -626,7 +662,7 @@ router.post('/paymentcard', passport.authenticate('jwt', { session: false }), fu
 router.post('/flight-createreservation', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
   if (token) {
-    var newTravelers = new Travelers({
+    var newTravelers = new Traveler({
       username: req.body.username,
       pnrno: req.body.pnrno,
       traveler_id: req.body.traveler_id,
@@ -654,7 +690,7 @@ router.post('/flight-createreservation', passport.authenticate('jwt', { session:
       emergencycontactemail: req.body.emergencycontactemail,
       emergencycontactphone: req.body.emergencycontactphone
     });
-    var newReservation = new Reservations({
+    var newReservation = new Reservation({
       pnrno: req.body.pnrno,
       total_amount: req.body.total_amount,
       card_token: req.body.card_token,
@@ -695,10 +731,10 @@ router.post('/flight-createreservation', passport.authenticate('jwt', { session:
 });
 
 /* GET ALL FLIGHT-TRIP-CONFIRMATION data */
-router.get('/reservation/:pnr', passport.authenticate('jwt', { session: false }), function (req, res) {
+router.get('/flight-reservation/:pnr', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
   if (token) {
-    Reservations.findOne({
+    Reservation.findOne({
       pnrno: req.params.pnr
     }, function (err, reservation) {
       if (err) return next(err);
@@ -713,18 +749,55 @@ router.get('/reservation/:pnr', passport.authenticate('jwt', { session: false })
   }
 });
 
+/* GET ALL TRAVELERS data */
+router.get('/flight-traveler/:traveler_id', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Traveler.find({
+      traveler_id: req.params.traveler_id
+    }, function (err, travelers) {
+      if (err) return next(err);
+      if (!travelers) {
+        res.status(401).send({ success: false, msg: 'No travelers were found.' });
+      } else {
+        return res.json(travelers);
+      }
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
 /* GET ALL PAYMENTCARDS data */
 router.get('/paymentcard', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
   if (token) {
-    Payments.find({
-      token: req.params.username
-    }, function (err, flights) {
+    Payment.find({
+    }, function (err, cards) {
       if (err) return next(err);
-      if (!flights) {
-        res.status(401).send({ success: false, msg: 'No flights were found.' });
+      if (!cards) {
+        res.status(401).send({ success: false, msg: 'No cards were found.' });
       } else {
-        return res.json(flights);
+        return res.json(cards);
+      }
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+  }
+});
+
+/* GET PAYMENTCARD by TOEKN data */
+router.get('/paymentcard/:token', passport.authenticate('jwt', { session: false }), function (req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    Payment.find({
+      token: req.params.token
+    }, function (err, cards) {
+      if (err) return next(err);
+      if (!cards) {
+        res.status(401).send({ success: false, msg: 'No cards were found.' });
+      } else {
+        return res.json(cards);
       }
     });
   } else {

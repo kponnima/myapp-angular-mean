@@ -6,6 +6,10 @@
 </div>
 
 <div class="example-container mat-elevation-z8">
+    <div *ngIf="loading">
+        <mat-progress-bar mode="indeterminate" value = "50"></mat-progress-bar>
+    </div>  
+
   <table mat-table #table [dataSource]="dataSource">
 
     <!-- Flight No Column -->

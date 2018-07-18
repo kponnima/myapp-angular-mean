@@ -25,6 +25,7 @@ import { FlightService } from '../../../_services/flight.service';
 })
 export class FlightCreateComponent implements OnInit, OnChanges {
   private isLoading: boolean = false;
+  private createloading: boolean = false;
   //private formSubmitAttempt: boolean = false;
   DATE_DATA_FORMAT = 'YYYY-mm-ddTHH:mm:ssZ';
 
@@ -116,7 +117,7 @@ export class FlightCreateComponent implements OnInit, OnChanges {
   }*/
 
   flightCreate() {
-
+    this.createloading = true;
     this.prepared = this.preflightCreate();
     //this.resetForm();
     if(this.prepared){
@@ -125,13 +126,16 @@ export class FlightCreateComponent implements OnInit, OnChanges {
         this.data = resp;
         //console.log(this.data);
         if(!(this.data.success)){
+          this.createloading = false;
           this.sendMessage(this.data.msg);
         }else{
+          this.createloading = false;
           this.sendMessage(this.data.msg);
           this.router.navigate(['flights']);
         }
       }, err => {
         console.log(err);
+        this.createloading = false;
         this.sendMessage(err);
         this.message = err.error.msg;
       });

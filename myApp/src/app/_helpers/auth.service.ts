@@ -30,6 +30,8 @@ export class AuthService {
       localStorage.removeItem('jwtToken');
       localStorage.removeItem('username');
       localStorage.removeItem('isAdminUser');
+      localStorage.removeItem('flights');
+      localStorage.removeItem('travelers');
       this.router.navigate(['signin']);
     }
   }
@@ -40,6 +42,8 @@ export class AuthService {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('username');
     localStorage.removeItem('isAdminUser');
+    localStorage.removeItem('flights');
+    localStorage.removeItem('travelers');
     this.router.navigate(['signin']);
   }
 

@@ -3,27 +3,29 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
 
 ## Key components
-MongoDB 
-	- Stores user data
-	- Sends user data back when requested
-Express API
-	 - Create, Read, Update, Delete
-	- Generates JWT token upon registration/login and passes to Angular Application
-		: /api/register (POST)
-		: /api/login (POST)
-		: /api/profile/USERID (GET)
-Angular App
-	- Calls API and deals with responses  [Passes JWT token for protected routes]
-	- Stores JWT in order to maintain user's session
-	- Checks the validity of JWT when displaying protected views
+`MongoDB` :
+* Stores user data
+* Sends user data back when requested
+
+`Express API`
+* Create, Read, Update, Delete
+* Generates JWT token upon registration/login and passes to Angular Application
+* /api/register (POST)
+* /api/login (POST)
+* /api/home/USERNAME (GET)
+`Angular App`
+* Calls API and deals with responses  [Passes JWT token for protected routes]
+* Stores JWT in order to maintain user's session
+* Checks the validity of JWT when displaying protected views
 
 ## Installation
 `Development Platform - VS Code`
+
 1] Clone this repository and import it to VS Code [repository](https://github.com/kponnima/myapp-angular-mean.git)
 
 2] MongoDB -Install [MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/) and start server
 
-3] Configure your databse configuration in `database.js` under `\config`
+3] Update your database configuration in `database.js` under `\config`
 
 4] Start `NodeJS/Express/Moongoose` connection server using `start-server` npm-script
 

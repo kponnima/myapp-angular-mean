@@ -5,11 +5,17 @@
   </button>
 </div>
 
+
+
+<div *ngIf="createloading" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+
 <form class="example-form" [formGroup]="flightCreateForm" (ngSubmit)="flightCreate(flightCreateForm.value)">
 
   <mat-radio-group class="example-radio-group">
     <mat-radio-button class="example-radio-button" *ngFor="let occurence of occurences" [value]="occurence">
-        {{ occurence }}
+      {{ occurence }}
     </mat-radio-button>
   </mat-radio-group>
 

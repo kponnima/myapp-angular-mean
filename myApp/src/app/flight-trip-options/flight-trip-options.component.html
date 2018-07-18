@@ -1,72 +1,290 @@
-<div>
-    <h1><strong>TRIP OPTIONS -- {{ origin | uppercase }} :: {{ destination | uppercase }}</strong></h1>
-</div>
-
-<button (click)="goBack()">Back</button>
-
-<mat-vertical-stepper [linear]="isLinear" #stepper>
-  
-  <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Fill out traveler information</ng-template>      
-      <mat-form-field>
-          <mat-label mdPrefix>Firstname</mat-label>
-          <input matInput placeholder="{{ loggedname }}" required formControlName="firstCtrl" value="{{ loggedname }}">
-          <mat-error>
-              <span *ngIf="!firstFormGroup.get('firstCtrl').valid && firstFormGroup.get('firstCtrl').touched">Please enter firstname</span>
-          </mat-error>
-      </mat-form-field>
-      <div>
-        <button mat-raised-button color="accent" matStepperNext>Next</button>
+<div class="container">
+  <!-- TRIP OPTIONS HEADER card -->
+  <mat-card class="flight-trip-options-header-card">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <button mat-raised-button (click)="goBack()">Back to cart</button>
+        <h3>
+          <strong>TRIP OPTIONS -- {{ origin | uppercase }} :: {{ destination | uppercase }}</strong>
+        </h3>
       </div>
-    </form>
-  </mat-step>
-
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out traveler address</ng-template>
-      <mat-form-field>
-        <input matInput placeholder="Address" formControlName="secondCtrl" required>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </form>
-  </mat-step>
-
-  <mat-step [stepControl]="thirdFormGroup">
-      <form [formGroup]="thirdFormGroup">
-        <ng-template matStepLabel>Fill out contact address</ng-template>
-        <mat-form-field>
-          <input matInput placeholder="Contact" formControlName="thirdCtrl" required>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </form>
-  </mat-step>
-
-  <mat-step [stepControl]="fourthFormGroup">
-      <form [formGroup]="fourthFormGroup">
-        <ng-template matStepLabel>Fill out travel docs</ng-template>
-        <mat-form-field>
-          <input matInput placeholder="Contact" formControlName="fourthCtrl" required>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </form>
-  </mat-step>
-
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-      <button mat-raised-button type="submit" color="primary" (click)="confirmFlight()">CONTINUE</button>
     </div>
-  </mat-step>
-</mat-vertical-stepper>
+  </mat-card>
+
+  <form [formGroup]="travelerFormGroup">
+    <mat-vertical-stepper class="flight-trip-options-stepper-container" formArrayName="formArray" [linear]="isLinear" #stepper>
+
+      <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
+
+        <ng-template matStepLabel>Fill out traveler information</ng-template>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label mdPrefix>First Name</mat-label>
+              <input matInput placeholder="First Name" required formControlName="firstnameCtrl">
+              <mat-error>Please enter first name</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label mdPrefix>Middle Name</mat-label>
+              <input matInput placeholder="Middle Name" formControlName="middlenameCtrl">
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label mdPrefix>Last Name</mat-label>
+              <input matInput placeholder="Last Name" required formControlName="lastnameCtrl">
+              <mat-error>Please enter last name</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <button mat-raised-button class="travelerform-next-button" color="accent" type="button" matStepperNext>Next</button>
+          </div>
+        </div>
+
+      </mat-step>
+
+      <mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
+        <ng-template matStepLabel>Fill out traveler contact</ng-template>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Address</mat-label>
+              <input matInput placeholder="Address" required formControlName="addressControl">
+              <mat-error>Please enter address</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Zip Code</mat-label>
+              <input type="number" matInput placeholder="Zip Code" required formControlName="zipcodeControl">
+              <mat-error>Please enter zipcode</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="Email" required formControlName="emailControl">
+              <mat-error>Please enter valid email</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Phone</mat-label>
+              <input matInput placeholder="Phone" required formControlName="phoneControl">
+              <mat-error>Please enter valid phone</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <button mat-raised-button matStepperPrevious class="travelerform-back-button" type="button">Back</button>
+            <button mat-raised-button matStepperNext class="travelerform-next-button" color="accent" type="button">Next</button>
+          </div>
+        </div>
+
+      </mat-step>
+
+      <mat-step formGroupName="2" [stepControl]="formArray?.get([2])">
+        <ng-template matStepLabel>Fill out travel preference</ng-template>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Special Services</mat-label>
+              <mat-select placeholder="Special Services" formControlName="specialserviceControl" required>
+                <mat-option value="None">None</mat-option>
+                <mat-option value="wheelchair">Wheelchair</mat-option>
+                <mat-option value="visuallyimpaired">Visually impaired</mat-option>
+                <mat-option value="hearingimpaired">Hearing impaired</mat-option>
+              </mat-select>
+              <mat-error>Please select an option</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Seat Preference</mat-label>
+              <mat-select placeholder="Seat Preference" formControlName="seatpreferenceControl" required>
+                <mat-option value="None">None</mat-option>
+                <mat-option value="aisle">Aisle</mat-option>
+                <mat-option value="windows">Windows Seat</mat-option>
+                <mat-option value="exitrow">Exit Row</mat-option>
+                <mat-option value="lapchild">Lap Child</mat-option>
+              </mat-select>
+              <mat-error>Please select an option</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Meal Preference</mat-label>
+              <mat-select placeholder="Meal Preference" formControlName="mealpreferenceControl" required>
+                <mat-option value="None">None</mat-option>
+                <mat-option value="veg">Vegeterian</mat-option>
+                <mat-option value="nonveg">Non Vegeterian</mat-option>
+                <mat-option value="gluten">Gluten Free</mat-option>
+                <mat-option value="special">Special Order</mat-option>
+              </mat-select>
+              <mat-error>Please select an option</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <button mat-raised-button matStepperPrevious class="travelerform-back-button" type="button">Back</button>
+            <button mat-raised-button matStepperNext class="travelerform-next-button" color="accent" type="button">Next</button>
+          </div>
+        </div>
+
+      </mat-step>
+
+      <mat-step formGroupName="3" [stepControl]="formArray?.get([3])">
+        <ng-template matStepLabel>Fill out travel docs</ng-template>
+        <!-- PASSPORT INFO - SUB container -->
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <mat-form-field appearance="outline">
+              <mat-label>Passport needed</mat-label>
+              <input matInput placeholder="Passport needed" required formControlName="passportneededControl">
+              <mat-error>Please select passport needed</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Passport No</mat-label>
+              <input matInput placeholder="Passport No" formControlName="passportnoControl">
+              <mat-error>Please enter passport No</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Issuing country</mat-label>
+              <input matInput placeholder="Issuing country" formControlName="passportissuecountryControl">
+              <mat-error>Please enter issuing country</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Issue Date</mat-label>
+              <input matInput placeholder="Issue Date" formControlName="passportissuedateControl">
+              <mat-error>Please enter issue Date</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Expiry Date</mat-label>
+              <input matInput placeholder="Expiry Date" formControlName="passportexpirydateControl">
+              <mat-error>Please enter expiry date</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Country of Citizenship</mat-label>
+              <input matInput placeholder="Country of Citizenship" formControlName="passportcountryofcitizenshipControl">
+              <mat-error>Please enter country of citizenship</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Country Of residence</mat-label>
+              <input matInput placeholder="Country Of residence" formControlName="passportcountryofresidenceControl">
+              <mat-error>Please enter country of residence</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- EMERGENCY CONTACT - SUB container -->
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input matInput placeholder="First Name" required formControlName="emergencycontactfirstnameControl">
+              <mat-error>Please enter first name</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Middle Name</mat-label>
+              <input matInput placeholder="Middle Name" formControlName="emergencycontactmiddlenameControl">
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input matInput placeholder="Last Name" required formControlName="emergencycontactlastnameControl">
+              <mat-error>Please enter last name</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Address</mat-label>
+              <input matInput placeholder="Address" required formControlName="emergencycontactaddressControl">
+              <mat-error>Please enter address</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Zip Code</mat-label>
+              <input type="number" matInput placeholder="Zip Code" required formControlName="emergencycontactzipcodeControl">
+              <mat-error>Please enter zip code</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input type="email" matInput placeholder="Email" required formControlName="emergencycontactemailControl">
+              <mat-error>Please enter valid email</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Phone</mat-label>
+              <input type="tel" matInput placeholder="Phone" formControlName="emergencycontactphoneControl">
+              <mat-error>Please enter valid phone</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <button mat-raised-button matStepperPrevious class="travelerform-back-button" type="button">Back</button>
+            <button mat-raised-button matStepperNext class="travelerform-next-button" color="accent" type="button">Next</button>
+          </div>
+        </div>
+
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-3">
+            <button mat-raised-button matStepperPrevious class="travelerform-back-button" type="button">Back</button>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-3">
+            <button mat-raised-button (click)="stepper.reset()" color="accent" type="button">Reset</button>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6">
+            <button mat-raised-button type="submit" class="btn-block" color="primary" (click)="confirmFlight()">CONTINUE</button>
+          </div>
+        </div>
+      </mat-step>
+
+    </mat-vertical-stepper>
+  </form>
+
+</div>

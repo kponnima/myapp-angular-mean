@@ -67,6 +67,6 @@ var ReservationSchema = new Schema({
         required: true
     }
 },
- { collection: 'reservations' });
+    { collection: 'reservations' });
 
 module.exports = mongoose.model('Reservation', ReservationSchema);

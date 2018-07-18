@@ -32,11 +32,13 @@ export class FlightsComponent implements OnInit {
   }
 
   getAllFlights() {
+    this.loading = true;
     this.flightService.getFlights()
       .subscribe(data => {
         //console.log(data);
         this.flights = data;
         this.dataSource = new FlightDataSource(this.flights);
+        this.loading = false;
       });
   }
 
