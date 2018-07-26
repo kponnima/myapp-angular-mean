@@ -1,0 +1,83 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  
+  <!-- HEADER -->
+  <mat-toolbar color="primary" class="example-toolbar">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <!-- Space for application title -->
+    <h1 class="example-app-name">{{title}}</h1>
+    <!-- This fills the remaining space of the current row -->
+    <span *ngIf="loggedin" class="example-fill-remaining-space">
+      <button mat-raised-button color="primary" matTooltip="Home" [routerLink]="['/home']" routerLinkActive="active">
+        <mat-icon>home</mat-icon>
+      </button>
+    </span>
+    <!-- Space for additional text/links -->
+    <span>
+      <a mat-raised-button color="primary" matTooltip="Profile" class="sidenav-header-profile-button" *ngIf="loggedin" (click)="viewUserProfile()">
+        <mat-icon>account_circle</mat-icon>
+      </a>
+    </span>
+    <span>
+      <a mat-raised-button color="primary" matTooltip="Logout" *ngIf="loggedin" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+      </a>
+    </span>
+  </mat-toolbar>
+
+  <!-- MAIN CONTENT + SIDENAV -->
+  <mat-sidenav-container class="example-sidenav-container" (backdropClick)="close()" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <!-- SIDENAV -->
+    <mat-sidenav class="example-sidenav" #sidenav (keydown.escape)="close()" [disableClose]="true" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56">
+      <mat-nav-list *ngIf="loggedin">
+        <a mat-list-item [routerLink]="['/admin']" routerLinkActive="active">Admin View</a>
+        <a mat-list-item [routerLink]="['/flight-search-results']" routerLinkActive="active">Flight Search</a>
+        <a mat-list-item [routerLink]="['/trips']" routerLinkActive="active">View Trips</a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <!-- MAINCONTENTs -->
+    <mat-sidenav-content>
+
+      <!-- MESSAGES -->
+      <app-message></app-message>
+
+      <!-- CONTENT -->
+      <div class="app-body-content">
+        <router-outlet>
+
+          <div *ngIf="loading">
+            <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
+          </div>
+
+        </router-outlet>
+      </div>
+
+      <!-- FOOTER -->
+      <!-- <app-footer></app-footer> -->
+
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+
+  <!-- FOOTER -->
+  <nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+      <mat-toolbar color="primary">
+        <mat-toolbar-row>
+          <span>
+            <img src="../../favicon.ico">
+          </span>
+          <span class="example-fill-remaining-space"></span>
+          <span class="align-center"></span>
+          <span class="example-spacer"></span>
+          <button mat-button>About</button>
+          <button mat-button>Contact</button>
+        </mat-toolbar-row>
+      </mat-toolbar>
+    </div>
+  </nav>
+
+</div>

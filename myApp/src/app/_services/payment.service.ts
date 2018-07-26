@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { tap, catchError, filter, map, mergeMap, takeWhile, shareReplay, startWith, delay } from 'rxjs/operators';
 
+import { environment } from '../../environments/environment';
+
 import { Payment } from '../_models/payment';
 
 @Injectable({
@@ -20,7 +22,8 @@ export class PaymentService {
   private baseUrl: string = 'api/paymentcard';  // web api end point
   //private getCardByTokenUrl: string = 'api/flight-traveler';  // web api end point
 
-  private delayMs = 10000;
+  //private delayMs = 10000;
+  private delayMs = environment.delayMs;
 
   public addCard(item: Payment) {
     this.paymentCardSubject.next([...this.paymentCard, item]);
@@ -28,7 +31,9 @@ export class PaymentService {
 
   /** POST: save the new payment details to the server */
   saveCard (items: Payment[]): Observable<Payment> {
-    return this.http.post<Payment>(this.baseUrl, items).pipe(
+    return this.http.post<Payment>(this.baseUrl, items)
+    .pipe(
+      delay(this.delayMs),
       catchError(this.handleError<Payment>('saveCard'))
     );
   }

@@ -1,0 +1,301 @@
+<div *ngIf="createloading" class="loading-indicator">
+  <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+</div>
+
+<div *ngIf="reservation" class="container">
+  <div *ngIf="loading">
+    <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
+  </div>
+
+  <mat-card>
+    <h1>
+      <strong>You're reservation is confirmed !</strong>
+    </h1>
+    <h3>Confirmation # :
+      <strong> {{ reservation.pnrno }}</strong>
+    </h3>
+  </mat-card>
+
+  <mat-divider class="flight-confirmation-content-divider"></mat-divider>
+
+  <p class="flight-confirmation-header-text">
+    <mat-icon color="primary">info</mat-icon> Expand each of the section below to view the details of the reservation.</p>
+
+  <mat-expansion-panel [expanded]="true" class="flight-confirmation-flightinfo-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="text-uppercase">
+        <strong>Flight Info</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Total segments</mat-label>
+          <input matInput [readonly]="true" [formControl]="segmentcountControl">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Origin</mat-label>
+          <input matInput [readonly]="true" [formControl]="originControl">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Destination</mat-label>
+          <input matInput [readonly]="true" [formControl]="destinationControl">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Flight No</mat-label>
+          <input matInput [readonly]="true" [formControl]="flightnoControl">
+        </mat-form-field>
+      </div>
+    </div>
+
+  </mat-expansion-panel>
+
+  <mat-divider class="flight-confirmation-content-divider"></mat-divider>
+
+  <mat-expansion-panel [expanded]="false" class="flight-confirmation-travelerinfo-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="text-uppercase">
+        <strong>Traveler Info</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Total passengers</mat-label>
+          <input matInput [readonly]="true" [formControl]="passengercountControl">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput [readonly]="true" [formControl]="firstnameControl">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Middle Name</mat-label>
+          <input matInput [readonly]="true" [formControl]="middlenameControl">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput [readonly]="true" [formControl]="lastnameControl">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h5 class="text-uppercase">Address</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput [readonly]="true" [formControl]="traveleraddress">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Zip Code</mat-label>
+          <input matInput [readonly]="true" [formControl]="travelerzipcode">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput [readonly]="true" [formControl]="traveleremail">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input matInput [readonly]="true" [formControl]="travelerphone">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h5 class="text-uppercase">Travel Preferences</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Special service</mat-label>
+          <input matInput [readonly]="true" [formControl]="specialserviceControl">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Meal preference</mat-label>
+          <input matInput [readonly]="true" [formControl]="mealpreferenceControl">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Other request</mat-label>
+          <input matInput [readonly]="true" [formControl]="miscpreferenceControl">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h5 class="text-uppercase">Travel Documents</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Passport Needed</mat-label>
+          <input matInput [readonly]="true" [formControl]="passportneededControl">
+        </mat-form-field>
+      </div>
+    </div>
+
+    
+    <div *ngIf="passportneeded" class="row">
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Passport No</mat-label>
+            <input matInput [readonly]="true" [formControl]="passportno">
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Issuing country</mat-label>
+            <input matInput [readonly]="true" [formControl]="passportissuingcountry">
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Issue Date</mat-label>
+            <input matInput [readonly]="true" [value]="this.passportissue.value | date:'MMM dd, yyyy'" [formControl]="passportissue">
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Expiry Date</mat-label>
+              <input matInput [readonly]="true" [value]="this.passportexpiry.value | date:'MMM dd, yyyy'" [formControl]="passportexpiry">
+            </mat-form-field>
+          </div>
+      </div>
+
+      <div *ngIf="passportneeded" class="row">
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Country of Citizenship</mat-label>
+              <input matInput [readonly]="true" [formControl]="passportcountryofcitizenship">
+            </mat-form-field>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Country Of residence</mat-label>
+              <input matInput [readonly]="true" [formControl]="passportcountryofresidence">
+            </mat-form-field>
+          </div>
+        </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h5 class="text-uppercase">Emergency contact details</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput [readonly]="true" [formControl]="emergencycontactaddress">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Zip Code</mat-label>
+          <input matInput [readonly]="true" [formControl]="emergencycontactzipcode">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput [readonly]="true" [formControl]="emergencycontactemail">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input matInput [readonly]="true" [formControl]="emergencycontactphone">
+        </mat-form-field>
+      </div>
+    </div>
+
+  </mat-expansion-panel>
+
+  <mat-divider class="flight-confirmation-content-divider"></mat-divider>
+
+  <mat-expansion-panel [expanded]="false" class="flight-confirmation-paymentinfo-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="text-uppercase">
+        <strong>Payment Info</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Total amount</mat-label>
+          <input matInput [readonly]="true" [formControl]="totalamountControl">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Payment Status</mat-label>
+          <input matInput [readonly]="true" [formControl]="paymentstatusControl">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Card used -Brand</mat-label>
+          <input matInput [readonly]="true" [formControl]="cardendingControl">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Card used -Ending</mat-label>
+          <input matInput [readonly]="true" [formControl]="cardbrandControl">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-expansion-panel>
+
+  <mat-divider class="flight-confirmation-content-divider"></mat-divider>
+
+  <div class="row flight-confirmation-button-row">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <button mat-raised-button matTooltip="View trips" [routerLink]="['/home']" fragment="trips" routerLinkActive="active">VIEW TRIPS</button>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <button mat-raised-button type="submit" matTooltip="Book new flight" color="accent" [routerLink]="['/home']" routerLinkActive="active">BOOK NEW FLIGHT</button>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <button mat-raised-button type="submit" matTooltip="Checkin flights" color="primary" [routerLink]="['/flight-checkin-landing']" routerLinkActive="active">CHECKIN FLIGHT</button>
+    </div>
+  </div>
+</div>

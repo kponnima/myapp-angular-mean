@@ -1,0 +1,10 @@
+.flight-search-button {
+    width: 240px;
+}
+.flight-search-city-text {
+    margin-left: 16px;
+}
+.flight-search-city-loading-option {
+    text-align: center;
+    align-content: center;
+}

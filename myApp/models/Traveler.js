@@ -63,6 +63,10 @@ var TravelerSchema = new Schema({
         type: String,
         required: false
     },
+    passportissue: {
+        type: String,
+        required: false
+    },
     passportexpiry: {
         type: String,
         required: false

@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { delay, map, filter } from 'rxjs/operators';
 
+import { environment } from '../../environments/environment';
+
 import { User } from '../_models/user';
 
 @Injectable({
@@ -25,7 +27,8 @@ export class UserService {
   private userEditUrl: string = 'api/user-edit';  // web api end point
   //baseUrl: string = 'http://localhost:4200/api';
 
-  private delayMs = 10000;
+  //private delayMs = 10000;
+  private delayMs = environment.delayMs;
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.usersFetchUrl)

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-import { tap, catchError, filter, map, mergeMap, takeWhile, shareReplay, startWith, delay} from 'rxjs/operators';
+import { tap, catchError, filter, map, mergeMap, takeWhile, shareReplay, startWith, delay } from 'rxjs/operators';
+
+import { environment } from '../../environments/environment';
 
 import { Traveler } from '../_models/traveler';
 @Injectable({
@@ -12,7 +14,7 @@ export class TravelerService {
   private travelerSubject: BehaviorSubject<Traveler[]> = new BehaviorSubject([]);
   private traveler: Traveler[] = [];
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.travelerSubject.subscribe(_ => this.traveler = _);
   }
 
@@ -21,7 +23,8 @@ export class TravelerService {
   private updateTravelerByIDUrl: string = 'api/flight-traveler';  // web api end point
   //baseUrl: string = 'http://localhost:4200/api';
 
-  private delayMs = 10000;
+  //private delayMs = 10000;
+  private delayMs = environment.delayMs;
 
   public addTraveler(item: Traveler) {
     this.travelerSubject.next([...this.traveler, item]);
@@ -40,7 +43,7 @@ export class TravelerService {
 
   public getTravelerById(traveler_id: String) {
     return this.http.get<Traveler>(this.getTravelerByIDUrl + '/' + traveler_id)
-    .pipe(delay(this.delayMs));
+      .pipe(delay(this.delayMs));
   }
 
   public getTravelersCount() {
@@ -57,13 +60,13 @@ export class TravelerService {
     this.travelerSubject.unsubscribe;
   }
 
-    /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError<T> (operation = 'operation', result?: T) {
+  /**
+ * Handle Http operation that failed.
+ * Let the app continue.
+ * @param operation - name of the operation that failed
+ * @param result - optional value to return as the observable result
+ */
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure

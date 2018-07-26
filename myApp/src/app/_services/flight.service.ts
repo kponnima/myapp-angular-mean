@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { delay } from 'rxjs/operators';
+
+import { environment } from '../../environments/environment';
 
 import { Flight } from '../_models/flight';
 @Injectable({
@@ -21,9 +23,11 @@ export class FlightService {
   private flightDetailUrl: string = 'api/flight-detail';  // web api end point
   private flightEditUrl: string = 'api/flight-edit';  // web api end point
   private flightDeleteUrl: string = 'api/flight';  // web api end point
+  private flightSearchResultsUrl: string = 'api/flight-search-results';  // web api end point
     //baseUrl: string = 'http://localhost:4200/api/flights';
 
-  private delayMs = 10000;
+  //private delayMs = 10000;
+  private delayMs = environment.delayMs;
 
   getFlights() {
     return this.http.get<Flight[]>(this.baseUrl)
@@ -32,6 +36,11 @@ export class FlightService {
 
   getFlightById(flight_no: number) {
     return this.http.get<Flight>(this.flightDetailUrl + '/' + flight_no)
+    .pipe(delay(this.delayMs));
+  }
+
+  getFlightsBySearchParams(Params: HttpParams) {
+    return this.http.get(this.flightSearchResultsUrl , { params: Params })
     .pipe(delay(this.delayMs));
   }
 

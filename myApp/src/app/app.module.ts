@@ -55,27 +55,27 @@ import {
  } from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { MessageComponent } from './message/message.component';
-import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './_components/_shared/header/header.component';
+import { MessageComponent } from './_components/_shared/message/message.component';
+import { FooterComponent } from './_components/_shared/footer/footer.component';
 import { AuthInterceptor } from './_helpers/auth.interceptor';
 import { MessageService } from './_helpers/message.service';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
-import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './_components/_shared/login/login.component';
+import { SignupComponent } from './_components/_shared/signup/signup.component';
+import { HomeComponent } from './_components/_shared/home/home.component';
 import { FlightsComponent } from './_components/_admin/flights/flights.component';
-import { HotelSearchComponent } from './hotel-search/hotel-search.component';
-import { CarSearchComponent } from './car-search/car-search.component';
+import { HotelSearchComponent } from './_components/_hotels/hotel-search/hotel-search.component';
+import { CarSearchComponent } from './_components/_cars/car-search/car-search.component';
 
 import { FlightDetailComponent } from './_components/_admin/flight-detail/flight-detail.component';
 import { FlightCreateComponent } from './_components/_admin/flight-create/flight-create.component';
 import { FlightEditComponent } from './_components/_admin/flight-edit/flight-edit.component';
-import { FlightSearchComponent } from './flight-search/flight-search.component';
-import { FlightSearchResultsComponent } from './flight-search-results/flight-search-results.component';
-import { FlightTripOptionsComponent } from './flight-trip-options/flight-trip-options.component';
-import { FlightTripSummaryComponent } from './flight-trip-summary/flight-trip-summary.component';
-import { FlightTripConfirmationComponent } from './flight-trip-confirmation/flight-trip-confirmation.component';
-import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
+import { FlightSearchComponent } from './_components/_flights/flight-search/flight-search.component';
+import { FlightSearchResultsComponent } from './_components/_flights/flight-search-results/flight-search-results.component';
+import { FlightTripOptionsComponent } from './_components/_flights/flight-trip-options/flight-trip-options.component';
+import { FlightTripSummaryComponent } from './_components/_flights/flight-trip-summary/flight-trip-summary.component';
+import { FlightTripConfirmationComponent } from './_components/_flights/flight-trip-confirmation/flight-trip-confirmation.component';
+import { ShoppingcartComponent } from './_components/_flights/shoppingcart/shoppingcart.component';
 
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../environments/environment';
@@ -84,10 +84,10 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { AuthGuard } from './_helpers/auth.guard.service';
 import { AuthService } from './_helpers/auth.service';
 
-import { AlertDialogComponent } from './_shared/alert-dialog/alert-dialog.component';
+import { AlertDialogComponent } from './_components/_shared/alert-dialog/alert-dialog.component';
 
-import { SidenavComponent } from './sidenav/sidenav.component';
-import { AdminComponent } from './admin/admin.component';
+import { SidenavComponent } from './_components/_shared/sidenav/sidenav.component';
+import { AdminComponent } from './_components/_admin/admin/admin.component';
 import { UsersComponent } from './_components/_admin/users/users.component';
 import { UserCreateComponent } from './_components/_admin/user-create/user-create.component';
 import { UserEditComponent } from './_components/_admin/user-edit/user-edit.component';
@@ -105,7 +105,8 @@ import { InventoryCreateComponent } from './_components/_admin/inventory-create/
 import { InventoryEditComponent } from './_components/_admin/inventory-edit/inventory-edit.component';
 import { InventoryDetailComponent } from './_components/_admin/inventory-detail/inventory-detail.component';
 import { EquipmentsComponent } from './_components/_admin/equipments/equipments.component';
-import { TripsComponent } from './trips/trips.component';
+import { TripsComponent } from './_components/_flights/trips/trips.component';
+import { ProfileComponent } from './_components/_shared/profile/profile.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -139,6 +140,11 @@ const appRoutes: Routes = [
     path: 'admin',
     component: AdminComponent,
     data: { title: 'AdminView' }
+  },
+  {
+    path: 'user/:username',
+    component: ProfileComponent,
+    data: { title: 'User Profile' }
   },
   {
     path: 'flight-search',
@@ -368,7 +374,8 @@ const appRoutes: Routes = [
     AircraftDetailComponent,
     InventoryDetailComponent,
     InventoryCreateComponent,
-    InventoryEditComponent
+    InventoryEditComponent,
+    ProfileComponent
   ],
   providers: [
     MessageService,

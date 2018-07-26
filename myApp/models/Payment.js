@@ -12,7 +12,8 @@ var PaymentSchema = new Schema({
   },
   order_id: {
     type: String,
-    required: false
+    required: false,
+    unique: true
   },
   customer_id: {
     type: String,

@@ -2,19 +2,6 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 body { 
-    font-family: Roboto, Arial, sans-serif;
-    margin: 0;
-  }
-  
-  .basic-container {
-    padding: 5px;
-  }
-  
-  md-toolbar {
-    z-index: 10;
-  }
-
-  .version-info {
-    font-size: 8pt;
-    float: right;
-  }
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+}

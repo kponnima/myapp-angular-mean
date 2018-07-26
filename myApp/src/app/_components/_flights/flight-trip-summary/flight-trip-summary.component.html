@@ -1,0 +1,509 @@
+<div class="container">
+
+  <div *ngIf="loading">
+    <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
+  </div>
+
+  <!-- TRIP SUMMARY HEADER card -->
+  <mat-card class="flight-summary-header-card">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <button mat-raised-button (click)="goBack()">Back to options</button>
+        <h3>
+          <strong>TRIP SUMMARY -- {{ origin | uppercase }} :: {{ destination | uppercase }}</strong>
+        </h3>
+      </div>
+    </div>
+  </mat-card>
+
+  <div *ngIf="createloading" class="loading-indicator">
+    <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+  </div>
+  <!-- FLIGHT INFO container -->
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <h4 class="flight-summary-header-text">
+        <mat-icon color="primary">info</mat-icon> Verify the information before proceeding.</h4>
+    </div>
+  </div>
+
+  <mat-divider class="flight-summary-content-divider"></mat-divider>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <h4>Flights:</h4>
+    </div>
+  </div>
+
+  <mat-divider class="flight-summary-content-divider"></mat-divider>
+
+  <form [formGroup]="tripsummaryFlightsFormGroup">
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h5>
+          <mat-icon color="accent">info</mat-icon> To edit the flights, return to shopping cart and modify.</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <mat-form-field appearance="fill">
+          <mat-label>Total segments</mat-label>
+          <input matInput formControlName="segment_count">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field [color]="primary" appearance="outline">
+          <mat-label>Origin</mat-label>
+          <input matInput formControlName="origin">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field [color]="primary" appearance="outline">
+          <mat-label>Destination</mat-label>
+          <input matInput formControlName="destination">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Flight No</mat-label>
+          <input matInput formControlName="flight_no">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Cabin type</mat-label>
+          <mat-select placeholder="Cabin type" formControlName="cabintype" required>
+            <mat-option value="first">First Class</mat-option>
+            <mat-option value="BUSINESS">Business</mat-option>
+            <mat-option value="premiumeconomy">Premium Economy</mat-option>
+            <mat-option value="economy">Economy</mat-option>
+          </mat-select>
+          <mat-error>Please select an option</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Depart Time</mat-label>
+          <input matInput [value]="this.tripsummaryFlightsFormGroup.get('departuredatetime').value | date:'MMM dd, yyyy HH:MM a'" formControlName="departuredatetime">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Return time</mat-label>
+          <input matInput [value]="this.tripsummaryFlightsFormGroup.get('arrivaldatetime').value | date:'MMM dd, yyyy HH:MM a'" formControlName="arrivaldatetime">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Duration</mat-label>
+          <input matInput formControlName="flight_duration">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-icon matPrefix>attach_money</mat-icon>
+          <mat-label>Price</mat-label>
+          <input matInput formControlName="price">
+        </mat-form-field>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- TRAVELER INFO container -->
+  <mat-divider class="flight-summary-content-divider"></mat-divider>
+
+  <div class="row">
+    <div class="col-xs-8 col-sm-10 col-md-10">
+      <h4>Travelers:</h4>
+    </div>
+    <div class="col-xs-4 col-sm-2 col-md-2">
+      <button mat-stroked-button color="accent" (click)="editTravelers()" matTooltip="Edit info" matTooltipPosition="above">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-divider class="flight-summary-content-divider"></mat-divider>
+
+  <form [formGroup]="tripsummaryTravelersFormGroup">
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <mat-form-field appearance="fill">
+          <mat-label>Total travelers</mat-label>
+          <input matInput formControlName="passenger_count">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field color="primary" appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput required formControlName="travelerfirstname">
+          <mat-error>Please enter first name</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Middle Name</mat-label>
+          <input matInput formControlName="travelermiddlename">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput required formControlName="travelerlastname">
+          <mat-error>Please enter last name</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput required formControlName="traveleraddress">
+          <mat-error>Please enter address</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Zip Code</mat-label>
+          <input matInput required ng-minlength='5' formControlName="travelerzipcode">
+          <mat-error>
+            <span *ngIf="!tripsummaryTravelersFormGroup.get('travelerzipcode').valid && tripsummaryTravelersFormGroup.get('travelerzipcode').touched">Please enter zipcode</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" required formControlName="traveleremail">
+          <mat-error>Please enter valid email</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input matInput #firstphone placeholder="Phone" ng-minlength='10' required formControlName="travelerphone">
+          <mat-icon matSuffix>phone</mat-icon>
+          <mat-hint align="end">{{firstphone.value.length}} / 10</mat-hint>
+          <mat-error>Please enter valid phone</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Special Services</mat-label>
+          <mat-select placeholder="Special Services" formControlName="travelerspecialservices" required>
+            <mat-option value="None">None</mat-option>
+            <mat-option value="wheelchair">Wheelchair</mat-option>
+            <mat-option value="visuallyimpaired">Visually impaired</mat-option>
+            <mat-option value="hearingimpaired">Hearing impaired</mat-option>
+          </mat-select>
+          <mat-icon matSuffix>child_friendly</mat-icon>
+          <mat-error>Please select an option</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Seat Preference</mat-label>
+          <mat-select placeholder="Seat Preference" formControlName="travelerseatpreference" required>
+            <mat-option value="None">None</mat-option>
+            <mat-option value="aisle">Aisle</mat-option>
+            <mat-option value="windows">Windows Seat</mat-option>
+            <mat-option value="exitrow">Exit Row</mat-option>
+            <mat-option value="lapchild">Lap Child</mat-option>
+          </mat-select>
+          <mat-icon matSuffix>airline_seat_recline_normal</mat-icon>
+          <mat-error>Please select an option</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Meal Preference</mat-label>
+          <mat-select placeholder="Meal Preference" formControlName="travelermealpreference" required>
+            <mat-option value="None">None</mat-option>
+            <mat-option value="veg">Vegeterian</mat-option>
+            <mat-option value="nonveg">Non Vegeterian</mat-option>
+            <mat-option value="gluten">Gluten Free</mat-option>
+            <mat-option value="special">Special Order</mat-option>
+          </mat-select>
+          <mat-icon matSuffix>fastfood</mat-icon>
+          <mat-error>Please select an option</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-divider class="flight-summary-content-divider"></mat-divider>
+    <!-- PASSPORT INFO - SUB container -->
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <mat-form-field color="primary" appearance="outline">
+          <mat-label>Passport needed</mat-label>
+          <mat-select placeholder="Passport needed" required formControlName="needpassport">
+            <mat-option value="true">Yes</mat-option>
+            <mat-option value="false">No</mat-option>
+          </mat-select>
+          <mat-error>Please select an option</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Passport No</mat-label>
+          <input matInput formControlName="passportno">
+          <mat-error>Please enter passport No</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Issuing country</mat-label>
+          <input matInput type="text" placeholder="Issuing country" aria-label="Number" formControlName="passportissuingcountry" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let country of issuecountryfilteredOptions | async" [value]="country">
+              {{country}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error>Please enter issuing country</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Issue Date</mat-label>
+          <input matInput [max]="maxDate" [matDatepicker]="picker1" placeholder="Issue Date" formControlName="passportissue">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+          <mat-error>Please enter issue Date</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Expiry Date</mat-label>
+          <input matInput [min]="minDate" [matDatepicker]="picker2" placeholder="Expiry Date" formControlName="passportexpiry">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+          <mat-error>Please enter expiry Date</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Country of Citizenship</mat-label>
+          <input matInput type="text" placeholder="Country of Citizenship" aria-label="Number" formControlName="passportcountryofcitizenship"
+            [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let country of citizenshipcountryfilteredOptions | async" [value]="country">
+              {{country}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error>Please enter country of citizenship</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Country Of residence</mat-label>
+          <input matInput type="text" placeholder="Country Of residence" aria-label="Number" formControlName="passportcountryofresidence"
+            [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let country of residencecountryfilteredOptions | async" [value]="country">
+              {{country}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error>Please enter country Of residence</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- EMERGENCY CONTACT - SUB container -->
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput required formControlName="emergencycontactfirstname">
+          <mat-error>Please enter first name</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Middle Name</mat-label>
+          <input matInput formControlName="emergencycontactmiddlename">
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput required formControlName="emergencycontactlastname">
+          <mat-error>Please enter last name</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <input matInput required formControlName="emergencycontactaddress">
+          <mat-error>Please enter address</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Zip Code</mat-label>
+          <input matInput ng-minlength='5' required formControlName="emergencycontactzipcode">
+          <mat-error>Please enter zip code</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input type="email" matInput required formControlName="emergencycontactemail">
+          <mat-error>Please enter valid email</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input matInput #secondphone placeholder="Phone" ng-minlength='10' formControlName="emergencycontactphone">
+          <mat-icon matSuffix>phone</mat-icon>
+          <mat-hint align="end">{{secondphone.value.length}} / 10</mat-hint>
+          <mat-error>Please enter valid phone</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <button mat-raised-button type="submit" *ngIf="editableTravelers" [disabled]="!tripsummaryTravelersFormGroup.valid" (click)="editedTravelers()"
+          color="primary">DONE</button>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- PAYMENT INFO container -->
+  <mat-divider class="flight-summary-content-divider"></mat-divider>
+
+  <div *ngIf="paymentloading">
+    <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <h4>Total amount : $ {{ reservationAmount }}</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <span *ngIf="paymentSuccessBoolean" class="flight-summary-payment-success-message">
+        <strong>
+          <mat-icon color="primary">done_outline</mat-icon> {{ successmessage }}</strong>
+      </span>
+    </div>
+  </div>
+
+  <form *ngIf="!paymentSuccessBoolean" [formGroup]="tripsummaryPaymentsFormGroup" (ngSubmit)="savePayment(tripsummaryPaymentsFormGroup.value)">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <span *ngIf="!paymentfailed" class="flight-summary-payment-processing-message"> {{ message }}</span>
+        <span *ngIf="paymentfailed" class="flight-summary-payment-failed-message">
+          <mat-icon color="warn">warning</mat-icon> {{ message }}. Verify the details and try again.</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h3>PAYMENT INFO
+          <mat-icon color="primary">info</mat-icon>
+        </h3>
+        <h5 class="flight-summary-payment-warning-text">*Enter payment details to proceed.</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field color="primary" appearance="outline">
+          <input matInput placeholder="Card Number" ng-minlength='10' ng-maxlength='16' formControlName="number" required data-stripe="number">
+          <mat-icon matSuffix>credit_card</mat-icon>
+          <mat-error>
+            <span *ngIf="!tripsummaryPaymentsFormGroup.get('number').valid && tripsummaryPaymentsFormGroup.get('number').touched">Please enter valid card #</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Expiration Month(MM)" formControlName="exp_month" required data-stripe="exp_month">
+          <mat-error>
+            <span *ngIf="!tripsummaryPaymentsFormGroup.get('exp_month').valid && tripsummaryPaymentsFormGroup.get('exp_month').touched">Please enter valid month</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Expiration Year(YYYY)" formControlName="exp_year" required data-stripe="exp_year">
+          <mat-error>
+            <span *ngIf="!tripsummaryPaymentsFormGroup.get('exp_year').valid && tripsummaryPaymentsFormGroup.get('exp_year').touched">Please enter valid year</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="CVC" ng-minlength='3' ng-maxlength='4' formControlName="cvc" required data-stripe="cvc">
+          <mat-error>
+            <span *ngIf="!tripsummaryPaymentsFormGroup.get('cvc').valid && tripsummaryPaymentsFormGroup.get('cvc').touched">Please enter valid cvc</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <button mat-raised-button type="submit" [disabled]="!tripsummaryPaymentsFormGroup.valid" color="primary">SUBMIT</button>
+      </div>
+    </div>
+
+  </form>
+
+  <mat-divider class="flight-summary-content-divider"></mat-divider>
+
+  <div *ngIf="createpnrloading">
+    <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <span *ngIf="createpnrfailed" class="flight-summary-booking-failed-message">
+        <strong>
+          <mat-icon color="warn">warning</mat-icon> {{ bookingerrormessage }}</strong>
+      </span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-3 col-md-3">
+      <button mat-raised-button class="btn-block flight-summary-button-row" (click)="cancelBooking()">CANCEL TRIP</button>
+    </div>
+    <div class="col-xs-12 col-sm-9 col-md-9">
+      <button mat-raised-button class="btn-block flight-summary-button-row" type="submit" [disabled]="!paymentSuccessBoolean" color="primary"
+        (click)="confirmBooking()">CONFIRM BOOKING</button>
+    </div>
+  </div>
+
+</div>

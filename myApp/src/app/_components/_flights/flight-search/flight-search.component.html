@@ -1,0 +1,133 @@
+<form method="GET" name="flightsearchForm" [formGroup]="flightsearchForm" class="form-flightsearch" (ngSubmit)="flightsearch(flightsearchForm.value)">
+    <mat-card>
+        <mat-card-content>
+            <div class="row text-center">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <mat-form-field appearance="outline">
+                        <mat-select matTooltip="Select travel type" placeholder="Type of travel" required formControlName="typeoftravel">
+                            <mat-option *ngFor="let typeoftravel of typeofTravel" autofocus [value]="typeoftravel.viewValue">
+                                {{ typeoftravel.viewValue }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>
+                            <span *ngIf="!flightsearchForm.get('typeoftravel').valid && flightsearchForm.get('typeoftravel').touched">Please select type of travel</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <mat-form-field appearance="outline">
+                        <mat-select matTooltip="Select traveler type" placeholder="Traveler type" required formControlName="typeoftraveler">
+                            <mat-option *ngFor="let typeoftraveler of typeofTravelers" [value]="typeoftraveler.viewValue">
+                                {{ typeoftraveler.viewValue }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>
+                            <span *ngIf="!flightsearchForm.get('typeoftraveler').valid && flightsearchForm.get('typeoftraveler').touched">Please select traveler type</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <mat-form-field appearance="outline">
+                        <mat-select matTooltip="Select travel class" placeholder="Class of travel" required formControlName="classoftravel">
+                            <mat-option *ngFor="let classoftravel of classofTravel" [value]="classoftravel.viewValue">
+                                {{ classoftravel.viewValue }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>
+                            <span *ngIf="!flightsearchForm.get('classoftravel').valid && flightsearchForm.get('classoftravel').touched">Please select class of travel</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <mat-form-field color="primary" appearance="outline">
+                        <mat-label>From</mat-label>
+                        <input matInput type="text" class="flight-search-city-text" ng-minlength='3' ng-maxlength='3' aria-label="Number" placeholder="e.g. PHX" formControlName="fromcity"
+                            required [matAutocomplete]="fromautoGroup" matTooltip="Choose origin city" [matTooltipPosition]="position.value"/>
+                            <mat-icon mat-icon-button (click)="swapCity()" matSuffix color="primary">compare_arrows</mat-icon>
+                        <mat-autocomplete #fromautoGroup="matAutocomplete">
+                            <mat-option class="flight-search-city-loading-option" *ngIf="airportsloading">
+                                <mat-spinner diameter="40"></mat-spinner>
+                            </mat-option>
+                            <mat-option *ngFor="let airport of fromairportfilteredOptions | async" [value]="airport.airportcode | uppercase">
+                                {{airport.airportcode}} - {{ airport.airportname }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error>
+                            <span *ngIf="!flightsearchForm.get('fromcity').valid && flightsearchForm.get('fromcity').touched">Please enter three letter origin</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-xs-1 col-sm-1 col-md-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>To</mat-label>
+                        <input matInput type="text" class="flight-search-city-text" ng-minlength='3' ng-maxlength='3' aria-label="Number" placeholder="e.g. PHX" formControlName="tocity"
+                            required [matAutocomplete]="toautoGroup" matTooltip="Choose destination city" [matTooltipPosition]="position.value"
+                        />
+                        <mat-icon (click)="swapCity()" matPrefix color="primary">compare_arrows</mat-icon>
+                        <mat-autocomplete #toautoGroup="matAutocomplete">
+                            <mat-option *ngIf="airportsloading">
+                                <mat-spinner diameter="50"></mat-spinner>
+                            </mat-option>
+                            <mat-option *ngFor="let airport of toairportfilteredOptions | async" [value]="airport.airportcode | uppercase">
+                                {{airport.airportcode}} - {{ airport.airportname }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error>
+                            <span *ngIf="!flightsearchForm.get('tocity').valid && flightsearchForm.get('tocity').touched">Please select destination</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Optional</mat-label>
+                        <input matInput type="text" class="flight-search-city-text" ng-minlength='3' ng-maxlength='3' aria-label="Number" placeholder="e.g. PHX" formControlName="connection_city"
+                            [matAutocomplete]="connectionautoGroup" matTooltip="Choose connection city" [matTooltipPosition]="position.value"
+                        />
+                        <mat-autocomplete #connectionautoGroup="matAutocomplete">
+                            <mat-option *ngIf="airportsloading">
+                                <mat-spinner diameter="50"></mat-spinner>
+                            </mat-option>
+                            <mat-option *ngFor="let airport of connectionairportfilteredOptions | async" [value]="airport.airportcode | uppercase">
+                                {{airport.airportcode}} - {{ airport.airportname }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error>
+                            <span *ngIf="!flightsearchForm.get('connection_city').valid && flightsearchForm.get('connection_city').touched">Please select connection city</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row text-center">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Depart</mat-label>
+                        <input matInput [min]="minDate" [max]="maxDate" matTooltip="Select depart date" [matDatepicker]="dp1" placeholder="Depart"
+                            [value]="date.value" required formControlName="depart_date">
+                        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                        <mat-datepicker #dp1></mat-datepicker>
+                        <mat-error>Please enter depart date</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <mat-form-field appearance="outline" *ngIf="flightsearchForm.get('typeoftravel').value === 'Round Trip'">
+                        <mat-label>Return</mat-label>
+                        <input matInput [min]="minReturnDate" [max]="maxDate" matTooltip="Select return date" [matDatepicker]="dp2" placeholder="Return"
+                            [value]="returndate.value" required formControlName="return_date">
+                        <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                        <mat-datepicker #dp2></mat-datepicker>
+                        <mat-error>Please enter return date</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row text-center">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <button mat-raised-button type="submit" class="flight-search-button" [disabled]="!flightsearchForm.valid" color="accent">SEARCH</button>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</form>

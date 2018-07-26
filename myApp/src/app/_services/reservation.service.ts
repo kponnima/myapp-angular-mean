@@ -3,7 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { catchError, map, tap, delay } from 'rxjs/operators';
 
+import { environment } from '../../environments/environment';
+
 import { Reservation } from '../_models/reservation';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +19,8 @@ export class ReservationService {
   private getFlightReservationUrl: string = 'api/flight-reservation';
   //baseUrl: string = 'http://localhost:4200/api';
 
-  private delayMs = 10000;
+  //private delayMs = 10000;
+  private delayMs = environment.delayMs;
 
   getReservationByPNR(pnr: String) {
     return this.http.get<Reservation>(this.getFlightReservationUrl + '/' + pnr )

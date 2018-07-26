@@ -1,0 +1,57 @@
+.container {
+  min-height: 92%;
+}
+/* Absolute Center Spinner */
+.loading-indicator {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+/* Transparent Overlay */
+.loading-indicator:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+.flight-summary-header-card {
+  margin-bottom: 24px;
+}
+.flight-summary-header-text {
+color: green;
+}
+.flight-summary-payment-success-message {
+  color: blueviolet;
+}
+.flight-summary-payment-processing-message {
+  color: green;
+}
+.flight-summary-payment-warning-text {
+color: orangered;
+}
+.flight-summary-payment-failed-message{
+  color: red;
+}
+.flight-summary-booking-failed-message{
+  color: red;
+}
+.flight-summary-button-row {
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+.flight-summary-content-divider {
+  margin-top:12px;
+  margin-bottom:8px;
+  padding: 16px;
+}

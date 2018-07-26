@@ -8,12 +8,13 @@ export interface Traveler {
   traveleraddress: string;
   travelerzipcode: string;
   traveleremail: string;
-  travelerphone: string;
+  travelerphone: number;
   travelerseatpreference: string;
   travelerspecialservices: string;
   travelermealpreference: string;
   needpassport: boolean;
   passportno: string;
+  passportissue: string;
   passportexpiry: string;
   passportissuingcountry: string;
   passportcountryofcitizenship: string;
@@ -24,5 +25,5 @@ export interface Traveler {
   emergencycontactaddress: string;
   emergencycontactzipcode: number;
   emergencycontactemail: string;
-  emergencycontactphone: string;
+  emergencycontactphone: number;
 }

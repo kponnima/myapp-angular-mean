@@ -13,10 +13,15 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 * /api/register (POST)
 * /api/login (POST)
 * /api/home/USERNAME (GET)
+
 `Angular App`
 * Calls API and deals with responses  [Passes JWT token for protected routes]
 * Stores JWT in order to maintain user's session
 * Checks the validity of JWT when displaying protected views
+
+`Stripe`
+* Stripe API integration for payment processing
+* Token validation and saving the charge/payment details to dB
 
 ## Installation
 `Development Platform - VS Code`

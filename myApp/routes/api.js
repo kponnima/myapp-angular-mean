@@ -135,7 +135,7 @@ router.post('/user-create', passport.authenticate('jwt', { session: false }), fu
       privilege_id: req.body.privilege_id,
       status_id: req.body.status_id
     });
-    
+
     newUser.save(function (err) {
       if (err) {
         return res.status(403).send({ success: false, msg: 'Save user failed.' });
@@ -153,7 +153,7 @@ router.get('/user-detail/:username', passport.authenticate('jwt', { session: fal
   if (token) {
     User.find(
       { username: req.params.username }
-    , function (err, user) {
+      , function (err, user) {
         if (err) return next(err);
         if (!user) {
           res.status(403).send({ success: false, msg: 'Search failed. User not found.' });
@@ -172,10 +172,10 @@ router.put('/user-edit/:username', passport.authenticate('jwt', { session: false
   if (token) {
     User.findOneAndUpdate(
       req.params.username, req.body
-    , function (err, user) {
-      if (err) return next(err);
-      res.json(user);
-    });
+      , function (err, user) {
+        if (err) return next(err);
+        res.json(user);
+      });
   } else {
     return res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
@@ -183,13 +183,13 @@ router.put('/user-edit/:username', passport.authenticate('jwt', { session: false
 
 /* DELETE USER */
 router.delete('/user/:username', passport.authenticate('jwt', { session: false }), function (req, res) {
-  var token = getToken(req.headers);  
+  var token = getToken(req.headers);
   if (token) {
     User.findOneAndRemove(
       req.params.username, function (err) {
-      if (err) return next(err);
-      res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
-    });
+        if (err) return next(err);
+        res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
+      });
   } else {
     return res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
@@ -248,13 +248,13 @@ router.post('/flight-bulk-create', passport.authenticate('jwt', { session: false
   var token = getToken(req.headers);
   if (token) {
     var flightArray = new Array;
-    for (var i=0; i < 999; i++) {
+    for (var i = 0; i < 999; i++) {
       var newFlight = new Flight({
         flight_no: req.body.flight_no,
         origin: req.body.origin,
         destination: req.body.destination,
-        departuredatetime: moment(req.body.depart_time).add(i , 'days'),
-        arrivaldatetime: moment(req.body.arrival_time).add(i , 'days'),
+        departuredatetime: moment(req.body.depart_time).add(i, 'days'),
+        arrivaldatetime: moment(req.body.arrival_time).add(i, 'days'),
         aircraft_id: req.body.aircraft_id,
         price: req.body.price,
         carrier: req.body.carrier,
@@ -283,7 +283,7 @@ router.get('/flight-detail/:flight_no', passport.authenticate('jwt', { session: 
   if (token) {
     Flight.find(
       { flight_no: req.params.flight_no }
-    , function (err, flight) {
+      , function (err, flight) {
         if (err) return next(err);
         if (!flight) {
           res.status(403).send({ success: false, msg: 'Search failed. Flight not found.' });
@@ -302,10 +302,10 @@ router.put('/flight-edit/:flight_no', passport.authenticate('jwt', { session: fa
   if (token) {
     Flight.findOneAndUpdate(
       req.params.flight_no, req.body
-    , function (err, flight) {
-      if (err) return next(err);
-      res.json(flight);
-    });
+      , function (err, flight) {
+        if (err) return next(err);
+        res.json(flight);
+      });
   } else {
     return res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
@@ -318,9 +318,9 @@ router.delete('/flight/:flight_no', passport.authenticate('jwt', { session: fals
   if (token) {
     Flight.findOneAndRemove(
       req.params.flight_no, function (err) {
-      if (err) return next(err);
-      res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
-    });
+        if (err) return next(err);
+        res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
+      });
   } else {
     return res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
@@ -356,7 +356,7 @@ router.post('/airport-create', passport.authenticate('jwt', { session: false }),
       countrycode: req.body.countrycode,
       countryname: req.body.countryname
     });
-    
+
     newAirport.save(function (err) {
       if (err) {
         return res.json({ success: false, msg: 'Save airport failed.' });
@@ -374,7 +374,7 @@ router.get('/airport-detail/:airportcode', passport.authenticate('jwt', { sessio
   if (token) {
     Airport.find(
       { airportcode: req.params.airportcode }
-    , function (err, airport) {
+      , function (err, airport) {
         if (err) return next(err);
         if (!airport) {
           res.status(403).send({ success: false, msg: 'Search failed. Airport not found.' });
@@ -393,10 +393,10 @@ router.put('/airport-edit/:airportcode', passport.authenticate('jwt', { session:
   if (token) {
     Airport.findOneAndUpdate(
       req.params.airportcode, req.body
-    , function (err, airport) {
-      if (err) return next(err);
-      res.json(airport);
-    });
+      , function (err, airport) {
+        if (err) return next(err);
+        res.json(airport);
+      });
   } else {
     return res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
@@ -409,9 +409,9 @@ router.delete('/airport/:airportcode', passport.authenticate('jwt', { session: f
   if (token) {
     Airport.findOneAndRemove(
       req.params.airportcode, function (err) {
-      if (err) return next(err);
-      res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
-    });
+        if (err) return next(err);
+        res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
+      });
   } else {
     return res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
@@ -448,7 +448,7 @@ router.post('/aircraft-create', passport.authenticate('jwt', { session: false })
       inventory_id: req.body.inventory_id,
       equipment_Id: req.body.equipment_Id
     });
-    
+
     newAircraft.save(function (err) {
       if (err) {
         return res.json({ success: false, msg: 'Save aircraft failed.' });
@@ -466,7 +466,7 @@ router.get('/aircraft-detail/:aircraft_no', passport.authenticate('jwt', { sessi
   if (token) {
     Aircraft.find(
       { aircraft_no: req.params.aircraft_no }
-    , function (err, aircraft) {
+      , function (err, aircraft) {
         if (err) return next(err);
         if (!aircraft) {
           res.status(403).send({ success: false, msg: 'Search failed. Aircraft not found.' });
@@ -485,10 +485,10 @@ router.put('/aircraft-edit/:aircraft_no', passport.authenticate('jwt', { session
   if (token) {
     Aircraft.findOneAndUpdate(
       req.params.aircraft_no, req.body
-    , function (err, aircraft) {
-      if (err) return next(err);
-      res.json(aircraft);
-    });
+      , function (err, aircraft) {
+        if (err) return next(err);
+        res.json(aircraft);
+      });
   } else {
     return res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
@@ -501,9 +501,9 @@ router.delete('/aircraft/:aircraft_no', passport.authenticate('jwt', { session: 
   if (token) {
     Aircraft.findOneAndRemove(
       req.params.aircraft_no, function (err) {
-      if (err) return next(err);
-      res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
-    });
+        if (err) return next(err);
+        res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
+      });
   } else {
     return res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
@@ -535,36 +535,13 @@ router.get('/flight-search', passport.authenticate('jwt', { session: false }), f
 /* GET Flight-search RESULTS data */
 router.get('/flight-search-results', passport.authenticate('jwt', { session: false }), function (req, res) {
   var token = getToken(req.headers);
+  var aggregateQuery = getAggregateQuery(req);
+
+  console.log(aggregateQuery);
+
   if (token) {
     mongoose.model('Flight')
-      .aggregate([
-        {
-          "$match": {
-            "origin": req.query.fromcity,
-            "destination": req.query.tocity
-          },
-        },
-        {
-          "$lookup": {
-            "from": "inventory",
-            "localField": "inventory_id",
-            "foreignField": "inventory_id",
-            "as": "inventory"
-          }
-        },
-        {
-          "$replaceRoot": {
-            "newRoot": {
-              "$mergeObjects": [{
-                "$arrayElemAt": ["$inventory", 0]
-              }, "$$ROOT"]
-            }
-          }
-        },
-        {
-          "$project": { "inventory": 0 }
-        }
-      ])
+      .aggregate(aggregateQuery)
       .exec(function (err, flights) {
         if (err) {
           console.log(err);
@@ -663,50 +640,51 @@ router.post('/flight-createreservation', passport.authenticate('jwt', { session:
   var token = getToken(req.headers);
   if (token) {
     var newTravelers = new Traveler({
-      username: req.body.username,
-      pnrno: req.body.pnrno,
-      traveler_id: req.body.traveler_id,
-      travelerfirstname: req.body.travelerfirstname,
-      travelermiddlename: req.body.travelermiddlename,
-      travelerlastname: req.body.travelerlastname,
-      traveleraddress: req.body.traveleraddress,
-      travelerzipcode: req.body.travelerzipcode,
-      traveleremail: req.body.traveleremail,
-      travelerphone: req.body.travelerphone,
-      travelerseatpreference: req.body.travelerseatpreference,
-      travelerspecialservices: req.body.travelerspecialservices,
-      travelermealpreference: req.body.travelermealpreference,
-      needpassport: req.body.needpassport,
-      passportno: req.body.passportno,
-      passportexpiry: req.body.passportexpiry,
-      passportissuingcountry: req.body.passportissuingcountry,
-      passportcountryofcitizenship: req.body.passportcountryofcitizenship,
-      passportcountryofresidence: req.body.passportcountryofresidence,
-      emergencycontactfirstname: req.body.emergencycontactfirstname,
-      emergencycontactmiddlename: req.body.emergencycontactmiddlename,
-      emergencycontactlastname: req.body.emergencycontactlastname,
-      emergencycontactaddress: req.body.emergencycontactaddress,
-      emergencycontactzipcode: req.body.emergencycontactzipcode,
-      emergencycontactemail: req.body.emergencycontactemail,
-      emergencycontactphone: req.body.emergencycontactphone
+      username: req.body.createpnr["1"].username,
+      pnrno: req.body.createpnr["0"].pnrno,
+      traveler_id: req.body.createpnr["1"].traveler_id,
+      travelerfirstname: req.body.createpnr["1"].travelerfirstname,
+      travelermiddlename: req.body.createpnr["1"].travelermiddlename,
+      travelerlastname: req.body.createpnr["1"].travelerlastname,
+      traveleraddress: req.body.createpnr["1"].traveleraddress,
+      travelerzipcode: req.body.createpnr["1"].travelerzipcode,
+      traveleremail: req.body.createpnr["1"].traveleremail,
+      travelerphone: req.body.createpnr["1"].travelerphone,
+      travelerseatpreference: req.body.createpnr["1"].travelerseatpreference,
+      travelerspecialservices: req.body.createpnr["1"].travelerspecialservices,
+      travelermealpreference: req.body.createpnr["1"].travelermealpreference,
+      needpassport: req.body.createpnr["1"].needpassport,
+      passportno: req.body.createpnr["1"].passportno,
+      passportissue: req.body.createpnr["1"].passportissue,
+      passportexpiry: req.body.createpnr["1"].passportexpiry,
+      passportissuingcountry: req.body.createpnr["1"].passportissuingcountry,
+      passportcountryofcitizenship: req.body.createpnr["1"].passportcountryofcitizenship,
+      passportcountryofresidence: req.body.createpnr["1"].passportcountryofresidence,
+      emergencycontactfirstname: req.body.createpnr["1"].emergencycontactfirstname,
+      emergencycontactmiddlename: req.body.createpnr["1"].emergencycontactmiddlename,
+      emergencycontactlastname: req.body.createpnr["1"].emergencycontactlastname,
+      emergencycontactaddress: req.body.createpnr["1"].emergencycontactaddress,
+      emergencycontactzipcode: req.body.createpnr["1"].emergencycontactzipcode,
+      emergencycontactemail: req.body.createpnr["1"].emergencycontactemail,
+      emergencycontactphone: req.body.createpnr["1"].emergencycontactphone
     });
     var newReservation = new Reservation({
-      pnrno: req.body.pnrno,
-      total_amount: req.body.total_amount,
-      card_token: req.body.card_token,
-      paymentstatus: req.body.paymentstatus,
-      segment_count: req.body.segment_count,
-      segment_id: req.body.segment_id,
-      flight_no: req.body.flight_no,
-      origin: req.body.origin,
-      destination: req.body.destination,
-      departuredatetime: req.body.departuredatetime,
-      arrivaldatetime: req.body.arrivaldatetime,
-      price: req.body.price,
-      cabintype: req.body.cabintype,
-      seatno: req.body.seatno,
-      passenger_count: req.body.passenger_count,
-      traveler_id: req.body.traveler_id
+      pnrno: req.body.createpnr["0"].pnrno,
+      total_amount: req.body.createpnr["0"].total_amount,
+      card_token: req.body.createpnr["0"].card_token,
+      paymentstatus: req.body.createpnr["0"].paymentstatus,
+      segment_count: req.body.createpnr["0"].segment_count,
+      segment_id: req.body.createpnr["0"].segment_id,
+      flight_no: req.body.createpnr["0"].flight_no,
+      origin: req.body.createpnr["0"].origin,
+      destination: req.body.createpnr["0"].destination,
+      departuredatetime: req.body.createpnr["0"].departuredatetime,
+      arrivaldatetime: req.body.createpnr["0"].arrivaldatetime,
+      price: req.body.createpnr["0"].price,
+      cabintype: req.body.createpnr["0"].cabintype,
+      seatno: req.body.createpnr["0"].seatno,
+      passenger_count: req.body.createpnr["1"].passenger_count,
+      traveler_id: req.body.createpnr["1"].traveler_id
     });
 
     //SAVE the Traveler first and THEN create the reservation
@@ -839,4 +817,93 @@ getToken = function (headers) {
   }
 };
 
+getAggregateQuery = function(req) {
+/*   var obj1 = {
+    $gte: req.query.departDateTime + 'T00:00:00.000Z',
+    $lte: req.query.departDateTime + 'T23:59:59.999Z'
+  };
+  var obj2 = {
+    $gte: req.query.arrivalDatetime + 'T00:00:00.000Z',
+    $lte: req.query.arrivalDatetime + 'T23:59:59.999Z'
+  };
+
+  var myquery = (req.query.return === "true") ? ('{ "$or": [{ "origin": "' + req.query.fromcity + '", "destination": "' + req.query.tocity + '","departuredatetime": ' + JSON.stringify(obj1) + ' },'
+  + '{ "origin": "' + req.query.tocity + '", "destination": "' + req.query.fromcity + '","departuredatetime": ' + JSON.stringify(obj2) + '}] } }') 
+  : ('"origin":' + req.query.fromcity + ',"destination":' + req.query.tocity + ',"departuredatetime":' + JSON.stringify(obj1)) ;
+ */
+  if(req === null) {
+    return null;
+  }else{
+    if(req.query.return === "true"){
+      var returnQuery = [
+        {
+          "$match": { "$or": [{ "origin": req.query.fromcity,
+                              "destination": req.query.tocity,
+                              "departuredatetime": { "$gte": req.query.departDateTime + "T00:00:00.000Z", "$lte": req.query.departDateTime + "T23:59:59.999Z" }
+                            },
+                            { "origin": req.query.tocity,
+                              "destination": req.query.fromcity,
+                              "departuredatetime": { "$gte": req.query.arrivalDatetime + "T00:00:00.000Z", "$lte": req.query.arrivalDatetime + "T23:59:59.999Z" }
+                            }]
+                    }
+        },
+        {
+          "$lookup": {
+            "from": "inventory",
+            "localField": "inventory_id",
+            "foreignField": "inventory_id",
+            "as": "inventory"
+          }
+        },
+        {
+          "$replaceRoot": {
+            "newRoot": {
+              "$mergeObjects": [{
+                "$arrayElemAt": ["$inventory", 0]
+              }, "$$ROOT"]
+            }
+          }
+        },
+        {
+          "$project": {
+            "inventory": 0
+          }
+        }
+      ];
+
+      return returnQuery
+    } else {
+      var onewayQuery = [{
+                      "$match": { "origin": req.query.fromcity,
+                                  "destination": req.query.tocity,
+                                  "departuredatetime": { "$gte": req.query.departDateTime + "T00:00:00.000Z", "$lte": req.query.departDateTime + "T23:59:59.999Z" }
+                                }
+                    },
+                    {
+                      "$lookup": {
+                        "from": "inventory",
+                        "localField": "inventory_id",
+                        "foreignField": "inventory_id",
+                        "as": "inventory"
+                      }
+                    },
+                    {
+                      "$replaceRoot": {
+                        "newRoot": {
+                          "$mergeObjects": [{
+                            "$arrayElemAt": ["$inventory", 0]
+                          }, "$$ROOT"]
+                        }
+                      }
+                    },
+                    {
+                      "$project": {
+                        "inventory": 0
+                      }
+                    }];
+
+                    return onewayQuery;
+    }
+  }
+}
 module.exports = router;

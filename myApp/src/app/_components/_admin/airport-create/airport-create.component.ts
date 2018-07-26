@@ -52,7 +52,8 @@ export class AirportCreateComponent implements OnInit {
   airportCreate() {
     //this.resetForm();
       this.loading = true;
-      this.airportService.createAirport(this.airportCreateForm.value).subscribe(resp => {
+      this.airportService.createAirport(this.airportCreateForm.value)
+      .subscribe(resp => {
       //this.http.post('/api/airport-create', this.airportCreateForm.value).subscribe(resp => {
         this.data = resp;
         //console.log(this.data);

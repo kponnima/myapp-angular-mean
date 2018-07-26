@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 var ReservationSchema = new Schema({
     pnrno: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     total_amount: {
         type: Number,

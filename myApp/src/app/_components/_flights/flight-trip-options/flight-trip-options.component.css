@@ -1,0 +1,19 @@
+.container {
+    min-height: 92%;
+}
+.flight-trip-options-header-card {
+    margin-bottom: 24px;
+}
+.flight-trip-options-stepper-container {
+    margin-bottom: 24px;
+}
+.flight-trip-options-content-divider{
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.travelerform-back-button {
+    margin-right: 16px;
+}
+.travelerform-next-button {
+    margin-top: 16px;
+}
