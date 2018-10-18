@@ -35,6 +35,7 @@ testem.log
 /typings
 
 /mongo-db/*
+/angular_material_schematics*/*
 
 # System Files
 .DS_Store

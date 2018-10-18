@@ -1,85 +1,139 @@
-<div class="button-row">
-  <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
-  <button mat-raised-button color="primary" matTooltip="View user detail" (click)="userDetails()">
-    <mat-icon>list</mat-icon>
-  </button>
-</div>
+<div class="container">
 
-<form [formGroup]="userEditForm" (ngSubmit)="onFormSubmit(userEditForm.value)">
-  <!-- Username Column -->
-  <mat-form-field class="example-full-width">
-    <mat-label mdPrefix>Username</mat-label>
-    <input matInput #username placeholder="Username" ng-minlength='7' required formControlName="username">
-    <mat-icon matSuffix>person</mat-icon>
-    <mat-hint align="end">{{username?.value.length}} / 7</mat-hint>
-    <mat-error>
-      <span *ngIf="!userEditForm.get('username').valid && userEditForm.get('username').touched">Please enter Username and must be at least 7 characters</span>
-    </mat-error>
-  </mat-form-field>
-  <!-- Password Column -->
-  <mat-form-field class="example-full-width">
-    <mat-label mdPrefix>Password</mat-label>
-    <input matInput #password placeholder="Password" type="password" ng-minlength='7' [type]="hide ? 'password' : 'text'" required
-      formControlName="password">
-    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-    <mat-hint align="end">{{password?.value.length}} / 7</mat-hint>
-    <mat-error>
-      <span *ngIf="!userEditForm.get('password').valid && userEditForm.get('password').touched">Password must be at least 7 characters.</span>
-    </mat-error>
-  </mat-form-field>
-  <!-- Email Column -->
-  <mat-form-field class="example-full-width">
-    <mat-label mdPrefix>Email</mat-label>
-    <input matInput placeholder="Email" type="email" required formControlName="email">
-    <mat-icon matSuffix>email</mat-icon>
-    <mat-error>
-      <span *ngIf="!userEditForm.get('email').valid && userEditForm.get('email').touched">Please enter valid email</span>
-    </mat-error>
-  </mat-form-field>
-  <!-- Phone Column -->
-  <mat-form-field class="example-full-width">
-    <mat-label mdPrefix>Phone</mat-label>
-    <input matInput #phone placeholder="Phone" ng-minlength='10' required formControlName="phone">
-    <mat-icon matSuffix>phone</mat-icon>
-    <mat-hint align="end">{{phone.value.length}} / 10</mat-hint>
-    <mat-error>
-      <span *ngIf="!userEditForm.get('phone').valid && userEditForm.get('phone').touched">Please enter valid phone</span>
-    </mat-error>
-  </mat-form-field>
-  <!-- Role ID Column -->
-  <mat-form-field class="example-full-width">
-    <mat-select placeholder="Role ID" required formControlName="role_id">
-      <mat-option>None</mat-option>
-      <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
-    </mat-select>
-    <mat-error>
-      <span *ngIf="!userEditForm.get('role_id').valid && userEditForm.get('role_id').touched">Please select role id</span>
-    </mat-error>
-  </mat-form-field>
-  <!-- Privilege ID Column -->
-  <mat-form-field class="example-full-width">
-    <mat-select placeholder="Privilege ID" required formControlName="privilege_id">
-      <mat-option>None</mat-option>
-      <mat-option *ngFor="let privilege of privileges" [value]="privilege">{{ privilege }}</mat-option>
-    </mat-select>
-    <mat-error>
-      <span *ngIf="!userEditForm.get('privilege_id').valid && userEditForm.get('privilege_id').touched">Please select privilege id</span>
-    </mat-error>
-  </mat-form-field>
-  <!-- Status ID Column -->
-  <mat-form-field class="example-full-width">
-    <mat-select placeholder="Status ID" required formControlName="status_id">
-      <mat-option>None</mat-option>
-      <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
-    </mat-select>
-    <mat-error>
-      <span *ngIf="!userEditForm.get('status_id').valid && userEditForm.get('status_id').touched">Please select status id</span>
-    </mat-error>
-  </mat-form-field>
-
-  <div class="button-row">
-    <button type="submit" [disabled]="!userEditForm.valid" mat-raised-button color="primary">
-      <mat-icon>save</mat-icon>
-    </button>
+  <div *ngIf="loading">
+    <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
   </div>
-</form>
+
+  <!-- PROFILE HEADER card -->
+  <mat-card class="profile-header-card">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <button mat-raised-button (click)="goBack()" type="button">Back</button>
+        <button mat-raised-button color="primary" matTooltip="View user detail" (click)="userDetails()">
+          <mat-icon>list</mat-icon>
+        </button>
+        <h3>
+          <strong>USER Profile: {{ username | uppercase }}</strong>
+        </h3>
+      </div>
+    </div>
+  </mat-card>
+
+  <form [formGroup]="userEditForm" (ngSubmit)="onFormSubmit(userEditForm.value)">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <!-- Username Column -->
+        <mat-form-field appearance="fill">
+          <mat-label mdPrefix>Username</mat-label>
+          <input matInput #username placeholder="Username" ng-minlength='7' required formControlName="username">
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-hint align="end">{{username?.value.length}} / 7</mat-hint>
+          <mat-error>
+            <span *ngIf="!userEditForm.get('username').valid && userEditForm.get('username').touched">Please enter Username
+              and must be at least 7 characters</span>
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <!-- Password Column -->
+        <mat-form-field appearance="fill">
+          <mat-label mdPrefix>Password</mat-label>
+          <input matInput #password placeholder="Password" type="password" ng-minlength='7' [type]="hide ? 'password' : 'text'" required
+            formControlName="password">
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          <mat-hint align="end">{{password?.value.length}} / 7</mat-hint>
+          <mat-error>
+            <span *ngIf="!userEditForm.get('password').valid && userEditForm.get('password').touched">Password must be at
+              least 7 characters.</span>
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <!-- Email Column -->
+        <mat-form-field class="example-full-width">
+          <mat-label mdPrefix>Email</mat-label>
+          <input matInput placeholder="Email" type="email" required formControlName="email">
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error>
+            <span *ngIf="!userEditForm.get('email').valid && userEditForm.get('email').touched">Please enter valid email</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <!-- Phone Column -->
+        <mat-form-field class="example-full-width">
+          <mat-label mdPrefix>Phone</mat-label>
+          <input matInput #phone placeholder="Phone" ng-minlength='10' required formControlName="phone">
+          <mat-icon matSuffix>phone</mat-icon>
+          <mat-hint align="end">{{phone.value.length}} / 10</mat-hint>
+          <mat-error>
+            <span *ngIf="!userEditForm.get('phone').valid && userEditForm.get('phone').touched">Please enter valid phone</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <!-- Role ID Column -->
+        <mat-form-field class="example-full-width">
+          <mat-select placeholder="Role ID" required formControlName="role_id">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="!userEditForm.get('role_id').valid && userEditForm.get('role_id').touched">Please select role id</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <!-- Privilege ID Column -->
+        <mat-form-field class="example-full-width">
+          <mat-select placeholder="Privilege ID" required formControlName="privilege_id">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let privilege of privileges" [value]="privilege">{{ privilege }}</mat-option>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="!userEditForm.get('privilege_id').valid && userEditForm.get('privilege_id').touched">Please select
+              privilege id
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <!-- Status ID Column -->
+        <mat-form-field class="example-full-width">
+          <mat-select placeholder="Status ID" required formControlName="status_id">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="!userEditForm.get('status_id').valid && userEditForm.get('status_id').touched">Please select status
+              id
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <button type="submit" [disabled]="!userEditForm.valid" mat-raised-button color="primary">
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+
+</div>
