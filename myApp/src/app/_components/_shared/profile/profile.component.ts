@@ -19,13 +19,12 @@ export class ProfileComponent implements OnInit {
   userEditForm: FormGroup;
   hide = true;
 
-  user_name: string = '';
-  
-  username: string = '';
-  password: string = '';
-  email: string = '';
-  phone: string = '';
-  date_created: string = '';
+  user_name = '';
+  username = '';
+  password = '';
+  email = '';
+  phone = '';
+  date_created = '';
   role_id: number;
   privilege_id: number;
   status_id: number;
@@ -65,23 +64,22 @@ export class ProfileComponent implements OnInit {
 
   getUser(user_name) {
     this.userService.getUserDetailByUsername(user_name).subscribe(data => {
-      //console.log(data);
       this.userEditForm.setValue({
-        username: data["0"].username,
-        password: data["0"].password,
-        email: data["0"].email,
-        phone: data["0"].phone,
-        date_created: data["0"].date_created,
-        role_id: data["0"].role_id,
-        privilege_id: data["0"].privilege_id,
-        status_id: data["0"].status_id
+        username: data['0'].username,
+        password: data['0'].password,
+        email: data['0'].email,
+        phone: data['0'].phone,
+        date_created: data['0'].date_created,
+        role_id: data['0'].role_id,
+        privilege_id: data['0'].privilege_id,
+        status_id: data['0'].status_id
       });
     });
   }
 
   onFormSubmit(form: NgForm) {
     this.userService.updateUser(this.userEditForm.value)
-      //this.http.put('/api/user-edit', form)
+      // this.http.put('/api/user-edit', form)
       .subscribe(res => {
         const upadtedUser_username = res['username'];
         this.sendMessage('User with ID [ ' + upadtedUser_username + ' ] updated successfully! ');
@@ -102,7 +100,7 @@ export class ProfileComponent implements OnInit {
 
   sendMessage(message): void {
     // send message to subscribers via observable subject
-    //this.service.sendMessage(message);
+    // this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {
       duration: 3000
     });

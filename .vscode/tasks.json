@@ -50,6 +50,12 @@
             "script": "e2e-noupdate",
             "path": "myApp/",
             "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "update",
+            "path": "myApp/",
+            "problemMatcher": []
         }
     ]
 }

@@ -5,7 +5,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatAutocompleteModule, MatBadgeModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule,
   MatDividerModule, MatExpansionModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatProgressBarModule,
-  MatProgressSpinnerModule, MatRadioModule, MatSelectModule, MatSnackBar, MatStepperModule, MatTableModule, MatTooltipModule } from '@angular/material';
+  MatProgressSpinnerModule, MatRadioModule, MatSelectModule, MatSnackBar, MatStepperModule, MatTableModule,
+  MatTooltipModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';

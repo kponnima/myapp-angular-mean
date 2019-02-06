@@ -103,7 +103,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.json"
-            ]
+            ],
+            "codeCoverage": true
           }
         },
         "lint": {

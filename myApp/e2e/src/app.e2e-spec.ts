@@ -3,9 +3,7 @@ import { LoginPage } from './po/login.po';
 
 /* START THE TEST */
 describe('myApp - Complete E2E Test: ', () => {
-  let apppage: AppPage;
   let loginpage: LoginPage;
-
 
   beforeEach(() => {
     loginpage = new LoginPage();
@@ -26,7 +24,7 @@ describe('myApp - Complete E2E Test: ', () => {
 
   it('user should be able to login to the app', async () => {
     await loginpage.setUserName('kponnima86');
-    await loginpage.setPassword('Kushal@86')
+    await loginpage.setPassword('Kushal@86');
     expect(loginpage.getSignInButtonElement()).toBeTruthy();
     await loginpage.clickLogin();
   });
