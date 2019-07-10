@@ -4,7 +4,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Overlay } from '@angular/cdk/overlay'
 import { CollectionViewer, DataSource, SelectionModel } from '@angular/cdk/collections';
-import { MatTable, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatPaginator, MatSort } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import 'rxjs/add/observable/of';
@@ -56,7 +59,7 @@ export class FlightSearchResultsComponent implements OnInit  {
   //flightduration: any;
 
   //@ViewChild(MatTable) table: MatTable<any>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   
   public shoppingCartItems$: Observable<Flight[]> = of([]);
   public shoppingCartItems: Flight[] = [];

@@ -7,7 +7,9 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap, catchError, map, takeWhile, shareReplay, startWith, debounceTime, distinctUntilChanged, switchMap, finalize } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
-import { MatSnackBar, MatDatepicker, TooltipPosition } from '@angular/material';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 import { Moment } from 'moment';
 import * as moment from 'moment';
@@ -39,7 +41,7 @@ export class FlightSearchComponent implements OnInit {
   fromairportfilteredOptions: Observable<Airport[]>;
   toairportfilteredOptions: Observable<Airport[]>;
   connectionairportfilteredOptions: Observable<Airport[]>;
-  @ViewChild(MatDatepicker) picker: MatDatepicker<Moment>;
+  @ViewChild(MatDatepicker, { static: false }) picker: MatDatepicker<Moment>;
   isValidMoment: boolean = false;
   positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[2]);

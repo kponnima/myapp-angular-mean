@@ -6,10 +6,11 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { FormControl, FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Overlay } from '@angular/cdk/overlay';
 import { Location } from '@angular/common';
-import {
-  MatSnackBar, MatTable, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA,
-  MatDialogConfig, MatPaginator, MatSort
-} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import * as _ from 'lodash';

@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject, Subscription, of, Subject } from 'rxjs';
 import { tap, catchError, map, takeWhile, startWith, shareReplay } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Moment } from 'moment';
 import * as moment from 'moment';

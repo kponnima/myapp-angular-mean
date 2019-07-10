@@ -3,7 +3,9 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { MatSnackBar, MatDatepicker, TooltipPosition } from '@angular/material';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 import { Flight } from '../../../_models/flight';
 

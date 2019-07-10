@@ -7,7 +7,9 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap, catchError, map, takeWhile, shareReplay, startWith } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
-import { MatSnackBar, MatDatepicker, TooltipPosition } from '@angular/material';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 import { Moment } from 'moment';
 import * as moment from 'moment';
@@ -36,7 +38,7 @@ export class HotelSearchComponent implements OnInit {
   airportcodes$: Observable<AirportGroup[]>;
   
   public cols: Observable<number>;
-   @ViewChild( MatDatepicker) picker: MatDatepicker<Moment>;
+   @ViewChild(MatDatepicker, { static: true }) picker: MatDatepicker<Moment>;
   isValidMoment: boolean = false;
   positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[2]);

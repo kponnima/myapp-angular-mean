@@ -6,7 +6,9 @@ import { Observable, of } from 'rxjs';
 import { tap, catchError, map, takeWhile, shareReplay, startWith, finalize } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { MatSnackBar, MatDatepicker, TooltipPosition } from '@angular/material';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 import { Moment } from 'moment';
 import * as moment from 'moment';
@@ -32,7 +34,7 @@ export class FlightCreateComponent implements OnInit, OnChanges {
   flightCreateForm: FormGroup;
   airportcodes$: Observable<Airport[]>;
   data: any;
-  @ViewChild(MatDatepicker) picker: MatDatepicker<Moment>;
+  @ViewChild(MatDatepicker, { static: true }) picker: MatDatepicker<Moment>;
   minDate = new Date();
   maxDate = new Date(2020, 12, 1);
   isValidMoment: boolean = false;
