@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { tap, catchError, map, takeWhile, shareReplay, startWith, finalize } from 'rxjs/operators';
-import 'rxjs/add/operator/catch';
 import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -98,9 +97,9 @@ export class FlightCreateComponent implements OnInit, OnChanges {
       .pipe(
         map(airportdata => _.values(airportdata)),
         shareReplay(),
-        finalize(() => this.isLoading = false)
+        finalize(() => this.isLoading = false),
+        catchError(this.handleError)
       )
-      .catch(this.handleError);
   }
 
   /*calculateDistance(lat1, lat2, lon1, lon2) {

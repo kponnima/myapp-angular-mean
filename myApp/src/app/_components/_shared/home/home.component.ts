@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
             console.log(err);
           }
           this.loading = false;
-          this.sendMessage(err);
+          this.sendMessage('User not found');
         }
         );
     }

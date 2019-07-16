@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { CacheService } from '../_services/cache.service';
@@ -27,7 +27,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }else{
       const cachedResponse = this.cacheService.get(req.url);
       return cachedResponse
-        ? Observable.of(cachedResponse)
+        ? of(cachedResponse)
         : this.sendRequest(req, next);
     }
   }

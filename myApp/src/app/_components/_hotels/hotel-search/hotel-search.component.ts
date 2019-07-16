@@ -5,7 +5,6 @@ import { DataSource } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap, catchError, map, takeWhile, shareReplay, startWith } from 'rxjs/operators';
-import 'rxjs/add/operator/catch';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TooltipPosition } from '@angular/material/tooltip';
@@ -122,8 +121,9 @@ export class HotelSearchComponent implements OnInit {
     this.airportcodes$ = this.http.get<AirportGroup[]>('/api/airports')
       .pipe(
         map(data => _.values(data)),
-        shareReplay())
-      .catch(this.handleError);
+        shareReplay(),
+        catchError(this.handleError)
+      );
   }
 
   sendMessage(message): void {

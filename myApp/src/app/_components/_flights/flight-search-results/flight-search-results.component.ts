@@ -10,7 +10,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Observable, BehaviorSubject, of } from 'rxjs';
-import 'rxjs/add/observable/of';
 
 import { Moment } from 'moment';
 import * as moment from 'moment';
@@ -276,7 +275,7 @@ export class FlightDataSource extends DataSource<Flight> {
 
   }
   connect(): Observable<Flight[]> {
-    return Observable.of(this.data);
+    return of(this.data);
       //.do(data => this.empty = !data.length);
   }
   disconnect() {
@@ -289,7 +288,7 @@ export class DepartFlightDataSource extends DataSource<Flight> {
 
   }
   connect(): Observable<Flight[]> {
-    return Observable.of(this.departdata);
+    return of(this.departdata);
       //.do(data => this.empty = !data.length);
   }
   disconnect() {
@@ -302,7 +301,7 @@ export class ReturnFlightDataSource extends DataSource<Flight> {
 
   }
   connect(): Observable<Flight[]> {
-    return Observable.of(this.data);
+    return of(this.data);
       //.do(data => this.empty = !data.length);
   }
   disconnect() {

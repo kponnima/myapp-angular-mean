@@ -76,7 +76,7 @@ export class FlightDataSource extends DataSource<Flight> {
 
   }
   connect(): Observable<Flight[]> {
-    return Observable.of(this.data);
+    return of(this.data);
   }
   disconnect() {
   }

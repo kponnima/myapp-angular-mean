@@ -55,7 +55,7 @@ export class UserDataSource extends DataSource<User> {
 
   }
   connect(): Observable<User[]> {
-    return Observable.of(this.data);
+    return of(this.data);
   }
   disconnect() {
   }

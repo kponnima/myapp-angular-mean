@@ -23,7 +23,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
 
 import { FlightsComponent } from './flights.component';
 import { MessageService } from '../../../_helpers/message.service';
@@ -38,7 +37,7 @@ describe('FlightComponent', () => {
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       imports: [
         HttpClientModule,
-        HttpModule,
+        HttpClientModule,
         RouterTestingModule,
         FormsModule,
         ReactiveFormsModule,

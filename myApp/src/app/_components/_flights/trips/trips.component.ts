@@ -4,7 +4,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable, of } from 'rxjs';
-import 'rxjs/add/observable/of';
 import { tap, catchError, map, takeWhile, startWith } from 'rxjs/operators';
 
 import { Moment } from 'moment';
@@ -66,7 +65,7 @@ export class FlightDataSource extends DataSource<Flight> {
     super();
   }
   connect(): Observable<Flight[]> {
-    return Observable.of(this.data);
+    return of(this.data);
   }
   disconnect() {
   }

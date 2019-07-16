@@ -64,7 +64,7 @@ export class AirportDataSource extends DataSource<Airport> {
 
   }
   connect(): Observable<Airport[]> {
-    return Observable.of(this.data);
+    return of(this.data);
   }
   disconnect() {
   }

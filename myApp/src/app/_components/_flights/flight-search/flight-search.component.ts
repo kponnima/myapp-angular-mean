@@ -3,9 +3,8 @@ import { FormGroup, FormBuilder, Validators, NgForm, FormControl } from '@angula
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DataSource } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap, catchError, map, takeWhile, shareReplay, startWith, debounceTime, distinctUntilChanged, switchMap, finalize } from 'rxjs/operators';
-import 'rxjs/add/operator/catch';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TooltipPosition } from '@angular/material/tooltip';
@@ -113,7 +112,7 @@ export class FlightSearchComponent implements OnInit {
         distinctUntilChanged(),
         tap(() => this.airportsloading = true),
         switchMap(val =>
-          ((val === null) || (val.length !== 3)) ? Observable.of([]) : this.airportService.getAirportByCode(this._formatCase(val))
+          ((val === null) || (val.length !== 3)) ? of([]) : this.airportService.getAirportByCode(this._formatCase(val))
         ),
         tap(() => this.airportsloading = false)
       );
@@ -125,7 +124,7 @@ export class FlightSearchComponent implements OnInit {
         distinctUntilChanged(),
         tap(() => this.airportsloading = true),
         switchMap(val =>
-          ((val === null) || (val.length !== 3)) ? Observable.of([]) : this.airportService.getAirportByCode(this._formatCase(val))
+          ((val === null) || (val.length !== 3)) ? of([]) : this.airportService.getAirportByCode(this._formatCase(val))
         ),
         tap(() => this.airportsloading = false)
       );
@@ -137,7 +136,7 @@ export class FlightSearchComponent implements OnInit {
         distinctUntilChanged(),
         tap(() => this.airportsloading = true),
         switchMap(val =>
-          ((val === null) || (val.length !== 3)) ? Observable.of([]) : this.airportService.getAirportByCode(this._formatCase(val))
+          ((val === null) || (val.length !== 3)) ? of([]) : this.airportService.getAirportByCode(this._formatCase(val))
         ),
         tap(() => this.airportsloading = false)
       );
