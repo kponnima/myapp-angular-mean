@@ -1,5 +1,5 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
-  
+
   <!-- HEADER -->
   <mat-toolbar color="primary" class="example-toolbar">
     <button mat-icon-button (click)="sidenav.toggle()">
@@ -15,7 +15,8 @@
     </span>
     <!-- Space for additional text/links -->
     <span>
-      <a mat-raised-button color="primary" matTooltip="Profile" class="sidenav-header-profile-button" *ngIf="loggedin" (click)="viewUserProfile()">
+      <a mat-raised-button color="primary" matTooltip="Profile" class="sidenav-header-profile-button" *ngIf="loggedin"
+        (click)="viewUserProfile()">
         <mat-icon>account_circle</mat-icon>
       </a>
     </span>
@@ -27,10 +28,11 @@
   </mat-toolbar>
 
   <!-- MAIN CONTENT + SIDENAV -->
-  <mat-sidenav-container class="example-sidenav-container" (backdropClick)="close()" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+  <mat-sidenav-container class="example-sidenav-container" (backdropClick)="close()"
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <!-- SIDENAV -->
-    <mat-sidenav class="example-sidenav" #sidenav (keydown.escape)="close()" [disableClose]="true" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
-      fixedTopGap="56">
+    <mat-sidenav class="example-sidenav" #sidenav (keydown.escape)="close()" [disableClose]="true"
+      [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list *ngIf="loggedin">
         <a mat-list-item [routerLink]="['/admin']" routerLinkActive="active">Admin View</a>
         <a mat-list-item [routerLink]="['/flight-search-results']" routerLinkActive="active">Flight Search</a>
@@ -62,22 +64,22 @@
 
   </mat-sidenav-container>
 
-  <!-- FOOTER -->
-  <nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-      <mat-toolbar color="primary">
-        <mat-toolbar-row>
-          <span>
-            <img src="../../favicon.ico">
-          </span>
-          <span class="example-fill-remaining-space"></span>
-          <span class="align-center"></span>
-          <span class="example-spacer"></span>
-          <button mat-button>About</button>
-          <button mat-button>Contact</button>
-        </mat-toolbar-row>
-      </mat-toolbar>
-    </div>
-  </nav>
-
 </div>
+
+<!-- FOOTER -->
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container-fluid">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <span>
+          <img src="../../favicon.ico">
+        </span>
+        <span class="example-fill-remaining-space"></span>
+        <span class="align-center"></span>
+        <span class="example-spacer"></span>
+        <button mat-button>About</button>
+        <button mat-button>Contact</button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+</nav>

@@ -9,7 +9,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  styleUrls: ['./signup.component.scss']
 })
 
 export class SignupComponent implements OnInit {
@@ -50,7 +50,7 @@ export class SignupComponent implements OnInit {
       }*/
       
       // form.resetForm();
-      this.router.navigate(['login']);
+      this.router.navigate(['signin']);
     }, err => {
       this.message = err.error.msg;
     });

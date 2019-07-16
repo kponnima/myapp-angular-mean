@@ -14,7 +14,7 @@ export interface DialogData {
 @Component({
   selector: 'app-shoppingcart',
   templateUrl: './shoppingcart.component.html',
-  styleUrls: ['./shoppingcart.component.css']
+  styleUrls: ['./shoppingcart.component.scss']
 })
 export class ShoppingcartComponent implements OnInit {
   public shoppingCartItems$: Observable<Flight[]> = of([]);

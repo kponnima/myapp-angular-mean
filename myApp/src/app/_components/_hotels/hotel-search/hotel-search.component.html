@@ -3,7 +3,7 @@
         <mat-card-content>
             <mat-grid-list cols="3" rowHeight="fit" [gutterSize]="1" [style.height]="fitListHeight">
                 <mat-grid-tile>
-                    <mat-form-field>
+                    <mat-form-field appearance="outline">
                         <mat-select placeholder="Type of travel" required formControlName="typeoftravel">
                             <mat-option *ngFor="let typeoftravel of typeofTravel" [value]="typeoftravel.viewValue">
                                 {{ typeoftravel.viewValue }}

@@ -24,7 +24,7 @@ var api = require('./routes/api');
 // MongoDB config
 mongoose.Promise = require('bluebird');
 mongoose.set('debug', true);
-mongoose.connect(config.database, { promiseLibrary: require('bluebird') })
+mongoose.connect(config.database, { useNewUrlParser: true, promiseLibrary: require('bluebird') })
   .then(() =>  console.log('connection successful'))
   .catch((err) => console.error(err));
 

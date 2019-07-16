@@ -15,7 +15,7 @@ import { MessageService } from '../../../_helpers/message.service';
 @Component({
   selector: 'app-flight-edit',
   templateUrl: './flight-edit.component.html',
-  styleUrls: ['./flight-edit.component.css']
+  styleUrls: ['./flight-edit.component.scss']
 })
 export class FlightEditComponent implements OnInit {
   private loading: boolean = true;

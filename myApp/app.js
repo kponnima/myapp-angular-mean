@@ -13,7 +13,7 @@ var app = express();
 mongoose.Promise = require('bluebird');
 mongoose.set('debug', true);
 //mongoose.set('diagnosticDataCollectionEnabled', false)
-mongoose.connect(config.database, { promiseLibrary: require('bluebird') })
+mongoose.connect(config.database, { useNewUrlParser: true, promiseLibrary: require('bluebird') })
   .then(() =>  console.log('connection successful'))
   .catch((err) => console.error(err));
 

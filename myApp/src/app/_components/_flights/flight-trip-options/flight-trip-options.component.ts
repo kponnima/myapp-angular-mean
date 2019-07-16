@@ -19,7 +19,7 @@ import { AuthService } from '../../../_helpers/auth.service';
 @Component({
   selector: 'app-flight-trip-options',
   templateUrl: './flight-trip-options.component.html',
-  styleUrls: ['./flight-trip-options.component.css']
+  styleUrls: ['./flight-trip-options.component.scss']
 })
 export class FlightTripOptionsComponent implements OnInit {
   private loading: boolean = false;

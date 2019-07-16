@@ -22,7 +22,7 @@ import { AirportService } from '../../../_services/airport.service';
 @Component({
   selector: 'app-airport-create',
   templateUrl: './airport-create.component.html',
-  styleUrls: ['./airport-create.component.css']
+  styleUrls: ['./airport-create.component.scss']
 })
 export class AirportCreateComponent implements OnInit {
   private loading: boolean = false;

@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
 import { Observable, BehaviorSubject, Subscription, of, Subject } from 'rxjs';
 import { tap, catchError, map, takeWhile, startWith, shareReplay } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
@@ -21,11 +20,12 @@ import { AirportService } from '../../../_services/airport.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   private loading: boolean = true;
   private fragment: string;
+  private isFlightTabActive:boolean = true;
   @Input() user: User;
   loggedInSub: Subscription;
   loggedname: any;
@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
   public loggedInUserItems$: Observable<User[]> = of([]);
   public loggedInUserItems: User[] = [];
 
-  constructor(private observableMedia: ObservableMedia, private authService: AuthService, private http: HttpClient,
+  constructor(private authService: AuthService, private http: HttpClient,
     private route: ActivatedRoute, private router: Router, private userService: UserService, private airportService: AirportService,
     private service: MessageService, private snackBar: MatSnackBar) {
     //this.loggedname = this.loggedInUserItems["0"].username;

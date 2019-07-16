@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, Input, NgZone } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
 import { Observable, BehaviorSubject, Subscription, of, Subject } from 'rxjs';
 import { tap, catchError, map, takeWhile, startWith } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
@@ -35,7 +34,7 @@ import { AlertDialogComponent } from '../../_shared/alert-dialog/alert-dialog.co
 @Component({
   selector: 'app-flight-trip-summary',
   templateUrl: './flight-trip-summary.component.html',
-  styleUrls: ['./flight-trip-summary.component.css']
+  styleUrls: ['./flight-trip-summary.component.scss']
 })
 export class FlightTripSummaryComponent implements OnInit {
   private loading: boolean = false;
@@ -100,7 +99,7 @@ export class FlightTripSummaryComponent implements OnInit {
   public loggedInUserItems$: Observable<User[]> = of([]);
   public loggedInUserItems: User[] = [];
 
-  constructor(private formBuilder: FormBuilder, private observableMedia: ObservableMedia, private http: HttpClient, private _zone: NgZone,
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private _zone: NgZone,
     private dialog: MatDialog, private overlay: Overlay, private location: Location, private cartService: CartService, private paymentService: PaymentService,
     private reservationService: ReservationService, private authService: AuthService, private router: Router, private route: ActivatedRoute,
     private service: MessageService, private snackBar: MatSnackBar) {

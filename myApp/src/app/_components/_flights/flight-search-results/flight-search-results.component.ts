@@ -25,7 +25,7 @@ import { FlightService } from '../../../_services/flight.service';
 @Component({
   selector: 'app-flight-search-results',
   templateUrl: './flight-search-results.component.html',
-  styleUrls: ['./flight-search-results.component.css'],
+  styleUrls: ['./flight-search-results.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),

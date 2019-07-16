@@ -13,7 +13,7 @@ import { MessageService } from '../../../_helpers/message.service';
 @Component({
   selector: 'app-airport-detail',
   templateUrl: './airport-detail.component.html',
-  styleUrls: ['./airport-detail.component.css']
+  styleUrls: ['./airport-detail.component.scss']
 })
 export class AirportDetailComponent implements OnInit {
   private loading: boolean = true;

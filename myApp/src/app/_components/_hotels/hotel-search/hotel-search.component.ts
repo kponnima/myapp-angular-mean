@@ -1,8 +1,7 @@
-import { Component, OnInit , ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgForm, FormControl } from '@angular/forms';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { DataSource } from '@angular/cdk/collections';
-import { ObservableMedia } from '@angular/flex-layout';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap, catchError, map, takeWhile, shareReplay, startWith } from 'rxjs/operators';
@@ -26,7 +25,7 @@ export interface AirportGroup {
 @Component({
   selector: 'app-hotel-search',
   templateUrl: './hotel-search.component.html',
-  styleUrls: ['./hotel-search.component.css']
+  styleUrls: ['./hotel-search.component.scss']
 })
 export class HotelSearchComponent implements OnInit {
   private loading: boolean = false;
@@ -36,9 +35,8 @@ export class HotelSearchComponent implements OnInit {
     cityGroup: '',
   });
   airportcodes$: Observable<AirportGroup[]>;
-  
-  public cols: Observable<number>;
-   @ViewChild(MatDatepicker, { static: true }) picker: MatDatepicker<Moment>;
+
+  @ViewChild(MatDatepicker, { static: true }) picker: MatDatepicker<Moment>;
   isValidMoment: boolean = false;
   positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[2]);
@@ -46,22 +44,22 @@ export class HotelSearchComponent implements OnInit {
   message = '';
 
   typeofTravel = [
-    {value: 'typeoftravel-0', viewValue: 'One Way'},
-    {value: 'typeoftravel-1', viewValue: 'Round Trip'},
-    {value: 'typeoftravel-2', viewValue: 'Multi City'}
+    { value: 'typeoftravel-0', viewValue: 'One Way' },
+    { value: 'typeoftravel-1', viewValue: 'Round Trip' },
+    { value: 'typeoftravel-2', viewValue: 'Multi City' }
   ];
 
   typeofTravelers = [
-    {value: 'typeoftravelers-0', viewValue: 'Adult - 1'},
-    {value: 'typeoftravelers-1', viewValue: 'Couple'},
-    {value: 'typeoftravelers-2', viewValue: 'Adult + Children'}
-  ]; 
+    { value: 'typeoftravelers-0', viewValue: 'Adult - 1' },
+    { value: 'typeoftravelers-1', viewValue: 'Couple' },
+    { value: 'typeoftravelers-2', viewValue: 'Adult + Children' }
+  ];
 
   classofTravel = [
-    {value: 'clasoftravel-0', viewValue: 'Economy'},
-    {value: 'clasoftravel-1', viewValue: 'Premium Economy'},
-    {value: 'clasoftravel-2', viewValue: 'Business'},
-    {value: 'clasoftravel-3', viewValue: 'First'}
+    { value: 'clasoftravel-0', viewValue: 'Economy' },
+    { value: 'clasoftravel-1', viewValue: 'Premium Economy' },
+    { value: 'clasoftravel-2', viewValue: 'Business' },
+    { value: 'clasoftravel-3', viewValue: 'First' }
   ];
 
   times = [
@@ -70,21 +68,21 @@ export class HotelSearchComponent implements OnInit {
     '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM'
   ];
 
-  constructor(private observableMedia: ObservableMedia, private http: HttpClient, private router: Router, private formBuilder: FormBuilder,
-    private service:MessageService, private snackBar: MatSnackBar ) { }
+  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder,
+    private service: MessageService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.flightsearchForm = this.formBuilder.group({
-      'typeoftravel' : ['', Validators.required],
-      'typeoftraveler' : ['', Validators.required],
-      'classoftravel' : ['', Validators.required],
-      'fromcity' : [null, Validators.required],
-      'tocity' : [null, Validators.required],
-      'connection_city' : [null, Validators.nullValidator],
-      'depart_date' : [{value: null, disabled: true}, Validators.required],
-      'depart_time' : [null, Validators.required],
-      'return_date' : [{value: null, disabled: true}, Validators.nullValidator],
-      'return_time' : [null, Validators.nullValidator]
+      'typeoftravel': ['', Validators.required],
+      'typeoftraveler': ['', Validators.required],
+      'classoftravel': ['', Validators.required],
+      'fromcity': [null, Validators.required],
+      'tocity': [null, Validators.required],
+      'connection_city': [null, Validators.nullValidator],
+      'depart_date': [{ value: null, disabled: true }, Validators.required],
+      'depart_time': [null, Validators.required],
+      'return_date': [{ value: null, disabled: true }, Validators.nullValidator],
+      'return_time': [null, Validators.nullValidator]
     });
 
     this.flightsearchForm.get('typeoftravel').setValue(this.typeofTravel[0].viewValue);
@@ -92,30 +90,9 @@ export class HotelSearchComponent implements OnInit {
     this.flightsearchForm.get('classoftravel').setValue(this.classofTravel[0].viewValue);
 
     this.filterAirportGroup();
-
-    const grid = new Map([
-      ['xs', 1],
-      ['sm', 2],
-      ['md', 2],
-      ['lg', 3],
-      ['xl', 3]
-    ]);
-    let start: number;
-    grid.forEach((cols, mqAlias) => {
-      if (this.observableMedia.isActive(mqAlias)) {
-        start = cols;
-      }
-    });
-    this.cols = this.observableMedia.asObservable().pipe(
-      map(change => {
-        console.log(change);
-        console.log(grid.get(change.mqAlias));
-        return grid.get(change.mqAlias);
-      }),
-      startWith(start));
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.picker._selectedChanged.subscribe(
       (newDate: Moment) => {
         this.isValidMoment = moment.isMoment(newDate);
@@ -126,7 +103,7 @@ export class HotelSearchComponent implements OnInit {
     );
   }
 
-  flightsearch(form:NgForm){
+  flightsearch(form: NgForm) {
     let departDateTime = moment(this.flightsearchForm.controls.depart_date.value)
       .add(this.flightsearchForm.controls.depart_time.value, 'hours')
       .format(this.DATE_DATA_FORMAT)
@@ -138,15 +115,15 @@ export class HotelSearchComponent implements OnInit {
         //departDateTime: departDateTime
       }
     });
-    this.router.navigate(['flight-search-results'],{ queryParams: { fromcity: this.flightsearchForm.controls.fromcity.value, 'tocity': this.flightsearchForm.controls.tocity.value } });
+    this.router.navigate(['flight-search-results'], { queryParams: { fromcity: this.flightsearchForm.controls.fromcity.value, 'tocity': this.flightsearchForm.controls.tocity.value } });
   }
 
-  filterAirportGroup(){
+  filterAirportGroup() {
     this.airportcodes$ = this.http.get<AirportGroup[]>('/api/airports')
-    .pipe(
-      map(data => _.values(data)),
-      shareReplay())
-    .catch(this.handleError);
+      .pipe(
+        map(data => _.values(data)),
+        shareReplay())
+      .catch(this.handleError);
   }
 
   sendMessage(message): void {
@@ -157,11 +134,11 @@ export class HotelSearchComponent implements OnInit {
     });
   }
 
-  clearMessage():void{
+  clearMessage(): void {
     this.service.clearMessage();
   }
 
-  private handleError(err : HttpErrorResponse){
+  private handleError(err: HttpErrorResponse) {
     if (err.error instanceof Error) {
       console.log("Client-side error occured.");
       console.log(err);
