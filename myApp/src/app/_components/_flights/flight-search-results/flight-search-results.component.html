@@ -1,347 +1,127 @@
-<div class="container">
-  <div *ngIf="loading">
-    <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
-  </div>
-  <!-- SEARCH RESULTS HEADER card -->
-  <mat-card class="flight-search-results-header-card">
-    <div class="row">
-      <div class="col-xs-2 col-sm-2 col-md-2">
-        <button mat-raised-button (click)="goBack()" type="button">
-          <mat-icon>arrow_back</mat-icon>
-        </button>
-      </div>
-      <div class="col-xs-10 col-sm-10 col-md-10">
-        <h4>SEARCH RESULTS -- {{ origin | uppercase }} :: {{ destination | uppercase }}</h4>
-      </div>
-    </div>
-  </mat-card>
-
-  <!-- DEPARTING FLIGHTS DISPLAY -->
-  <mat-card class="flight-search-results-depature-header-card">
-    <div class="row">
-      <div class="col-xs-2 col-sm-2 col-md-2">
-        <mat-icon>flight_takeoff</mat-icon>
-      </div>
-      <div class="col-xs-10 col-sm-10 col-md-10">
-        <h4>
-          <strong>Choose departure to Dallas</strong>
-        </h4>
-      </div>
-    </div>
-  </mat-card>
-
+<!--  OUTBOUND RESULTS MODIFY SEARCH -->
+<mat-card class="flight-search-results-modify-card">
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-      <div *ngIf="departflightloading">
-        <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
-      </div>
-      <table mat-table [dataSource]="departdataSource" multiTemplateDataRows class="container mat-elevation-z8">
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
-            </mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation(); addFlightToCart(row);" (change)="$event ? selection.toggle(row) : null"
-              [checked]="selection.isSelected(row)">
-            </mat-checkbox>
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Flight No Column -->
-        <ng-container matColumnDef="flight_no">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>FLIGHT NO</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.flight_no }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Origin Column -->
-        <ng-container matColumnDef="origin">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>ORIGIN</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.origin }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Destination Column -->
-        <ng-container matColumnDef="destination">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>DESTINATION</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.destination }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Departure Column -->
-        <ng-container matColumnDef="departure">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>DEPARTURE</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.departuredatetime | date : 'medium' }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Arrival Column -->
-        <ng-container matColumnDef="arrival">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>ARRIVAL</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.arrivaldatetime | date : 'medium' }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Aircraft Code Column -->
-        <ng-container matColumnDef="aircraft_id">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>AIRCRAFT</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.aircraft_id }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Carrier Code Column -->
-        <ng-container matColumnDef="carrier">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>CARRIER</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.carrier }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Price Column -->
-        <ng-container matColumnDef="price">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>PRICE</strong>
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <strong>{{ element.price | currency }}</strong>
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Details item button Column -->
-        <ng-container matColumnDef="details_button_col">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-button color="primary" class="example-element-row" [class.example-expanded-row]="expandedElement === element"
-              (click)="onDetailsButtonClick(element)">Details</button>
-          </td>
-          <td mat-footer-cell *matFooterCellDef>
-            <button mat-fab (click)="openShoppingCart()" color="primary" [matBadge]="(shoppingCartItems$ | async).length" matBadgePosition="before"
-              matBadgeColor="accent">
-              <mat-icon>shopping_cart</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-        <ng-container matColumnDef="expandedDetail">
-          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-              <mat-chip-list>
-                <mat-chip color="accent" selected="true">{{element.duration | date: 'HHmm' }}</mat-chip>
-                <p>| DURATION</p>
-                <mat-chip color="accent" selected="true">{{element.miles}}</mat-chip>
-                <p>| MILES</p>
-                <mat-chip color="accent" selected="true">{{element.equipment_id}}</mat-chip>
-                <p>| EQUIPMENT</p>
-              </mat-chip-list>
-            </div>
-          </td>
-        </ng-container>
-
-        <!-- Seats -Sub Column -->
-        <ng-container matColumnDef="aircraftcapacity">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-            <mat-chip-list>
-              <mat-chip color="primary" selected="true">{{ element.aircraftcapacity }}</mat-chip>
-              <p> Available Seats | </p>
-              <mat-chip color="primary" selected="true">{{ element.legseatsavailable - element.baseseatssold }}</mat-chip>
-              <p> {{ element.cabintype }}</p>
-            </mat-chip-list>
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-
-        <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['aircraftcapacity']; when: isDescriptionRow"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-
-        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-      </table>
+    <div class="col-xs-2 col-sm-2 col-md-2">
+      <p>Outbound</p>
+      <a href="javascript:void(0);" (click)="changeFlight()">Change Flight</a>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2">
+      <h4>{{ origin | uppercase }} - {{ destination | uppercase }}</h4>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2">
+      <h4>{{ departDateTime | date:'fullDate' }}</h4>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2">
+      <h4>{{ departDateTime | date:'shortTime' }} - {{ arrivalDateTime | date:'shortTime' }}</h4>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 text-center">
+      <p>1 Stop</p>
+      <p>2h 20m</p>
+      <p>Main</p>
+      <h4>(H)</h4>
     </div>
   </div>
+</mat-card>
 
-  <mat-divider class="flight-search-results-content-divider"></mat-divider>
-
-  <!-- RETURNING FLIGHTS DISPLAY -->
-  <mat-card class="flight-search-results-depature-header-card">
-    <div class="row">
-      <div class="col-xs-2 col-sm-2 col-md-2">
-        <mat-icon>flight_land</mat-icon>
-      </div>
-      <div class="col-xs-10 col-sm-10 col-md-10">
-        <h4>
-          <strong>Choose return to Phoenix</strong>
-        </h4>
-      </div>
-    </div>
-  </mat-card>
-
+<!-- OUTBOUND RESULTS HEADER card -->
+<mat-card class="flight-search-results-header-card">
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-
-      <table mat-table [dataSource]="returndataSource" multiTemplateDataRows class="container mat-elevation-z8">
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
-            </mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation(); addFlightToCart(row);" (change)="$event ? selection.toggle(row) : null"
-              [checked]="selection.isSelected(row)">
-            </mat-checkbox>
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Flight No Column -->
-        <ng-container matColumnDef="flight_no">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>FLIGHT NO</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.flight_no }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Origin Column -->
-        <ng-container matColumnDef="origin">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>ORIGIN</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.origin }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Destination Column -->
-        <ng-container matColumnDef="destination">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>DESTINATION</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.destination }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Departure Column -->
-        <ng-container matColumnDef="departure">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>DEPARTURE</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.departuredatetime | date : 'medium' }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Arrival Column -->
-        <ng-container matColumnDef="arrival">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>ARRIVAL</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.arrivaldatetime | date : 'medium' }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Aircraft Code Column -->
-        <ng-container matColumnDef="aircraft_id">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>AIRCRAFT</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.aircraft_id }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Carrier Code Column -->
-        <ng-container matColumnDef="carrier">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>CARRIER</strong>
-          </th>
-          <td mat-cell *matCellDef="let element"> {{ element.carrier }} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Price Column -->
-        <ng-container matColumnDef="price">
-          <th mat-header-cell *matHeaderCellDef>
-            <strong>PRICE</strong>
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <strong>{{ element.price | currency }}</strong>
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <!-- Details item button Column -->
-        <ng-container matColumnDef="details_button_col">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-button color="primary" class="example-element-row" [class.example-expanded-row]="expandedElement === element"
-              (click)="onDetailsButtonClick(element)">Details</button>
-          </td>
-          <td mat-footer-cell *matFooterCellDef>
-            <button mat-fab (click)="openShoppingCart()" color="primary" [matBadge]="(shoppingCartItems$ | async).length" matBadgePosition="before"
-              matBadgeColor="accent">
-              <mat-icon>shopping_cart</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-        <ng-container matColumnDef="expandedDetail">
-          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-              <mat-chip-list>
-                <mat-chip color="accent" selected="true">{{element.duration | date: 'HHmm' }}</mat-chip>
-                <p>| DURATION</p>
-                <mat-chip color="accent" selected="true">{{element.miles}}</mat-chip>
-                <p>| MILES</p>
-                <mat-chip color="accent" selected="true">{{element.equipment_id}}</mat-chip>
-                <p>| EQUIPMENT</p>
-              </mat-chip-list>
-            </div>
-          </td>
-        </ng-container>
-
-        <!-- Seats -Sub Column -->
-        <ng-container matColumnDef="aircraftcapacity">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-            <mat-chip-list>
-              <mat-chip color="primary" selected="true">{{ element.aircraftcapacity }}</mat-chip>
-              <p> Available Seats | </p>
-              <mat-chip color="primary" selected="true">{{ element.legseatsavailable - element.baseseatssold }}</mat-chip>
-              <p> {{ element.cabintype }}</p>
-            </mat-chip-list>
-          </td>
-          <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-
-        <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['aircraftcapacity']; when: isDescriptionRow"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-
-        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-      </table>
+    <div class="col-xs-2 col-sm-2 col-md-2">
+      <button mat-raised-button (click)="goBack()" type="button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+    <div class="col-xs-10 col-sm-10 col-md-10">
+      <h4>Outbound -- {{ origin | uppercase }} :: {{ destination | uppercase }}</h4>
     </div>
   </div>
+</mat-card>
 
+<!-- DEPART FLIGHTS DISPLAY -->
+<div class="table-responsive-md flight-search-results-table">
+  <table *ngIf="flights" class="table table-hover table-borderless">
+    <tbody>
+      <tr *ngFor="let flight of flights">
+        <th scope="row" colspan="6" class="text-center">
+          <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4">
+              <p>{{flight.flight_no}}</p>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+              <p>{{flight.aircraft_id}}</p>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4">
+              <p>{{flight.carrier}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+              <h4>{{flight.origin | uppercase}} - {{flight.destination | uppercase}}</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+              <p>{{flight.departuredatetime | date:"MMM d, y, h:mm:ss a"}} :
+                {{flight.arrivaldatetime | date:"MMM d, y, h:mm:ss a"}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2 col-sm-2 col-md-2">
+              <p>{{ getHours(flight.duration) }}h {{ getMinutes(flight.duration) }}m</p>
+            </div>
+          </div>
+        </th>
+        <td scope="row" colspan="2">
+          <a href="javascript:void(0);" style="background-color:none;"><strong>{{ flight.price | currency }}</strong>
+          </a>
+        </td>
+        <td scope="row" colspan="2">
+          <a href="javascript:void(0);" style="background-color:none;"><strong>{{ flight.price | currency }}</strong>
+          </a>
+        </td>
+        <td scope="row" colspan="2">
+          <a href="javascript:void(0);" style="background-color:none;"><strong>{{ flight.price | currency }}</strong>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- INBOUND RESULTS HEADER card -->
+<mat-card *ngIf="returnflag==='true' && isOutboundSelected" class="flight-search-results-header-card">
+  <div class="row">
+    <div class="col-xs-2 col-sm-2 col-md-2">
+      <button mat-raised-button (click)="goBack()" type="button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+    <div class="col-xs-10 col-sm-10 col-md-10">
+      <h4>Inbound -- {{ destination | uppercase }} :: {{ origin | uppercase }}</h4>
+    </div>
+  </div>
+</mat-card>
+
+<!-- RETURN FLIGHTS DISPLAY -->
+<div class="table-responsive-md flight-search-results-table">
+  <table *ngIf="flights && returnflag==='true' && isOutboundSelected" class="table table-hover table-borderless">
+    <thead>
+      <tr>
+        <th *ngFor="let displayedColumn of displayedColumns" scope="col">{{displayedColumn}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let flight of flights">
+        <td>{{flight.flight_no}}</td>
+        <td>{{flight.destination}}</td>
+        <td>{{flight.origin}}</td>
+        <td>{{flight.departuredatetime | date:"MMM d, y, h:mm:ss a"}}</td>
+        <td>{{flight.arrivaldatetime | date:"MMM d, y, h:mm:ss a"}}</td>
+        <td>{{flight.aircraft_id}}</td>
+        <td>{{flight.carrier}}</td>
+        <td><strong>{{ flight.price | currency }}</strong></td>
+        <td>{{ getHours(flight.duration) }}h {{ getMinutes(flight.duration) }}m</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

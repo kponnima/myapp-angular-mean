@@ -8,6 +8,7 @@
     "start": "npm start",
     "start-server": "nodemon ./bin/www",
     "serve": "ng serve -o",
+    "serve-proxy": "ng serve -o --proxy-config proxy.config.json",
     "build": "ng build --prod",
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "serve:ssr": "node dist/server.js",

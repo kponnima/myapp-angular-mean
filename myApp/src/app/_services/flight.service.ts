@@ -40,7 +40,7 @@ export class FlightService {
   }
 
   getFlightsBySearchParams(Params: HttpParams) {
-    return this.http.get(this.flightSearchResultsUrl , { params: Params })
+    return this.http.get<Flight[]>(this.flightSearchResultsUrl , { params: Params })
     .pipe(delay(this.delayMs));
   }
 
