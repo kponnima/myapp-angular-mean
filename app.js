@@ -7,15 +7,73 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var config = require('./config/database');
 var csrf = require('csurf');
-var api = require('./routes/api');
+var api = require('./application/routes/api');
 var app = express();
+var debug = require('debug');
+var http = require('http');
+/**
+ * Normalize a port into a number, string, or false.
+ */
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+  return false;
+}
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+  console.log('Node server listening on http://localhost:' + bind);
+}
 
-mongoose.Promise = require('bluebird');
+mongoose.Promise = global.Promise;
 mongoose.set('debug', true);
 //mongoose.set('diagnosticDataCollectionEnabled', false)
-mongoose.connect(config.database, {useNewUrlParser: true, promiseLibrary: require('bluebird')})
+mongoose.connect(config.database, {useNewUrlParser: true})
   .then(() => console.log('connection successful'))
   .catch((err) => console.error(err));
+
+/**
+ * Get port from environment and store in Express.
+ */
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
 app.use(passport.initialize());
 
@@ -70,5 +128,16 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.sendStatus(err.status);
 });
+
+/**
+ * Create HTTP server.
+ */
+var server = http.createServer(app);
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
 module.exports = app;

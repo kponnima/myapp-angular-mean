@@ -1,0 +1,35 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    ".vscode",
+    ".editorconfig",
+    "angular.json",
+    "browserslist",
+    "tsconfig.json",
+    "tslint.json",
+    "mongo-db",
+    "node_modules/**/node_modules",
+    "reports",
+    "screenshots",
+    "test"
+  ],
+  "verbose": true,
+  "execMap": {
+    "js": "babel-node"
+  },
+  "watch": [
+    "app.js",
+    "application/api",
+    "application/lib",
+    "application/middleware",
+    "application/models",
+    "application/routes",
+    "application/src",    
+    "config"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js json"
+}

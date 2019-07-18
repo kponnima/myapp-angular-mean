@@ -1,3 +1,63 @@
-myapp/mongo-db/*
-myapp/angular_material_schematics*/*
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Reports
+reports/*
+
+# nyc test coverage
+.nyc_output
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# dependencies
+node_modules
+bower_components
+
+# IDEs and editors
+.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
 .vscode/chrome/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+.sass-cache/
+connect.lock
+coverage
+libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+typings
+
+mongo-db/*
+angular_material_schematics*/*
+
+# System Files
+.DS_Store
+Thumbs.db
+
