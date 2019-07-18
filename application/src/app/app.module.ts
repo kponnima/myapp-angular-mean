@@ -78,7 +78,6 @@ import { ShoppingcartComponent } from './_components/_flights/shoppingcart/shopp
 
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../environments/environment';
-import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { AuthGuard } from './_helpers/auth.guard.service';
 import { AuthService } from './_helpers/auth.service';
@@ -161,8 +160,7 @@ import { ProfileComponent } from './_components/_shared/profile/profile.componen
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatTreeModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    MatTreeModule
   ],
   declarations: [
     AppComponent,

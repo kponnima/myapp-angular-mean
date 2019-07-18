@@ -1,0 +1,7 @@
+--recursive
+--reporter xunit
+--require ./test/helper
+--bail
+--timeout 100000
+--colors
+--full-trace
