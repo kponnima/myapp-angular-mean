@@ -12,14 +12,14 @@ const utils = require('../lib/utils');
 const stripe = require('stripe')(keySecret);
 
 /* POST PAYMENT */
-async function savePayment(req, res) {
+async function createPayment(req, res) {
   //console.log(keySecret);
   await stripe.customers.create({
     email: req.headers.email,
     card: req.headers.token,
   })
     .then(customer =>
-      await stripe.charges.create({
+      stripe.charges.create({
         amount: req.headers.amount,
         description: "Flight booking charge",
         currency: "usd",
@@ -28,25 +28,25 @@ async function savePayment(req, res) {
         statement_descriptor: 'Flight booking charge',
         metadata: { order_id: req.headers.orderid }
       }))
-    .then(charge => 
-      await res.send({
-      token: req.headers.token,
-      card_id: charge.source.id,
-      order_id: charge.metadata.order_id,
-      customer_id: charge.customer,
-      last4: charge.source.last4,
-      brand: charge.source.brand,
-      description: charge.description,
-      paid_status: charge.paid,
-      currency: charge.currency,
-      amount: charge.amount,
-      statement_description: charge.statement_descriptor,
-      status: charge.status
-    }
-    ))
+    .then(charge =>
+      res.send({
+        token: req.headers.token,
+        card_id: charge.source.id,
+        order_id: charge.metadata.order_id,
+        customer_id: charge.customer,
+        last4: charge.source.last4,
+        brand: charge.source.brand,
+        description: charge.description,
+        paid_status: charge.paid,
+        currency: charge.currency,
+        amount: charge.amount,
+        statement_description: charge.statement_descriptor,
+        status: charge.status
+      }
+      ))
     .catch(err => {
       console.log("Error:", err);
-      return await res.status(500).send({ error: "Purchase Failed" });
+      return res.status(500).send({ error: "Purchase Failed" });
     });
 }
 /* SAVE Payment Card */
@@ -78,7 +78,7 @@ async function savePayment(req, res) {
   }
 }
 /* GET ALL PAYMENTCARDS data */
-async function getAllPaymentCards(req, res) {
+async function getAllPayments(req, res) {
   var token = await utils.getToken(req.headers);
   if (token) {
     Payment.find({
@@ -95,7 +95,7 @@ async function getAllPaymentCards(req, res) {
   }
 }
 /* GET PAYMENTCARD by TOKEN data */
-async function getPaymentCardByToken(req, res) {
+async function getPaymentByToken(req, res) {
   var token = await utils.getToken(req.headers);
   if (token) {
     Payment.find({
@@ -114,8 +114,8 @@ async function getPaymentCardByToken(req, res) {
 }
 
 module.exports = {
-  getAllPaymentCards: getAllPaymentCards,
-  getPaymentCardByToken: getPaymentCardByToken,
-  savePayment: savePayment,
-  savePaymentCard: savePaymentCard
+  getAllPayments: getAllPayments,
+  getPaymentByToken: getPaymentByToken,
+  createPayment: createPayment,
+  savePayment: savePayment
 }

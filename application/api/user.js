@@ -9,44 +9,44 @@ const utils = require('../lib/utils');
 
 /* GET DATA for HOME */
 async function getUser(req, res) {
-  var token = utils.getToken(req.headers);
+  var token = await utils.getToken(req.headers);
   if (token) {
     User.find(
-      {username: req.params.username},
-      {password: 0},
+      { username: req.params.username },
+      { password: 0 },
       async (err, user) => {
         if (err) return await next(err);
         if (!user) {
-          await res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+          return await res.status(403).send({ success: false, msg: 'Authentication failed. User not found.' });
         } else {
           return await res.json(user);
         }
       });
   } else {
-    return await res.status(403).send({success: false, msg: 'Unauthorized.'});
+    return await res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
 }
 /* GET USERS*/
 async function getAllUsers(req, res) {
-  var token = utils.getToken(req.headers);
+  var token = await utils.getToken(req.headers);
   if (token) {
     User.find({
     }, async (err, users) => {
       if (err) return await next(err);
       if (!users) {
-        await res.status(401).send({success: false, msg: 'Authentication failed!'});
+        return await res.status(401).send({ success: false, msg: 'Authentication failed!' });
       } else {
         // get the list of users
         return await res.json(users);
       }
     });
   } else {
-    return await res.status(403).send({success: false, msg: 'Unauthorized.'});
+    return await res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
 }
 /* SAVE USER */
 async function createUser(req, res) {
-  var token = utils.getToken(req.headers);
+  var token = await utils.getToken(req.headers);
   if (token) {
     var newUser = new User({
       username: req.body.username,
@@ -61,57 +61,57 @@ async function createUser(req, res) {
 
     newUser.save(async (err) => {
       if (err) {
-        return await res.status(403).send({success: false, msg: 'Save user failed.'});
+        return await res.status(403).send({ success: false, msg: 'Save user failed.' });
       }
-      await res.json({success: true, msg: 'Successful created new user.'});
+      return await res.json({ success: true, msg: 'Successful created new user.' });
     });
   } else {
-    return await res.status(401).send({success: false, msg: 'Unauthorized.'});
+    return await res.status(401).send({ success: false, msg: 'Unauthorized.' });
   }
 }
 /* GET SINGLE USER BY USERNAME */
 async function getUserDetail(req, res) {
-  var token = utils.getToken(req.headers);
+  var token = await utils.getToken(req.headers);
   if (token) {
     User.find(
-      {username: req.params.username}
+      { username: req.params.username }
       , async (err, user) => {
         if (err) return await next(err);
         if (!user) {
-          await res.status(403).send({success: false, msg: 'Search failed. User not found.'});
+          return await res.status(403).send({ success: false, msg: 'Search failed. User not found.' });
         } else {
           return await res.json(user);
         }
       });
   } else {
-    return await res.status(403).send({success: false, msg: 'Unauthorized.'});
+    return await res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
 }
 /* UDPATE USER */
 async function updateUser(req, res) {
-  var token = utils.getToken(req.headers);
+  var token = await utils.getToken(req.headers);
   if (token) {
     User.findOneAndUpdate(
       req.params.username, req.body
       , async (err, user) => {
         if (err) return await next(err);
-        await res.json(user);
+        return await res.json(user);
       });
   } else {
-    return await res.status(403).send({success: false, msg: 'Unauthorized.'});
+    return await res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
 }
 /* DELETE USER */
 async function deleteUser(req, res) {
-  var token = utils.getToken(req.headers);
+  var token = await utils.getToken(req.headers);
   if (token) {
     User.findOneAndRemove(
-      req.params.username, async(err) => {
+      req.params.username, async (err) => {
         if (err) return await next(err);
-        await res.status(200).send({success: true, msg: 'Sucessfully deleted !'});
+        return await res.status(200).send({ success: true, msg: 'Sucessfully deleted !' });
       });
   } else {
-    return await res.status(403).send({success: false, msg: 'Unauthorized.'});
+    return await res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
 }
 

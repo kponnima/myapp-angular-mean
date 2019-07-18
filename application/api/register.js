@@ -9,7 +9,7 @@ const User = mongoose.model('User');
 /* REGISTER */
 async function signup(req, res) {
   if (!req.body.username || !req.body.password) {
-    res.json({ success: false, msg: 'Please pass username and password.' });
+    return await res.json({ success: false, msg: 'Please pass username and password.' });
   } else {
     var newUser = new User({
       username: req.body.username,
@@ -22,11 +22,11 @@ async function signup(req, res) {
       status_id: req.body.status_id
     });
     // save the user
-    newUser.save(function (err) {
+    newUser.save(async (err) => {
       if (err) {
-        return res.status(403).send({ success: false, msg: 'Username already exists.' });
+        return await res.status(403).send({ success: false, msg: 'Username already exists.' });
       }
-      res.json({ success: true, msg: 'Successful created new user.' });
+      return await res.json({ success: true, msg: 'Successful created new user.' });
     });
   }
 }
