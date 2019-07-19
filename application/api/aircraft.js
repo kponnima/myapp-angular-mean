@@ -8,7 +8,7 @@ const utils = require('../lib/utils');
 
 /* GET AIRCRAFTS for ADMIN*/
 async function getAllAircrafts(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Aircraft.find({
     }, async (err, aircrafts) => {
@@ -26,9 +26,9 @@ async function getAllAircrafts(req, res) {
 }
 /* SAVE AIRCRAFT */
 async function createAircraft(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
-    var newAircraft = new Aircraft({
+    let newAircraft = new Aircraft({
       aircraft_no: req.body.aircraft_no,
       aircraft_id: req.body.aircraft_id,
       aircraftname: req.body.aircraftname,
@@ -49,7 +49,7 @@ async function createAircraft(req, res) {
 }
 /* GET SINGLE AIRCRAFT BY ID */
 async function getAircraftDetail(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Aircraft.find(
       {aircraft_no: req.params.aircraft_no}
@@ -67,7 +67,7 @@ async function getAircraftDetail(req, res) {
 }
 /* UDPATE FLIGHT */
 async function updateAircraft(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Aircraft.findOneAndUpdate(
       req.params.aircraft_no, req.body
@@ -81,7 +81,7 @@ async function updateAircraft(req, res) {
 }
 /* DELETE FLIGHT */
 async function deleteAircraft(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Aircraft.findOneAndRemove(
       {'aircraft_no': req.params.aircraft_no}, async (err) => {

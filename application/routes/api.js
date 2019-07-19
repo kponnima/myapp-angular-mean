@@ -1,4 +1,4 @@
-var passport = require('passport');
+let passport = require('passport');
 require('../../config/passport')(passport);
 
 const express = require('express');

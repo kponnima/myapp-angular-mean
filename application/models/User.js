@@ -1,12 +1,12 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt');
-var autoIncrement = require('mongoose-auto-increment');
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let bcrypt = require('bcrypt');
+let autoIncrement = require('mongoose-auto-increment');
 const saltRounds = 10;
 
 autoIncrement.initialize(mongoose.connection);
 
-var UserSchema = new Schema({
+let UserSchema = new Schema({
   username: {
     type: String,
     unique: true,
@@ -41,13 +41,12 @@ var UserSchema = new Schema({
     required: true
   }
 },
-  {
-    collection: 'users'
-  }
+  {autoIndex: false},
+  {collection: 'users'}
 );
 
 UserSchema.pre('save', function(next) {
-  var user = this;
+  let user = this;
   if (this.isModified('password') || this.isNew) {
     bcrypt.genSalt(saltRounds, function(err, salt) {
       if (err) {
@@ -75,6 +74,5 @@ UserSchema.methods.comparePassword = function(passw, cb) {
   });
 };
 
-
-UserSchema.plugin(autoIncrement.plugin, 'User');
+// UserSchema.plugin(autoIncrement.plugin, 'User');
 module.exports = mongoose.model('User', UserSchema);

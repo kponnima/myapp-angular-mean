@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
-var PaymentSchema = new Schema({
+let PaymentSchema = new Schema({
   token: {
     type: String,
     required: true
@@ -52,6 +52,7 @@ var PaymentSchema = new Schema({
     required: false
   }
 },
+{autoIndex: false},
 { collection: 'payments' });
 
 module.exports = mongoose.model('Payment', PaymentSchema);

@@ -9,7 +9,7 @@ const utils = require('../lib/utils');
 
 /* GET DATA for HOME */
 async function getUser(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     User.find(
       { username: req.params.username },
@@ -28,7 +28,7 @@ async function getUser(req, res) {
 }
 /* GET USERS*/
 async function getAllUsers(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     User.find({
     }, async (err, users) => {
@@ -46,9 +46,9 @@ async function getAllUsers(req, res) {
 }
 /* SAVE USER */
 async function createUser(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
-    var newUser = new User({
+    let newUser = new User({
       username: req.body.username,
       password: req.body.password,
       email: req.body.email,
@@ -71,7 +71,7 @@ async function createUser(req, res) {
 }
 /* GET SINGLE USER BY USERNAME */
 async function getUserDetail(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     User.find(
       { username: req.params.username }
@@ -89,7 +89,7 @@ async function getUserDetail(req, res) {
 }
 /* UDPATE USER */
 async function updateUser(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     User.findOneAndUpdate(
       req.params.username, req.body
@@ -103,7 +103,7 @@ async function updateUser(req, res) {
 }
 /* DELETE USER */
 async function deleteUser(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     User.findOneAndRemove(
       req.params.username, async (err) => {

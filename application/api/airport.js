@@ -8,7 +8,7 @@ const utils = require('../lib/utils');
 
 /* GET AIRPORTS for ADMIN && HOME */
 async function getAllAirports(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Airport.find({
     }, async (err, airports) => {
@@ -26,9 +26,9 @@ async function getAllAirports(req, res) {
 }
 /* SAVE AIRPORT */
 async function createAirport(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
-    var newAirport = new Airport({
+    let newAirport = new Airport({
       airportcode: req.body.airportcode,
       airportname: req.body.airportname,
       cityname: req.body.cityname,
@@ -48,7 +48,7 @@ async function createAirport(req, res) {
 }
 /* GET SINGLE AIRPORT BY ID */
 async function getAirportDetail(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Airport.find({
       airportcode: req.params.airportcode
@@ -66,7 +66,7 @@ async function getAirportDetail(req, res) {
 }
 /* UDPATE AIRPORT */
 async function updateAirport(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Airport.findOneAndUpdate(
       req.params.airportcode, req.body
@@ -80,7 +80,7 @@ async function updateAirport(req, res) {
 }
 /* DELETE AIRPORT */
 async function deleteAirport(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Airport.findOneAndRemove(
       req.params.airportcode, async (err) => {

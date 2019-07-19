@@ -10,7 +10,7 @@ let moment = require('moment');
 
 /* GET ALL FLIGHTS data */
 async function getAllFlights(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Flight.find({
     }, async (err, flights) => {
@@ -27,7 +27,7 @@ async function getAllFlights(req, res) {
 }
 /* GET SINGLE FLIGHT BY ID */
 async function getFlightDetail(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Flight.find({
       flight_no: req.params.flight_no
@@ -45,9 +45,9 @@ async function getFlightDetail(req, res) {
 }
 /* SAVE Flight */
 async function createFlight(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
-    var newFlight = new Flight({
+    let newFlight = new Flight({
       flight_no: req.body.flight_no,
       origin: req.body.origin,
       destination: req.body.destination,
@@ -74,11 +74,11 @@ async function createFlight(req, res) {
 }
 /* SAVE Multiple Flights */
 async function multiCreateFlight(req, res) {
-  var token = await getToken(req.headers);
+  let token = await getHeaderToken(req.headers);
   if (token) {
-    var flightArray = new Array;
-    for (var i = 0; i < 999; i++) {
-      var newFlight = new Flight({
+    let flightArray = new Array;
+    for (let i = 0; i < 999; i++) {
+      let newFlight = new Flight({
         flight_no: req.body.flight_no,
         origin: req.body.origin,
         destination: req.body.destination,
@@ -107,7 +107,7 @@ async function multiCreateFlight(req, res) {
 }
 /* UDPATE FLIGHT */
 async function updateFlight(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Flight.findOneAndUpdate(
       req.params.flight_no, req.body
@@ -121,7 +121,7 @@ async function updateFlight(req, res) {
 }
 /* DELETE FLIGHT */
 async function deleteFlight(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Flight.findOneAndRemove(
       req.params.flight_no, async (err) => {
@@ -134,15 +134,15 @@ async function deleteFlight(req, res) {
 }
 /* GET Flight-search RESULTS data */
 async function getFlightSearch(req, res) {
-  var token = await utils.getToken(req.headers);
-  var aggregateQuery = await getAggregateQuery(req);
+  let token = await utils.getHeaderToken(req.headers);
+  let aggregateQuery = await getAggregateQuery(req);
 
   if (token) {
     mongoose.model('Flight')
       .aggregate(aggregateQuery)
       .exec(async (err, flights) => {
         if (err) {
-          console.log(err);
+          logger.info(err);
           return await next(err);
         };
         if (!flights) {
@@ -157,16 +157,16 @@ async function getFlightSearch(req, res) {
 }
 
 async function getAggregateQuery(req) {
-  /*   var obj1 = {
+  /*   let obj1 = {
       $gte: req.query.departDateTime + 'T00:00:00.000Z',
       $lte: req.query.departDateTime + 'T23:59:59.999Z'
     };
-    var obj2 = {
+    let obj2 = {
       $gte: req.query.arrivalDatetime + 'T00:00:00.000Z',
       $lte: req.query.arrivalDatetime + 'T23:59:59.999Z'
     };
   
-    var myquery = (req.query.return === "true") ? ('{ "$or": [{ "origin": "' + req.query.fromcity + '", "destination": "' + req.query.tocity + '","departuredatetime": ' + JSON.stringify(obj1) + ' },'
+    let myquery = (req.query.return === "true") ? ('{ "$or": [{ "origin": "' + req.query.fromcity + '", "destination": "' + req.query.tocity + '","departuredatetime": ' + JSON.stringify(obj1) + ' },'
     + '{ "origin": "' + req.query.tocity + '", "destination": "' + req.query.fromcity + '","departuredatetime": ' + JSON.stringify(obj2) + '}] } }')
     : ('"origin":' + req.query.fromcity + ',"destination":' + req.query.tocity + ',"departuredatetime":' + JSON.stringify(obj1)) ;
    */
@@ -174,7 +174,7 @@ async function getAggregateQuery(req) {
     return await null;
   } else {
     if (req.query.return === "true") {
-      var returnQuery = [
+      let returnQuery = [
         {
           "$match": {
             "$or": [{
@@ -215,7 +215,7 @@ async function getAggregateQuery(req) {
 
       return await returnQuery
     } else {
-      var onewayQuery = [{
+      let onewayQuery = [{
         "$match": {
           "origin": req.query.fromcity,
           "destination": req.query.tocity,

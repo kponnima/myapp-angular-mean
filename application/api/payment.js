@@ -13,7 +13,7 @@ const stripe = require('stripe')(keySecret);
 
 /* POST PAYMENT */
 async function createPayment(req, res) {
-  //console.log(keySecret);
+  //logger.info(keySecret);
   await stripe.customers.create({
     email: req.headers.email,
     card: req.headers.token,
@@ -45,15 +45,15 @@ async function createPayment(req, res) {
       }
       ))
     .catch(err => {
-      console.log("Error:", err);
+      logger.info("Error:", err);
       return res.status(500).send({ error: "Purchase Failed" });
     });
 }
 /* SAVE Payment Card */
 async function savePayment(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
-    var newPayment = new Payment({
+    let newPayment = new Payment({
       token: req.body.token,
       card_id: req.body.card_id,
       order_id: req.body.order_id,
@@ -79,7 +79,7 @@ async function savePayment(req, res) {
 }
 /* GET ALL PAYMENTCARDS data */
 async function getAllPayments(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Payment.find({
     }, async (err, cards) => {
@@ -96,7 +96,7 @@ async function getAllPayments(req, res) {
 }
 /* GET PAYMENTCARD by TOKEN data */
 async function getPaymentByToken(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Payment.find({
       token: req.params.token

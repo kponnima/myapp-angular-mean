@@ -11,7 +11,7 @@ async function signup(req, res) {
   if (!req.body.username || !req.body.password) {
     return await res.json({ success: false, msg: 'Please pass username and password.' });
   } else {
-    var newUser = new User({
+    let newUser = new User({
       username: req.body.username,
       password: req.body.password,
       email: req.body.email,

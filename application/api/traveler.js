@@ -7,7 +7,7 @@ const Traveler = require('../models/Traveler');
 
 /* GET TRAVELER data */
 async function getTraveler(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Traveler.find({
       traveler_id: req.params.traveler_id

@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var autoIncrement = require('mongoose-auto-increment');
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let autoIncrement = require('mongoose-auto-increment');
 
-var FlightSchema = new Schema({
+let FlightSchema = new Schema({
   flight_no: {
     type: Number,
     unique: true,
@@ -53,7 +53,9 @@ var FlightSchema = new Schema({
     required: true
   }
 },
- { collection: 'flights' });
+  {autoIndex: false},
+  {collection: 'flights'}
+);
 
-FlightSchema.plugin(autoIncrement.plugin, 'Flight');
+// FlightSchema.plugin(autoIncrement.plugin, 'Flight');
 module.exports = mongoose.model('Flight', FlightSchema);

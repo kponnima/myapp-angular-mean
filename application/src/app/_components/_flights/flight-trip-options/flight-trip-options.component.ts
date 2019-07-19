@@ -77,8 +77,8 @@ export class FlightTripOptionsComponent implements OnInit {
 
     this.flights = JSON.parse(localStorage.getItem('flights'));
     this.travelers = JSON.parse(localStorage.getItem('travelers'));
-    //var flightsarrayLength = JSON.parse(localStorage.getItem('flights')).length;
-    //var ftravelersarrayLength = JSON.parse(localStorage.getItem('travelers')).length;
+    //let flightsarrayLength = JSON.parse(localStorage.getItem('flights')).length;
+    //let ftravelersarrayLength = JSON.parse(localStorage.getItem('travelers')).length;
 
     this.travelerFormGroup = this.formBuilder.group({
       formArray: this.formBuilder.array([

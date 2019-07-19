@@ -21,7 +21,7 @@ async function signin(req, res) {
       return await user.comparePassword(req.body.password, async (err, isMatch) => {
         if (isMatch && !err) {
           // if user is found and password is right create a token
-          var token = jwt.sign(user.toJSON(), config.secret);
+          let token = jwt.sign(user.toJSON(), config.secret);
           // return the information including token as JSON
           return await res.json({ success: true, token: 'JWT ' + token });
           //res.json({success: true, token: 'JWT ' + token, profile: user.toJSON()});

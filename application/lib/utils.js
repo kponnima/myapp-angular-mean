@@ -1,11 +1,12 @@
 /*
- *  Library which handles the common application module operations.
+ *  Module which handles the common functions.
  *  Re-usable utility functions
  */
+'use strict';
 
-async function getToken(headers) {
+async function getHeaderToken(headers) {
   if (headers && headers.authorization) {
-    var parted = await headers.authorization.split(' ');
+    let parted = await headers.authorization.split(' ');
     if (parted.length === 2) {
       return parted[1];
     } else {
@@ -17,5 +18,5 @@ async function getToken(headers) {
 }
 
 module.exports = {
-  getToken: getToken
+  getHeaderToken: getHeaderToken
 }

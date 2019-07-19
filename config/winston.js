@@ -1,8 +1,13 @@
-const { createLogger, transports, format } = require('winston');
+/*
+ *  Module which handles the common functions.
+ *  Re-usable utility functions
+ */
+'use strict';
+const {createLogger, transports, format} = require('winston');
 
 const logger = createLogger({
   format: format.combine(
-    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
+    format.timestamp({format: 'YYYY-MM-DD HH:mm:ss:ms'}),
     format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
   ),
   transports: [
@@ -12,13 +17,15 @@ const logger = createLogger({
       maxsize: 5242880,
       maxFiles: 5,
     }),
-    new transports.Console(),
+    new transports.Console({
+      format: format.simple()
+    })
   ]
 });
 
 logger.stream = {
-  write: function(message, encoding){
-      logger.info(message);
+  write: function(message, encoding) {
+    logger.info(message);    
   }
 };
 

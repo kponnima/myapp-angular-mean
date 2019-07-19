@@ -9,9 +9,9 @@ const utils = require('../lib/utils');
 
 /* CREATE PNR - Flight booking */
 async function createReservation(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
-    var newTravelers = new Traveler({
+    let newTravelers = new Traveler({
       username: req.body.createpnr["1"].username,
       pnrno: req.body.createpnr["0"].pnrno,
       traveler_id: req.body.createpnr["1"].traveler_id,
@@ -40,7 +40,7 @@ async function createReservation(req, res) {
       emergencycontactemail: req.body.createpnr["1"].emergencycontactemail,
       emergencycontactphone: req.body.createpnr["1"].emergencycontactphone
     });
-    var newReservation = new Reservation({
+    let newReservation = new Reservation({
       pnrno: req.body.createpnr["0"].pnrno,
       total_amount: req.body.createpnr["0"].total_amount,
       card_token: req.body.createpnr["0"].card_token,
@@ -82,7 +82,7 @@ async function createReservation(req, res) {
 
 /* GET FLIGHT-TRIP-CONFIRMATION data */
 async function getReservation(req, res) {
-  var token = await utils.getToken(req.headers);
+  let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Reservation.findOne({
       pnrno: req.params.pnr

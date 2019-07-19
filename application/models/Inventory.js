@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
-var InventorySchema = new Schema({
+let InventorySchema = new Schema({
   inventory_id: {
     type: Number,
     required: true
@@ -35,6 +35,8 @@ var InventorySchema = new Schema({
     required: true
   }
 },
-{ collection: 'inventory' });
+  {autoIndex: false},
+  {collection: 'inventory'}
+);
 
 module.exports = mongoose.model('Inventory', InventorySchema);

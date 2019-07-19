@@ -36,7 +36,7 @@ export class UserService {
   }
 
   get isAdmin() {
-    var value = JSON.parse(localStorage.getItem('isAdminUser'));
+    let value = JSON.parse(localStorage.getItem('isAdminUser'));
     //console.log('Admin value : ' + value);
     if(value){
       this.Admin.next(true);

@@ -140,7 +140,7 @@ export class FlightTripSummaryComponent implements OnInit {
     this.username = localStorage.getItem('username');
     this.flights = JSON.parse(localStorage.getItem('flights'));
     this.travelers = JSON.parse(localStorage.getItem('travelers'));
-    //var arrayLength = JSON.parse(localStorage.getItem('flights')).length;
+    //let arrayLength = JSON.parse(localStorage.getItem('flights')).length;
 
     this.editableTravelers = false;
 
@@ -273,8 +273,8 @@ export class FlightTripSummaryComponent implements OnInit {
   }
 
   generatePNR() {
-    var tempPNR = localStorage.getItem('pnr');
-    var newPNR = (tempPNR !== null) ? tempPNR : this.randomString(6)
+    let tempPNR = localStorage.getItem('pnr');
+    let newPNR = (tempPNR !== null) ? tempPNR : this.randomString(6)
     if (tempPNR === null) {
       localStorage.setItem('pnr', newPNR);
     }
@@ -282,8 +282,8 @@ export class FlightTripSummaryComponent implements OnInit {
   }
 
   generateSeatNo() {
-    var tempSeatNo = localStorage.getItem('seatno');
-    var newSeatNo = (tempSeatNo !== null) ? tempSeatNo : this.randomSeatString(1)
+    let tempSeatNo = localStorage.getItem('seatno');
+    let newSeatNo = (tempSeatNo !== null) ? tempSeatNo : this.randomSeatString(1)
     if (tempSeatNo === null) {
       localStorage.setItem('seatno', newSeatNo);
     }
@@ -417,17 +417,17 @@ export class FlightTripSummaryComponent implements OnInit {
   }
 
   randomString(length) {
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXTZ';
-    var result = '';
-    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXTZ';
+    let result = '';
+    for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
     return result;
   }
 
   randomSeatString(length) {
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXTZ';
-    var result = '';
-    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-    var numresult = Math.floor(Math.random() * 10);
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXTZ';
+    let result = '';
+    for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    let numresult = Math.floor(Math.random() * 10);
 
     return numresult + result;
   }

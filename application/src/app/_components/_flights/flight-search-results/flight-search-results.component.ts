@@ -78,7 +78,7 @@ export class FlightSearchResultsComponent implements OnInit {
       .format(this.DATE_DATA_FORMAT);
     //console.log(departDate);
 
-    var Params: any;
+    let Params: any;
     if (this.returnflag === "true") {
       let arrivalDate = moment(this.arrivalDateTime)
         .format(this.DATE_DATA_FORMAT);
