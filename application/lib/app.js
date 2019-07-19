@@ -7,7 +7,6 @@ let express = require('express'),
   morgan = require('morgan'),
   cors = require('cors'),
   path = require('path'),
-  favicon = require('serve-favicon'),
   createError = require('http-errors'),
   csrf = require('csurf'),
   debug = require('debug'),
@@ -27,7 +26,6 @@ async function serveApplication() {
   await app.use(cors());
   await app.use(express.json());
   await app.use(express.urlencoded({extended: false}));
-  // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
   await app.use(express.static(path.join(__dirname, 'dist/myApp')));
   await app.use('/', express.static(path.join(__dirname, 'dist/myApp')));
   await app.use('/api', api);

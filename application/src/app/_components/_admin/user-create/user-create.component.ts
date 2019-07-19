@@ -22,7 +22,7 @@ import { UserService } from '../../../_services/user.service';
 @Component({
   selector: 'app-user-create',
   templateUrl: './user-create.component.html',
-  styleUrls: ['./user-create.component.scss']
+  styleUrls: ['./user-create.component.css']
 })
 export class UserCreateComponent implements OnInit {
   private isLoading: boolean = false;

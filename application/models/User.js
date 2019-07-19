@@ -1,10 +1,10 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let bcrypt = require('bcrypt');
-let autoIncrement = require('mongoose-auto-increment');
+// let autoIncrement = require('mongoose-auto-increment');
 const saltRounds = 10;
 
-autoIncrement.initialize(mongoose.connection);
+// autoIncrement.initialize(mongoose.connection);
 
 let UserSchema = new Schema({
   username: {

@@ -1,5 +1,5 @@
 let passport = require('passport');
-require('../../config/passport')(passport);
+require('../middleware/passport')(passport);
 
 const express = require('express');
 const router = express.Router();

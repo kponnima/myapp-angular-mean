@@ -14,7 +14,7 @@ import { MessageService } from '../../../_helpers/message.service';
 @Component({
   selector: 'app-flight-detail',
   templateUrl: './flight-detail.component.html',
-  styleUrls: ['./flight-detail.component.scss']
+  styleUrls: ['./flight-detail.component.css']
 })
 export class FlightDetailComponent implements OnInit {
   private loading: boolean = true;

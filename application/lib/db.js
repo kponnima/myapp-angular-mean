@@ -4,7 +4,7 @@
 'use strict';
 let mongoose = require('mongoose'),
   async = require('async'),
-  config = require('../../config/database'),
+  config = require('config'),
   dbSetup = require('../../db/db-setup-script');
 let connection;
 let connected = false;
@@ -17,7 +17,7 @@ async function connectToMongo() {
   await mongoose.set('useFindAndModify', false);
   await mongoose.set('useCreateIndex', true);
   await mongoose.set('autoIndex', false);
-  await mongoose.connect(config.database, {useNewUrlParser: true}).
+  await mongoose.connect(config.get('database'), {useNewUrlParser: true}).
     catch(error => {
       logger.error('MongoDb connection error: ' + err);
       return error;

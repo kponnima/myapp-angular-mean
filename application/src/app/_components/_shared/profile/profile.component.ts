@@ -15,7 +15,7 @@ import { MessageService } from '../../../_helpers/message.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
   userEditForm: FormGroup;

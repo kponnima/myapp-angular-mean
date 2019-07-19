@@ -53,6 +53,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 typings
+package-lock.json
 
 mongo-db/*
 angular_material_schematics*/*

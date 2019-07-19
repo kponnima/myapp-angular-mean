@@ -24,7 +24,7 @@ import { FlightService } from '../../../_services/flight.service';
 @Component({
   selector: 'app-flight-search-results',
   templateUrl: './flight-search-results.component.html',
-  styleUrls: ['./flight-search-results.component.scss']
+  styleUrls: ['./flight-search-results.component.css']
 })
 export class FlightSearchResultsComponent implements OnInit {
   private loading: Boolean = true;

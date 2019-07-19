@@ -22,7 +22,7 @@ import { AirportService } from '../../../_services/airport.service';
 @Component({
   selector: 'app-flight-search',
   templateUrl: './flight-search.component.html',
-  styleUrls: ['./flight-search.component.scss']
+  styleUrls: ['./flight-search.component.css']
 })
 export class FlightSearchComponent implements OnInit {
   private loading: boolean = false;

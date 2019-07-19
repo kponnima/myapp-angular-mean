@@ -54,9 +54,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
 
-import { HeaderComponent } from './_components/_shared/header/header.component';
 import { MessageComponent } from './_components/_shared/message/message.component';
-import { FooterComponent } from './_components/_shared/footer/footer.component';
 import { AuthInterceptor } from './_helpers/auth.interceptor';
 import { MessageService } from './_helpers/message.service';
 import { LoginComponent } from './_components/_shared/login/login.component';
@@ -84,7 +82,6 @@ import { AuthService } from './_helpers/auth.service';
 
 import { AlertDialogComponent } from './_components/_shared/alert-dialog/alert-dialog.component';
 
-import { SidenavComponent } from './_components/_shared/sidenav/sidenav.component';
 import { AdminComponent } from './_components/_admin/admin/admin.component';
 import { UsersComponent } from './_components/_admin/users/users.component';
 import { UserCreateComponent } from './_components/_admin/user-create/user-create.component';
@@ -164,9 +161,7 @@ import { ProfileComponent } from './_components/_shared/profile/profile.componen
   ],
   declarations: [
     AppComponent,
-    HeaderComponent,
     MessageComponent,
-    FooterComponent,
     LoginComponent,
     SignupComponent,
     HomeComponent,
@@ -185,7 +180,6 @@ import { ProfileComponent } from './_components/_shared/profile/profile.componen
     TripsComponent,
     ShoppingcartComponent,
     AlertDialogComponent,
-    SidenavComponent,
     UsersComponent,
     AircraftsComponent,
     AirportsComponent,

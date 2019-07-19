@@ -17,7 +17,7 @@ import { FlightService } from '../../../_services/flight.service';
 @Component({
   selector: 'app-flights',
   templateUrl: './flights.component.html',
-  styleUrls: ['./flights.component.scss']
+  styleUrls: ['./flights.component.css']
 })
 export class FlightsComponent implements OnInit {
   private loading: boolean = true;

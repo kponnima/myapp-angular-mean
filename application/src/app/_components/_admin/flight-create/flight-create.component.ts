@@ -22,7 +22,7 @@ import { FlightService } from '../../../_services/flight.service';
 @Component({
   selector: 'app-flight-create',
   templateUrl: './flight-create.component.html',
-  styleUrls: ['./flight-create.component.scss']
+  styleUrls: ['./flight-create.component.css']
 })
 export class FlightCreateComponent implements OnInit, OnChanges {
   private isLoading: boolean = false;

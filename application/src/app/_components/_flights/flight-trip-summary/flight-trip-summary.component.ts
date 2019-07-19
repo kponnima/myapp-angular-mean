@@ -34,7 +34,7 @@ import { AlertDialogComponent } from '../../_shared/alert-dialog/alert-dialog.co
 @Component({
   selector: 'app-flight-trip-summary',
   templateUrl: './flight-trip-summary.component.html',
-  styleUrls: ['./flight-trip-summary.component.scss']
+  styleUrls: ['./flight-trip-summary.component.css']
 })
 export class FlightTripSummaryComponent implements OnInit {
   private loading: boolean = false;

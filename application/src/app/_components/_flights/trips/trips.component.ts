@@ -16,7 +16,7 @@ import { AuthService } from '../../../_helpers/auth.service';
 @Component({
   selector: 'app-trips',
   templateUrl: './trips.component.html',
-  styleUrls: ['./trips.component.scss']
+  styleUrls: ['./trips.component.css']
 })
 export class TripsComponent implements OnInit {
   @Input() flight: Flight;

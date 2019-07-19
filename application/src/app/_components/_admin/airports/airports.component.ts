@@ -16,7 +16,7 @@ import { MessageService } from '../../../_helpers/message.service';
 @Component({
   selector: 'app-airports',
   templateUrl: './airports.component.html',
-  styleUrls: ['./airports.component.scss']
+  styleUrls: ['./airports.component.css']
 })
 export class AirportsComponent implements OnInit {
   private loading: boolean = true;

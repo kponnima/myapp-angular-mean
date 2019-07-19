@@ -6,7 +6,7 @@
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const jwt = require('jsonwebtoken');
-const config = require('../../config/database');
+const config = require('config');
 
 /* LOGIN */
 async function signin(req, res) {
@@ -21,7 +21,7 @@ async function signin(req, res) {
       return await user.comparePassword(req.body.password, async (err, isMatch) => {
         if (isMatch && !err) {
           // if user is found and password is right create a token
-          let token = jwt.sign(user.toJSON(), config.secret);
+          let token = jwt.sign(user.toJSON(), config.get('secret'));
           // return the information including token as JSON
           return await res.json({ success: true, token: 'JWT ' + token });
           //res.json({success: true, token: 'JWT ' + token, profile: user.toJSON()});
