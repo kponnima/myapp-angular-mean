@@ -64,7 +64,7 @@ export class ProfileComponent implements OnInit {
     this.getUser(this.user_name);
   }
 
-  getUser(user_name) {
+  getUser(user_name: string) {
     this.userService.getUserDetailByUsername(user_name).subscribe(data => {
       this.userEditForm.setValue({
         username: data['0'].username,
@@ -100,7 +100,7 @@ export class ProfileComponent implements OnInit {
     this.location.back();
   }
 
-  sendMessage(message): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     // this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {

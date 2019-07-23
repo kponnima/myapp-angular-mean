@@ -122,7 +122,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['admin']);
   }
 
-  sendMessage(message): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     //this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {
@@ -142,7 +142,6 @@ export class HomeComponent implements OnInit {
       console.log("Server-side error occured.");
       console.log(err);
     }
-    this.sendMessage(err);
     return Observable.throw(err.message)
   }
 }

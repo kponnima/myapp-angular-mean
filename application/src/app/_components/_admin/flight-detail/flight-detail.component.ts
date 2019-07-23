@@ -28,7 +28,7 @@ export class FlightDetailComponent implements OnInit {
     this.getFlightDetails(this.route.snapshot.params['flight_no']);
   }
 
-  getFlightDetails(flight_no) {
+  getFlightDetails(flight_no: number) {
     this.loading = true;
     this.flightService.getFlightById(flight_no)
       .subscribe(data => {
@@ -40,7 +40,7 @@ export class FlightDetailComponent implements OnInit {
       });
   }
 
-  deleteFlight(flight_no) {
+  deleteFlight(flight_no: number) {
     this.loading = true;
     this.flightService.deleteFlight(flight_no)
       .subscribe(res => {
@@ -58,7 +58,7 @@ export class FlightDetailComponent implements OnInit {
     this.location.back();
   }
 
-  sendMessage(message): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     //this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {

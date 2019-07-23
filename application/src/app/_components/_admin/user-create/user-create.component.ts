@@ -118,7 +118,7 @@ export class UserCreateComponent implements OnInit {
     this.location.back();
   }
 
-  sendMessage(message): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     //this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {
@@ -138,7 +138,6 @@ export class UserCreateComponent implements OnInit {
       console.log("Server-side error occured.");
       console.log(err);
     }
-    this.sendMessage(err);
     return Observable.throw(err.message)
   }
 

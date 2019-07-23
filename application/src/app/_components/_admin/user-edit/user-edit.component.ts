@@ -65,7 +65,7 @@ export class UserEditComponent implements OnInit {
     this.getUser(this.user_name);
   }
 
-  getUser(user_name) {
+  getUser(user_name: string) {
     this.userService.getUserDetailByUsername(user_name).subscribe(data => {
       //console.log(data);
       this.userEditForm.setValue({
@@ -102,7 +102,7 @@ export class UserEditComponent implements OnInit {
     this.location.back();
   }
 
-  sendMessage(message): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     //this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {

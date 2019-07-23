@@ -44,7 +44,7 @@ export class AirportEditComponent implements OnInit {
     this.getAirport(this.airport_code);
   }
 
-  getAirport(airport_code) {
+  getAirport(airport_code: string) {
     this.loading = true;
     this.airportService.getAirportByCode(airport_code).subscribe(data => {
       //console.log(data);
@@ -83,7 +83,7 @@ export class AirportEditComponent implements OnInit {
     this.location.back();
   }
 
-  sendMessage(message): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     //this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {

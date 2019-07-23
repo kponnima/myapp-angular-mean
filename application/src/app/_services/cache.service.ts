@@ -9,7 +9,7 @@ export class CacheService {
 
   constructor() { }
 
-  get(key): HttpResponse<any> {
+  get(key: string): HttpResponse<any> {
     const tuple = this.cache.get(key);
     if (!tuple) return null;
 
@@ -29,7 +29,7 @@ export class CacheService {
     return httpResponse;
   }
 
-  set(key, value, ttl = null) {
+  set(key: string, value: any, ttl: number = null) {
     if (ttl) {
       const expires = new Date();
       expires.setSeconds(expires.getSeconds() + ttl);

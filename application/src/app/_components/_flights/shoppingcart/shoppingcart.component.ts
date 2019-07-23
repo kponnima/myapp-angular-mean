@@ -36,7 +36,7 @@ export class ShoppingcartComponent implements OnInit {
     .getItems();
   }
 
-  removeItem(item) {
+  removeItem(item: Flight) {
     this
       .cartService
       .removeFromCart(item);

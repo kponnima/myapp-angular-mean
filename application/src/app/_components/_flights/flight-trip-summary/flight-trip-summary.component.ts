@@ -416,14 +416,14 @@ export class FlightTripSummaryComponent implements OnInit {
       });
   }
 
-  randomString(length) {
+  randomString(length: number) {
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXTZ';
     let result = '';
     for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
     return result;
   }
 
-  randomSeatString(length) {
+  randomSeatString(length: number) {
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXTZ';
     let result = '';
     for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
@@ -432,7 +432,7 @@ export class FlightTripSummaryComponent implements OnInit {
     return numresult + result;
   }
 
-  sendMessage(message): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     //this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {

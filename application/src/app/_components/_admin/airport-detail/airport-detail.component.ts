@@ -27,7 +27,7 @@ export class AirportDetailComponent implements OnInit {
     this.getAirportDetails(this.route.snapshot.params['airportcode']);
   }
 
-  getAirportDetails(airport_code) {
+  getAirportDetails(airport_code: string) {
     this.airportService.getAirportByCode(airport_code)
       .subscribe(data => {
         //console.log(data);
@@ -38,7 +38,7 @@ export class AirportDetailComponent implements OnInit {
       });
   }
 
-  deleteAirport(airport_code) {
+  deleteAirport(airport_code: string) {
     this.loading = true;
     this.airportService.deleteAirport(airport_code)
       .subscribe(res => {
@@ -56,7 +56,7 @@ export class AirportDetailComponent implements OnInit {
     this.location.back();
   }
 
-  sendMessage(message): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     //this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {

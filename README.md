@@ -48,6 +48,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Alternate `npx @angular/cli serve`
 
 ## Code scaffolding
 
@@ -72,3 +73,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 #To change default style extension
 `ng config defaults.styleExt=scss`
 `ng config schematics.@schematics/angular:component.styleext scss`
+
+#Build test
+`ng build --watch --progress=true`
+`lite-server --baseDir='dist'`

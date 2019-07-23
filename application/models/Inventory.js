@@ -6,8 +6,8 @@ let InventorySchema = new Schema({
     type: Number,
     required: true
   },
-  cabinType: {
-    type: String,
+  cabinTypes: {
+    type: Array,
     required: true
   },
   aircraftCapacity: {
@@ -22,17 +22,29 @@ let InventorySchema = new Schema({
     type: Number,
     required: true
   },
-  baseSeatsSold: {
+  legSeatsSold: {
     type: Number,
     required: true
   },
-  eCount: {
+  coachSeatsSold: {
     type: Number,
     required: true
   },
-  cancelFlight: {
-    type: String,
-    required: true
+  economySeatsSold: {
+    type: Number,
+    required: false
+  },
+  premiumEconomySeatsSold: {
+    type: Number,
+    required: false
+  },
+  businessSeatsSold: {
+    type: Number,
+    required: false
+  },
+  firstSeatsSold: {
+    type: Number,
+    required: false
   }
 },
   {autoIndex: false},

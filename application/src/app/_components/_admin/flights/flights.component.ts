@@ -44,8 +44,8 @@ export class FlightsComponent implements OnInit {
       });
   }
 
-  deleteFlight(id) {
-    this.http.delete(id)
+  deleteFlight(id: number) {
+    this.flightService.deleteFlight(id)
       .subscribe(res => {
         this.router.navigate(['/flights']);
       }, (err) => {
@@ -58,7 +58,7 @@ export class FlightsComponent implements OnInit {
     this.location.back();
   }
 
-  sendMessage(message): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     //this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {

@@ -35,8 +35,8 @@ export class UsersComponent implements OnInit {
       });
   }
 
-  deleteUser(id) {
-    this.http.delete(id)
+  deleteUser(username: string) {
+    this.userService.deleteUser(username)
       .subscribe(res => {
         this.router.navigate(['/users']);
       }, (err) => {

@@ -16,11 +16,19 @@ let FlightSchema = new Schema({
     type: String,
     required: true
   },
-  departuredatetime: {
+  departureDate: {
     type: String,
     required: false
   },
-  arrivaldatetime: {
+  departureTime: {
+    type: String,
+    required: false
+  },
+  arrivalDate: {
+    type: String,
+    required: false
+  },
+  arrivalTime: {
     type: String,
     required: false
   },
@@ -40,7 +48,7 @@ let FlightSchema = new Schema({
     type: Number,
     required: true
   },
-  miles: {
+  distance: {
     type: Number,
     required: true
   },
@@ -51,10 +59,30 @@ let FlightSchema = new Schema({
   equipment_id: {
     type: Number,
     required: true
+  },
+  cancelStatus: {
+    type: Boolean,
+    required: true
+  },
+  departureGate: {
+    type: String,
+    required: false
+  },
+  arrivalGate: {
+    type: String,
+    required: false
+  },
+  mealService: {
+    type: Array,
+    required: true
+  },
+  webCheckinTime: {
+    type: String,
+    required: true
   }
 },
-  {autoIndex: false},
-  {collection: 'flights'}
+  { autoIndex: false },
+  { collection: 'flights' }
 );
 
 // FlightSchema.plugin(autoIncrement.plugin, 'Flight');

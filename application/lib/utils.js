@@ -3,6 +3,8 @@
  *  Re-usable utility functions
  */
 'use strict';
+let bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 async function getHeaderToken(headers) {
   if (headers && headers.authorization) {
@@ -17,6 +19,19 @@ async function getHeaderToken(headers) {
   }
 }
 
+function getPasswordHashSync(password) {
+  var hash = bcrypt.hashSync(password, saltRounds);
+  return hash;
+}
+
+async function getPasswordHashAsync(password) {
+  await bcrypt.hash(password, saltRounds, async (err, hash) => {
+    return await hash;
+  });
+}
+
 module.exports = {
-  getHeaderToken: getHeaderToken
+  getHeaderToken: getHeaderToken,
+  getPasswordHashSync: getPasswordHashSync,
+  getPasswordHashAsync: getPasswordHashAsync
 }

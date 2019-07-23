@@ -61,7 +61,7 @@ export class FlightEditComponent implements OnInit {
     this.getFlight(this.flightno);
   }
 
-  getFlight(flightno) {
+  getFlight(flightno: number) {
     this.flightService.getFlightById(flightno).subscribe(data => {
       //console.log(data);
       this.flightEditForm.setValue({
@@ -104,7 +104,7 @@ export class FlightEditComponent implements OnInit {
     this.location.back();
   }
 
-  sendMessage(message): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     //this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {

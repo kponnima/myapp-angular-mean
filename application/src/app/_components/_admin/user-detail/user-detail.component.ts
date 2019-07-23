@@ -26,7 +26,7 @@ export class UserDetailComponent implements OnInit {
     this.getUserDetails(this.route.snapshot.params['username']);
   }
 
-  getUserDetails(username) {
+  getUserDetails(username: string) {
     this.userService.getUserDetailByUsername(username)
       .subscribe(data => {
         //console.log(data);
@@ -36,7 +36,7 @@ export class UserDetailComponent implements OnInit {
       });
   }
 
-  deleteUser(username) {
+  deleteUser(username: string) {
     this.userService.deleteUser(username)
       .subscribe(res => {
         this.sendMessage('User [' + username + '] deleted successfully! ');
@@ -51,7 +51,7 @@ export class UserDetailComponent implements OnInit {
     this.location.back();
   }
 
-  sendMessage(message): void {
+  sendMessage(message: string): void {
     // send message to subscribers via observable subject
     //this.service.sendMessage(message);
     this.snackBar.open(message, 'Undo', {

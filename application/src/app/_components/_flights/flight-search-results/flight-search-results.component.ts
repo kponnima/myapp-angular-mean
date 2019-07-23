@@ -123,14 +123,14 @@ export class FlightSearchResultsComponent implements OnInit {
     });
   }
 
-  public getHours(milliseconds) {
+  public getHours(milliseconds: number) {
     return moment.utc(milliseconds).format('HH');
   }
-  public getMinutes(milliseconds) {
+  public getMinutes(milliseconds: number) {
     return moment.utc(milliseconds).format('mm');
   }
 
-  addFlightToCart(row) {
+  addFlightToCart(row: Flight) {
     //alert(row['flight_no']);
     if (!this.selection.isSelected(row)) {
       this.cartService.addToCart(row);
