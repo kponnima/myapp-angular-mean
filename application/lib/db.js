@@ -49,49 +49,68 @@ async function closeConnection() {
 }
 async function setupDb() {
   await logger.info('METHOD ENTRY - application.lib.db.setupDb');
-  connection = await mongoose.connection;
-  if (!connection) {
-    await logger.error('DB Connection promise not passed to setup DB');
-    return;
-  }
   await logger.info('=========== Starting:  master records Patch ==============');
 
-  async.waterfall([
-    async function (cb) {
-      await removeCollections(function (err) {
-        if (err) {
-          return cb('Remove collections failed: ' + err);
-        }
-        return cb();
-      });
-    },
-    async function (cb) {
-      await createIndexes(function (err) {
-        if (err) {
-          return cb('Create index failed: ' + err);
-        }
-        return cb();
-      });
-    },
-    async function (cb) {
-      await updateCollections(function (err) {
-        if (err) {
-          return cb('Update collections failed ' + err);
-        }
-        return cb();
-      });
-    }
-  ],
-    async function (err) {
-      if (err) {
-        await logger.error('Master records Patch failed with error:- ' + err);
-        return err;
-      }
-      await logger.info('=========== Ending: master records Patch ==============');
-      await logger.info('METHOD EXIT - application.lib.db.setupDb');
-      return;
-    });
+  try {
+    await removeCollections();
+    await createIndexes();
+    await addCollections();
+    await logger.info('=========== Ending: master records Patch ==============');
+  } catch (err) {
+    await logger.error('Master records Patch failed with error:- ' + err);
+  }
+
+  await logger.info('METHOD EXIT - application.lib.db.setupDb');
 }
+// async function setupDb(cb) {
+//   await logger.info('METHOD ENTRY - application.lib.db.setupDb');
+
+//   connection = await mongoose.connection;
+
+//   if (!connection) {
+//     await logger.error('DB Connection promise not passed to setup DB');
+//     return await cb('DB Connection promise not passed to setup DB');
+//   }
+
+//   await logger.info('=========== Starting:  master records Patch ==============');
+
+//   async.waterfall([
+//     async function () {
+//       await removeCollections(function (err) {
+//         if (err) {
+//           return err;
+//         }
+//         return {'test':'Some error'};
+//       });
+//     },
+//     async function () {
+//       await createIndexes(function (err) {
+//         if (err) {
+//           return err;
+//         }
+//         return;
+//       });
+//     },
+//     async function () {
+//       await updateCollections(function (err) {
+//         if (err) {
+//           return err;
+//         }
+//         return;
+//       });
+//     }
+//   ],
+//     async function (err) {
+//       if (err) {
+//         await logger.error('Master records Patch failed with error:- ' + err);
+//         return cb(err);
+//       } else {
+//         await logger.info('=========== Ending: master records Patch ==============');
+//         await logger.info('METHOD EXIT - application.lib.db.setupDb');
+//         return cb();
+//       }
+//     });
+// }
 async function removeCollections() {
   await logger.info('METHOD ENTRY - application.lib.db.removeCollections');
 
@@ -111,6 +130,7 @@ async function removeCollections() {
     }
   }
   await logger.info('METHOD EXIT - application.lib.db.removeCollections');
+  return true;
 }
 async function removeCollection(collectionName, cb) {
   await logger.info('METHOD ENTRY - application.lib.db.removeCollection');
@@ -158,14 +178,14 @@ async function createIndex(collectionName, index_field, cb) {
   });
   await logger.info('METHOD EXIT - application.lib.db.createIndex');
 }
-async function createIndexes(cb) {
+async function createIndexes() {
   await logger.info('METHOD ENTRY - application.lib.db.createIndexes');
   _.forEach(dbIndexCollections, async (value) => {
     if (dbIgnoreForIndexCollection) {
       let result = _.indexOf(dbIgnoreIndexCollections, value);
       if (result === -1) {
         await logger.info('Collection ' + value + ' is now indexed');
-        mongoose.connection.db.collection(value, async (err, collection) => {
+        await mongoose.connection.db.collection(value, async (err, collection) => {
           if (err) {
             await logger.error('FAIL: Error in dropping ' + value + ' collection.');
             return err;
@@ -186,27 +206,28 @@ async function createIndexes(cb) {
       }
     } else {
       await logger.info('Collection ' + value + ' is now indexed');
-      mongoose.connection.db.collection(value, async (err, collection) => {
+      await mongoose.connection.db.collection(value, async (err, collection) => {
         if (err) {
           await logger.error('FAIL: Error in indexing ' + value + ' collection.');
-          return err;
+          return await err;
         }
         // Create an index on the field
-        collection.createIndex(
+        await collection.createIndex(
           { [dbSeedRecords.createIndex[value]]: 1 },
           { unique: true, background: true }
-          , function (err, indexName) {
+          , async (err, indexName) => {
             if (err) {
-              logger.error('FAIL: Error occured while adding ' + indexName + '  to ' + value + ' collection.')
-              return err;
+              await logger.error('FAIL: Error occured while adding ' + indexName + '  to ' + value + ' collection.')
+              return await err;
             }
           });
       });
     }
   });
   await logger.info('METHOD EXIT - application.lib.db.createIndexes');
+  return true;
 }
-async function updateCollection(collectionName, data, cb) {
+async function addCollection(collectionName, data, cb) {
   await logger.info('METHOD ENTRY - application.lib.db.updateCollection');
 
   if (!collectionName) {
@@ -241,17 +262,17 @@ async function updateCollection(collectionName, data, cb) {
   });
   await logger.info('METHOD EXIT - application.lib.db.updateCollection');
 }
-async function updateCollections() {
+async function addCollections() {
   await logger.info('METHOD ENTRY - application.lib.db.updateCollections');
   _.forEach(dbSeedCollections, async (value) => {
     if (dbIgnoreForSeedCollection) {
       let result = _.indexOf(dbIgnoreSeedCollections, value);
       if (result === -1) {
         await logger.info('Collection ' + value + ' is now updated');
-        mongoose.connection.db.collection(value, async (err, collection) => {
+        await mongoose.connection.db.collection(value, async (err, collection) => {
           if (err) {
             await logger.error('FAIL: Error in updating ' + value + ' collection.');
-            return err;
+            return await err;
           }
           async.each(dbSeedRecords[value], function (obj, asynCb) {
             collection.insertOne(obj, function (err) {
@@ -298,10 +319,49 @@ async function updateCollections() {
     }
   });
   await logger.info('METHOD EXIT - application.lib.db.updateCollections');
+  return true;
+}
+async function updateCollection(collectionName, unique_filter, data, cb) {
+  await logger.info('METHOD ENTRY - application.lib.db.updateCollection');
+
+  if (!collectionName) {
+    await logger.error('CollectionName not passed to update DB collection');
+    return cb('CollectionName not passed to update DB collection');
+  }
+  if (!unique_filter) {
+    await logger.error('Unique key not passed to update DB records');
+    return cb('Data not passed to update DB records');
+  }
+  if (!data) {
+    await logger.error('Data not passed to update DB records');
+    return cb('Data not passed to update DB records');
+  }
+
+  mongoose.connection.db.collection(collectionName, async (err, collection) => {
+    if (err) {
+      await logger.error('FAIL: Error in dropping ' + collectionName + ' collection.');
+      return err;
+    }
+    await collection.replaceOne(unique_filter, data, async (err) => {
+      if (err) {
+        await logger.error('FAILED while updating "' + collectionName + '" collection. Error: ' + err);
+      } else {
+        await logger.info('Update collection name ' + collectionName + ' successful.');
+      }
+    });
+  });
+  await logger.info('METHOD EXIT - application.lib.db.updateCollection');
 }
 
 module.exports = {
   connectToMongo: connectToMongo,
   closeConnection: closeConnection,
-  setupDb: setupDb
+  setupDb: setupDb,
+  removeCollections: removeCollections,
+  removeCollection: removeCollection,
+  createIndex: createIndex,
+  createIndexes: createIndexes,
+  addCollection: addCollection,
+  addCollections: addCollections,
+  updateCollection: updateCollection
 }

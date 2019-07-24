@@ -5,51 +5,77 @@
 let async = require('async'),
   logger = require('./application/middleware/winston'),
   db = require('./application/lib/db'),
-  app = require('./application/lib/app');
+  app = require('./application/lib/app'),
+  batch = require('./application/lib/schedule');
 
 global.logger = logger;
+let task;
 
 // main function
+
 async function main() {
-  async.waterfall([
-    async function (callback) {
-      await db.connectToMongo(function (err) {
-        if (err) {
-          return callback('Mongo connection not established');
-        }
-        return callback();
-      });
-    },
-    async function (callback) {
-      await app.serveApplication(function (err) {
-        if (err) {
-          return callback('Application is not ready');
-        }
-        return callback();
-      });
-    },
-    async function (callback) {
-      await db.setupDb(function (err) {
-        if (err) {
-          return callback('Mongo db is not setup');
-        }
-        return callback();
-      });
-    }],
-    async function (err) {
-      if (err) {
-        await handleShutDown(err);
-        await logger.error('Failed to start application....' + err);
-        return err;
-      }
-      await logger.info('Application ready in ....' + process.env.NODE_ENV);
-      return;
-    });
+  //Setup the application server start up tasks
+  try {
+    await db.connectToMongo();
+    await app.serveApplication();
+    await db.setupDb();
+    // Setup the batch job to update flight records daily
+    task = await batch.schedule();
+    await task.start();
+    await logger.info('Application ready in ....' + process.env.NODE_ENV);
+  } catch (err) {
+    await logger.error('Failed to start application....');
+    await handleShutDown();
+  }
 }
+
+// async function main() {
+//   await logger.info('METHOD ENTRY - app.main');
+
+//   async.waterfall([
+//     async function () {
+//       await db.connectToMongo(function (err) {
+//         if (err) {
+//           return err;
+//         }
+//         return;
+//       });
+//     },
+//     async function () {
+//       await app.serveApplication(function (err) {
+//         if (err) {
+//           return err;
+//         }
+//         return;
+//       });
+//     },
+//     async function () {
+//       await db.setupDb(function (err) {
+//         if (err) {
+//           return err;
+//         }
+//         return;
+//       });
+//     }
+//   ],
+//     async function (err) {
+//       if (err) {
+//         await handleShutDown(err);
+//         await logger.error('Failed to start application....' + err);
+//         return err;
+//       } else {
+//         await logger.info('Application ready in ....' + process.env.NODE_ENV);
+//         return;
+//       }
+//     });
+//   await logger.info('METHOD EXIT - app.main');
+// }
+
 // handle error on startup
-async function handleShutDown(err) {
+async function handleShutDown() {
   await db.closeConnection();
-  await setTimeout(() => process.exit(err ? 500 : 0), 500);
+  await setTimeout(() => process.exit(500));
+  if (task) await task.stop();
 }
 // handle shutdown
 process.on('SIGINT', () => handleShutDown());

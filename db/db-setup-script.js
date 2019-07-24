@@ -1,5 +1,6 @@
 /* Update scripts */
-let utils = require('../application/lib/utils');
+let utils = require('../application/lib/utils'),
+  moment = require('moment');
 
 module.exports = {
   createIndex: {
@@ -41,9 +42,9 @@ module.exports = {
     'flight_no': 1,
     'origin': 'PHX',
     'destination': 'DFW',
-    'departureDate': '2019-07-19',
+    'departureDate': moment(new Date()).toISOString(),
     'departureTime': '06:00',
-    'arrivalDate': '2019-07-19',
+    'arrivalDate': moment(new Date()).toISOString(),
     'arrivalTime': '08:00',
     'aircraft_no': 1,
     'price': 240,
@@ -58,9 +59,9 @@ module.exports = {
     'flight_no': 2,
     'origin': 'PHX',
     'destination': 'LAX',
-    'departureDate': '2019-07-19',
+    'departureDate': moment(new Date()).toISOString(),
     'departureTime': '06:00',
-    'arrivalDate': '2019-07-19',
+    'arrivalDate': moment(new Date()).toISOString(),
     'arrivalTime': '08:00',
     'aircraft_no': 2,
     'price': 180,
@@ -75,9 +76,9 @@ module.exports = {
     'flight_no': 3,
     'origin': 'PHX',
     'destination': 'SFO',
-    'departureDate': '2019-07-19',
+    'departureDate': moment(new Date()).toISOString(),
     'departureTime': '06:00',
-    'arrivalDate': '2019-07-19',
+    'arrivalDate': moment(new Date()).toISOString(),
     'arrivalTime': '08:00',
     'aircraft_no': 1,
     'price': 280,
@@ -161,7 +162,7 @@ module.exports = {
     'status_id': 1
   }, {
     'username': 'testuser2',
-    'password':  utils.getPasswordHashSync('Password2'),
+    'password': utils.getPasswordHashSync('Password2'),
     'email': 'testemail@gmail.com',
     'phone': 1111111111,
     'date_created': new Date(),
@@ -170,7 +171,7 @@ module.exports = {
     'status_id': 1
   }, {
     'username': 'testuser3',
-    'password':  utils.getPasswordHashSync('Password3'),
+    'password': utils.getPasswordHashSync('Password3'),
     'email': 'testemail@gmail.com',
     'phone': 1111111111,
     'date_created': new Date(),
@@ -179,7 +180,7 @@ module.exports = {
     'status_id': 1
   }, {
     'username': 'testuser4',
-    'password':  utils.getPasswordHashSync('Password4'),
+    'password': utils.getPasswordHashSync('Password4'),
     'email': 'testemail@gmail.com',
     'phone': 1111111111,
     'date_created': new Date(),

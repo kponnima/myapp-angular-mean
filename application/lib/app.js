@@ -68,22 +68,22 @@ async function serveApplication() {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
     //include winston logging
-    logger.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+    await logger.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
     // render the error page
     await res.status(err.status || 500);
     await res.sendStatus(err.status);
   });
 
   // start the server in the port 3000 !
-  await app.listen(PORT, function (err) {
+  await app.listen(PORT, async (err) =>{
     if (err) {
-      logger.error('Application FAILED to start on port: ' + PORT);
-      return err;
+      await logger.error('Application FAILED to start on port: ' + PORT + ' with error: ' + err);
+      return false;
     }
-    logger.info('Application started on port: ' + PORT);
+    await logger.info('Application started on port: ' + PORT);
   });
-  logger.info('METHOD EXIT - application.lib.app.serveApplication');
-  return;
+  await logger.info('METHOD EXIT - application.lib.app.serveApplication');
+  return true;
 }
 
 module.exports = {

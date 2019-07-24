@@ -1,5 +1,5 @@
 /*
- *  Sample URL filter to log all the incoming requests to console
+ *  Sample URL filter to log all the incoming requests to log file
  *  For more information on Middleware visit: http://expressjs.com/api.html#middleware
  */
 'use strict';
