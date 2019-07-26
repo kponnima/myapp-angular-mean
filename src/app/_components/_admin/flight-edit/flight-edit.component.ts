@@ -18,7 +18,7 @@ import { MessageService } from '../../../_helpers/message.service';
   styleUrls: ['./flight-edit.component.scss']
 })
 export class FlightEditComponent implements OnInit {
-  private loading: boolean = true;
+  loading: boolean = true;
   flightEditForm: FormGroup;
   flightno: number;
 

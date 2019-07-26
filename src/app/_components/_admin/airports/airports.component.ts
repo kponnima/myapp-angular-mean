@@ -19,7 +19,7 @@ import { MessageService } from '../../../_helpers/message.service';
   styleUrls: ['./airports.component.scss']
 })
 export class AirportsComponent implements OnInit {
-  private loading: boolean = true;
+  loading: boolean = true;
   @Input() airport: Airport;
   airports: any;
   displayedColumns = ['_id', 'airportcode', 'airportname', 'cityname', 'countrycode', 'countryname'];

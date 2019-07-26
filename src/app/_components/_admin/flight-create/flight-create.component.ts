@@ -25,8 +25,8 @@ import { FlightService } from '../../../_services/flight.service';
   styleUrls: ['./flight-create.component.scss']
 })
 export class FlightCreateComponent implements OnInit, OnChanges {
-  private isLoading: boolean = false;
-  private createloading: boolean = false;
+  isLoading: boolean = false;
+  createloading: boolean = false;
   //private formSubmitAttempt: boolean = false;
   DATE_DATA_FORMAT = 'YYYY-mm-ddTHH:mm:ssZ';
 
@@ -203,7 +203,7 @@ export class FlightCreateComponent implements OnInit, OnChanges {
     this.service.clearMessage();
   }
 
-  private handleError(err: HttpErrorResponse) {
+  handleError(err: HttpErrorResponse) {
     if (err.error instanceof Error) {
       console.log("Client-side error occured.");
       console.log(err);

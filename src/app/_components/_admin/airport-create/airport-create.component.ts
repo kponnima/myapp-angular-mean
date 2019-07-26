@@ -24,7 +24,7 @@ import { AirportService } from '../../../_services/airport.service';
   styleUrls: ['./airport-create.component.scss']
 })
 export class AirportCreateComponent implements OnInit {
-  private loading: boolean = false;
+  loading: boolean = false;
   //private formSubmitAttempt: boolean = false;
 
   airportCreateForm: FormGroup;

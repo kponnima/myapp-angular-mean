@@ -8,28 +8,28 @@ import { Flight } from '../_models/flight';
   providedIn: 'root'
 })
 export class CartService {
-  private itemsInCartSubject: BehaviorSubject<Flight[]> = new BehaviorSubject([]);
-  private itemsInCart: Flight[] = [];
+  itemsInCartSubject: BehaviorSubject<Flight[]> = new BehaviorSubject([]);
+  itemsInCart: Flight[] = [];
 
   constructor() { 
     this.itemsInCartSubject.subscribe(_ => this.itemsInCart = _);
   }
 
-  private baseUrl: string = 'api/flight';  // web api end point
+  baseUrl: string = 'api/flight';  // web api end point
 
-  public addToCart(item: Flight) {
+  addToCart(item: Flight) {
     this.itemsInCartSubject.next([...this.itemsInCart, item]);
   }
 
-  public getItems(): Observable<Flight[]> {
+  getItems(): Observable<Flight[]> {
     return this.itemsInCartSubject;
   }
 
-  public getItemsCount() {
+  getItemsCount() {
     return this.itemsInCart.length;
   }
 
-  public getTotalAmount(): Observable<number> {
+  getTotalAmount(): Observable<number> {
     return this.itemsInCartSubject.pipe(
       map((items: Flight[]) => {
         return items.reduce((prev, curr: Flight) => {
@@ -39,13 +39,13 @@ export class CartService {
     );
   }
 
-  public removeFromCart(item: Flight) {
+  removeFromCart(item: Flight) {
     const currentItems = [...this.itemsInCart];
     const itemsWithoutRemoved = currentItems.filter(_ => _.flight_no !== item.flight_no);
     this.itemsInCartSubject.next(itemsWithoutRemoved);
   }
 
-  public removeAllFromCart() {
+  removeAllFromCart() {
     this.itemsInCartSubject.unsubscribe;
   }
 }

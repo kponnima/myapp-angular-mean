@@ -5,7 +5,7 @@ import { HttpResponse } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CacheService {
-  private cache = new Map<string, [Date, HttpResponse<any>]>();
+  cache = new Map<string, [Date, HttpResponse<any>]>();
 
   constructor() { }
 

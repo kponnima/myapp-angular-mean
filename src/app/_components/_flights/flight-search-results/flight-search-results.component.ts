@@ -27,7 +27,7 @@ import { FlightService } from '../../../_services/flight.service';
   styleUrls: ['./flight-search-results.component.scss']
 })
 export class FlightSearchResultsComponent implements OnInit {
-  private loading: Boolean = true;
+  loading: Boolean = true;
   // @Input() flight: Flight;
   DATE_DATA_FORMAT = 'YYYY-MM-DD';
   flights: Flight[];

@@ -27,7 +27,7 @@ export interface AirportGroup {
   styleUrls: ['./hotel-search.component.scss']
 })
 export class HotelSearchComponent implements OnInit {
-  private loading: boolean = false;
+  loading: boolean = false;
   DATE_DATA_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
   flightsearchForm: FormGroup;
   cityForm: FormGroup = this.formBuilder.group({
@@ -138,7 +138,7 @@ export class HotelSearchComponent implements OnInit {
     this.service.clearMessage();
   }
 
-  private handleError(err: HttpErrorResponse) {
+  handleError(err: HttpErrorResponse) {
     if (err.error instanceof Error) {
       console.log("Client-side error occured.");
       console.log(err);

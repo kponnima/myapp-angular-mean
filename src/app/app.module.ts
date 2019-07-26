@@ -218,8 +218,8 @@ import { ProfileComponent } from './_components/_shared/profile/profile.componen
 })
 export class AppModule {
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    @Inject(APP_ID) private appId: string) {
+    @Inject(PLATFORM_ID) platformId: Object,
+    @Inject(APP_ID) appId: string) {
     const platform = isPlatformBrowser(platformId) ?
       'IN THE BROWSER' : 'ON THE SERVER';
     console.log('Running " ' + platform + ' " with appId= ' + appId);

@@ -12,20 +12,20 @@ import { Payment } from '../_models/payment';
 })
 export class PaymentService {
 
-  private paymentCardSubject: BehaviorSubject<Payment[]> = new BehaviorSubject([]);
-  private paymentCard: Payment[] = [];
+  paymentCardSubject: BehaviorSubject<Payment[]> = new BehaviorSubject([]);
+  paymentCard: Payment[] = [];
 
   constructor(private http: HttpClient) { 
     this.paymentCardSubject.subscribe(_ => this.paymentCard = _);
   }
 
-  private baseUrl: string = 'api/paymentcard';  // web api end point
+  baseUrl: string = 'api/paymentcard';  // web api end point
   //private getCardByTokenUrl: string = 'api/flight-traveler';  // web api end point
 
   //private delayMs = 10000;
-  private delayMs = environment.delayMs;
+  delayMs = environment.delayMs;
 
-  public addCard(item: Payment) {
+  addCard(item: Payment) {
     this.paymentCardSubject.next([...this.paymentCard, item]);
   }
 
@@ -38,20 +38,20 @@ export class PaymentService {
     );
   }
 
-  public getCards(): Observable<Payment[]> {
+  getCards(): Observable<Payment[]> {
     return this.paymentCardSubject;
   }
 
-  public getCardByToken(token: String) {
+  getCardByToken(token: String) {
     return this.http.get<Payment>(this.baseUrl + '/' + token)
     .pipe(delay(this.delayMs));
   }
 
-  public getCardsCount() {
+  getCardsCount() {
     return this.paymentCard.length;
   }
 
-  public getTotalAmount(): Observable<number> {
+  getTotalAmount(): Observable<number> {
     return this.paymentCardSubject.pipe(
       map((items: Payment[]) => {
         return items.reduce((prev, curr: Payment) => {
@@ -61,13 +61,13 @@ export class PaymentService {
     );
   }
 
-  public removeCards(item: Payment) {
+  removeCards(item: Payment) {
     const currentItems = [...this.paymentCard];
     const itemsWithoutRemoved = currentItems.filter(_ => _.token !== item.token);
     this.paymentCardSubject.next(itemsWithoutRemoved);
   }
 
-  public removeAllCards() {
+  removeAllCards() {
     this.paymentCardSubject.unsubscribe;
   }
 
@@ -77,7 +77,7 @@ export class PaymentService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
+  handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure

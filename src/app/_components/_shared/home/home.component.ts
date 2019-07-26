@@ -23,9 +23,11 @@ import { AirportService } from '../../../_services/airport.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  private loading: boolean = true;
-  private fragment: string;
-  private isFlightTabActive:boolean = true;
+  loading: boolean = true;
+  fragment: string;
+  isFlightTabActive:boolean = true;
+  isHotelTabActive: boolean = true;
+  isCarTabActive:boolean = true;
   @Input() user: User;
   loggedInSub: Subscription;
   loggedname: any;
@@ -134,7 +136,7 @@ export class HomeComponent implements OnInit {
     this.service.clearMessage();
   }
 
-  private handleError(err: HttpErrorResponse) {
+  handleError(err: HttpErrorResponse) {
     if (err.error instanceof Error) {
       console.log("Client-side error occured.");
       console.log(err);

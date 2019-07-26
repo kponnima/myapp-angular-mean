@@ -6,9 +6,9 @@ import { User } from '../_models/user';
 @Injectable()
 export class AuthService {  
     // Create a stream of logged in status to communicate throughout app
-    private loggedIn = new BehaviorSubject<boolean>(false);
-    private loggedInUserSubject: BehaviorSubject<User[]> = new BehaviorSubject([]);
-    private loggedInUser: User[] = [];
+    loggedIn = new BehaviorSubject<boolean>(false);
+    loggedInUserSubject: BehaviorSubject<User[]> = new BehaviorSubject([]);
+    loggedInUser: User[] = [];
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
@@ -47,15 +47,15 @@ export class AuthService {
     this.router.navigate(['signin']);
   }
 
-  public addLoggedInUser(user: User) {
+  addLoggedInUser(user: User) {
     this.loggedInUserSubject.next([...this.loggedInUser, user]);
   }
 
-  public getLoggedInUsers(): Observable<User[]> {
+  getLoggedInUsers(): Observable<User[]> {
     return this.loggedInUserSubject;
   }
 
-  public removeLoggedInUser(user: User) {
+  removeLoggedInUser(user: User) {
     const currentItems = [...this.loggedInUser];
     const itemsWithoutRemoved = currentItems.filter(_ => _._id !== user._id);
     this.loggedInUserSubject.next(itemsWithoutRemoved);

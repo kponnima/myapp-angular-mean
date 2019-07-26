@@ -11,23 +11,23 @@ import { Flight } from '../_models/flight';
 })
 export class FlightService {
 
-  private selectedFlightSubject: BehaviorSubject<Flight[]> = new BehaviorSubject([]);
-  private selectedFlight: Flight[] = [];
+  selectedFlightSubject: BehaviorSubject<Flight[]> = new BehaviorSubject([]);
+  selectedFlight: Flight[] = [];
 
   constructor(private http: HttpClient) {
     this.selectedFlightSubject.subscribe(_ => this.selectedFlight = _);
    }
 
-  private baseUrl: string = 'api/flights';  // web api end point
-  private flightCreateUrl: string = 'api/flight-create';  // web api end point
-  private flightDetailUrl: string = 'api/flight-detail';  // web api end point
-  private flightEditUrl: string = 'api/flight-edit';  // web api end point
-  private flightDeleteUrl: string = 'api/flight';  // web api end point
-  private flightSearchResultsUrl: string = 'api/flight-search-results';  // web api end point
+  baseUrl: string = 'api/flights';  // web api end point
+  flightCreateUrl: string = 'api/flight-create';  // web api end point
+  flightDetailUrl: string = 'api/flight-detail';  // web api end point
+  flightEditUrl: string = 'api/flight-edit';  // web api end point
+  flightDeleteUrl: string = 'api/flight';  // web api end point
+  flightSearchResultsUrl: string = 'api/flight-search-results';  // web api end point
     //baseUrl: string = 'http://localhost:4200/api/flights';
 
   //private delayMs = 10000;
-  private delayMs = environment.delayMs;
+  delayMs = environment.delayMs;
 
   getFlights() {
     return this.http.get<Flight[]>(this.baseUrl)
@@ -59,15 +59,15 @@ export class FlightService {
     .pipe(delay(this.delayMs));
   }
 
-  public addSelectedFlight(flight: Flight) {
+  addSelectedFlight(flight: Flight) {
     this.selectedFlightSubject.next([...this.selectedFlight, flight]);
   }
 
-  public getSelectedFlights(): Observable<Flight[]> {
+  getSelectedFlights(): Observable<Flight[]> {
     return this.selectedFlightSubject;
   }
 
-  public removeSelectedFlight(flight: Flight) {
+  removeSelectedFlight(flight: Flight) {
     const currentItems = [...this.selectedFlight];
     const itemsWithoutRemoved = currentItems.filter(_ => _.flight_no !== flight.flight_no);
     this.selectedFlightSubject.next(itemsWithoutRemoved);

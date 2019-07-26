@@ -11,52 +11,52 @@ import { Traveler } from '../_models/traveler';
 })
 export class TravelerService {
 
-  private travelerSubject: BehaviorSubject<Traveler[]> = new BehaviorSubject([]);
-  private traveler: Traveler[] = [];
+  travelerSubject: BehaviorSubject<Traveler[]> = new BehaviorSubject([]);
+  traveler: Traveler[] = [];
 
   constructor(private http: HttpClient) {
     this.travelerSubject.subscribe(_ => this.traveler = _);
   }
 
-  private baseUrl: string = 'api/traveler';  // web api end point
-  private getTravelerByIDUrl: string = 'api/flight-traveler';  // web api end point
-  private updateTravelerByIDUrl: string = 'api/flight-traveler';  // web api end point
+  baseUrl: string = 'api/traveler';  // web api end point
+  getTravelerByIDUrl: string = 'api/flight-traveler';  // web api end point
+  updateTravelerByIDUrl: string = 'api/flight-traveler';  // web api end point
   //baseUrl: string = 'http://localhost:4200/api';
 
   //private delayMs = 10000;
-  private delayMs = environment.delayMs;
+  delayMs = environment.delayMs;
 
-  public addTraveler(item: Traveler) {
+  addTraveler(item: Traveler) {
     this.travelerSubject.next([...this.traveler, item]);
   }
 
   /** POST: save travelers in the server */
-  public saveTravelers(items: Traveler[]): Observable<Traveler> {
+  saveTravelers(items: Traveler[]): Observable<Traveler> {
     return this.http.post<Traveler>(this.baseUrl, items).pipe(
       catchError(this.handleError<Traveler>('saveTravelers'))
     );
   }
 
-  public getTravelers(): Observable<Traveler[]> {
+  getTravelers(): Observable<Traveler[]> {
     return this.travelerSubject;
   }
 
-  public getTravelerById(traveler_id: String) {
+  getTravelerById(traveler_id: String) {
     return this.http.get<Traveler>(this.getTravelerByIDUrl + '/' + traveler_id)
       .pipe(delay(this.delayMs));
   }
 
-  public getTravelersCount() {
+  getTravelersCount() {
     return this.traveler.length;
   }
 
-  public removeTraveler(item: Traveler) {
+  removeTraveler(item: Traveler) {
     const currentItems = [...this.traveler];
     const itemsWithoutRemoved = currentItems.filter(_ => _.traveler_id !== item.traveler_id);
     this.travelerSubject.next(itemsWithoutRemoved);
   }
 
-  public removeAllTravelers() {
+  removeAllTravelers() {
     this.travelerSubject.unsubscribe;
   }
 
@@ -66,7 +66,7 @@ export class TravelerService {
  * @param operation - name of the operation that failed
  * @param result - optional value to return as the observable result
  */
-  private handleError<T>(operation = 'operation', result?: T) {
+  handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure

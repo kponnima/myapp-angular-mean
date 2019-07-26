@@ -26,9 +26,9 @@ import { AuthService } from '../../../_helpers/auth.service';
   styleUrls: ['./flight-trip-confirmation.component.scss']
 })
 export class FlightTripConfirmationComponent implements OnInit {
-  private loading: boolean = false;
-  private createloading: boolean = true;
-  private passportneeded: boolean = true;
+  loading: boolean = false;
+  createloading: boolean = true;
+  passportneeded: boolean = true;
   @Input() reservation: Reservation;
   @Input() traveler: Traveler;
   @Input() payment: Payment;

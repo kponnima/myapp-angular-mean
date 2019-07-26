@@ -22,7 +22,7 @@ import { AuthService } from '../../../_helpers/auth.service';
   styleUrls: ['./flight-trip-options.component.scss']
 })
 export class FlightTripOptionsComponent implements OnInit {
-  private loading: boolean = false;
+  loading: boolean = false;
   phonePattern = "^(\\d{10})$";
 
   origin: any;
@@ -179,7 +179,7 @@ export class FlightTripOptionsComponent implements OnInit {
     this.router.navigate(['flight-trip-summary'], { queryParams: { fromcity: this.origin, tocity: this.destination } });
   }
 
-  private _filter(value: string): string[] {
+  _filter(value: string): string[] {
     const filterValue = value.toLowerCase()
     //const filterValue = (value !== null) ? value.toLowerCase() : value;
     return this.countrylist.filter(option => option.toLowerCase().includes(filterValue));

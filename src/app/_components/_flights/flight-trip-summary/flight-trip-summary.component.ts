@@ -37,11 +37,11 @@ import { AlertDialogComponent } from '../../_shared/alert-dialog/alert-dialog.co
   styleUrls: ['./flight-trip-summary.component.scss']
 })
 export class FlightTripSummaryComponent implements OnInit {
-  private loading: boolean = false;
-  private paymentloading: boolean = false;
-  private paymentfailed: boolean = false;
-  private createpnrloading: boolean = false;
-  private createpnrfailed: boolean = false;
+  loading: boolean = false;
+  paymentloading: boolean = false;
+  paymentfailed: boolean = false;
+  createpnrloading: boolean = false;
+  createpnrfailed: boolean = false;
   DATE_DATA_FORMAT = 'lll';
   phonePattern = "^(\\d{10})$";
   minDate = new Date();
@@ -92,12 +92,12 @@ export class FlightTripSummaryComponent implements OnInit {
   citizenshipcountryfilteredOptions: Observable<string[]>;
   residencecountryfilteredOptions: Observable<string[]>;
 
-  public shoppingCartItems$: Observable<Flight[]> = of([]);
-  public shoppingCartItems: Flight[] = [];
+  shoppingCartItems$: Observable<Flight[]> = of([]);
+  shoppingCartItems: Flight[] = [];
   dataSource = this.shoppingCartItems$;
 
-  public loggedInUserItems$: Observable<User[]> = of([]);
-  public loggedInUserItems: User[] = [];
+  loggedInUserItems$: Observable<User[]> = of([]);
+  loggedInUserItems: User[] = [];
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient, private _zone: NgZone,
     private dialog: MatDialog, private overlay: Overlay, private location: Location, private cartService: CartService, private paymentService: PaymentService,
@@ -444,7 +444,7 @@ export class FlightTripSummaryComponent implements OnInit {
     this.service.clearMessage();
   }
 
-  private _filter(value: string): string[] {
+  _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.countrylist.filter(option => option.toLowerCase().includes(filterValue));
   }

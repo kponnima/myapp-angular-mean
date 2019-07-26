@@ -16,7 +16,7 @@ import { MessageService } from '../../../_helpers/message.service';
   styleUrls: ['./airport-detail.component.scss']
 })
 export class AirportDetailComponent implements OnInit {
-  private loading: boolean = true;
+  loading: boolean = true;
   airport: {};
   airport_code:string = '';
 

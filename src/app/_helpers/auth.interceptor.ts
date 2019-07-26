@@ -63,7 +63,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
   }
 
-  private getAuthorizationToken() {
+  getAuthorizationToken() {
     return localStorage.getItem('jwtToken');
   }
 }

@@ -17,7 +17,7 @@ import { MessageService } from '../../../_helpers/message.service';
   styleUrls: ['./airport-edit.component.scss']
 })
 export class AirportEditComponent implements OnInit {
-  private loading: boolean = true;
+  loading: boolean = true;
   airportEditForm: FormGroup;
   airport_code: string = '';
 

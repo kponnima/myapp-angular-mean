@@ -25,9 +25,9 @@ import { AirportService } from '../../../_services/airport.service';
   styleUrls: ['./flight-search.component.scss']
 })
 export class FlightSearchComponent implements OnInit {
-  private loading: boolean = false;
-  private airportsloading: boolean = false;
-  private viewAdvancedSearchFlag: boolean = false;
+  loading: boolean = false;
+  airportsloading: boolean = false;
+  viewAdvancedSearchFlag: boolean = false;
   DATE_DATA_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
   date = new FormControl(new Date());
   minDate = new Date();
@@ -220,7 +220,7 @@ export class FlightSearchComponent implements OnInit {
     this.service.clearMessage();
   }
 
-  private handleError(err: HttpErrorResponse) {
+  handleError(err: HttpErrorResponse) {
     if (err.error instanceof Error) {
       console.log("Client-side error occured.");
       console.log(err);
@@ -231,7 +231,7 @@ export class FlightSearchComponent implements OnInit {
     return Observable.throw(err.message)
   }
 
-  private _formatCase(value: string): string {
+  _formatCase(value: string): string {
     let formatted_string = value.toUpperCase();
     return formatted_string;
   }

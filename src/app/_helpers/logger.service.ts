@@ -8,7 +8,7 @@ export class LoggerService {
   logDebug(msg: any) { this.log(`DEBUG: ${msg}`); }
   logError(msg: any) { this.log(`ERROR: ${msg}`, true); }
 
-  private log(msg: any, isErr = false) {
+  log(msg: any, isErr = false) {
     this.logs.push(msg);
     isErr ? console.error(msg) : console.log(msg);
   }

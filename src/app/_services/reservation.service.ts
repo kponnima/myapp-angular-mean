@@ -14,13 +14,13 @@ export class ReservationService {
 
   constructor(private http: HttpClient) { }
 
-  private baseUrl: string = 'api/reservation';  // web api end point
-  private createFlightReservationUrl: string = 'api/flight-createreservation';
-  private getFlightReservationUrl: string = 'api/flight-reservation';
+  baseUrl: string = 'api/reservation';  // web api end point
+  createFlightReservationUrl: string = 'api/flight-createreservation';
+  getFlightReservationUrl: string = 'api/flight-reservation';
   //baseUrl: string = 'http://localhost:4200/api';
 
   //private delayMs = 10000;
-  private delayMs = environment.delayMs;
+  delayMs = environment.delayMs;
 
   getReservationByPNR(pnr: String) {
     return this.http.get<Reservation>(this.getFlightReservationUrl + '/' + pnr )
@@ -36,7 +36,7 @@ export class ReservationService {
   }
 
 
-  private handleError<T> (operation = 'operation', result?: T) {
+  handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead

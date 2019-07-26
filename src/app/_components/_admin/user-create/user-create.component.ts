@@ -25,7 +25,7 @@ import { UserService } from '../../../_services/user.service';
   styleUrls: ['./user-create.component.scss']
 })
 export class UserCreateComponent implements OnInit {
-  private isLoading: boolean = false;
+  isLoading: boolean = false;
   //private formSubmitAttempt: boolean = false;
   DATE_DATA_FORMAT = 'YYYY-mm-ddTHH:mm:ssZ';
 
@@ -130,7 +130,7 @@ export class UserCreateComponent implements OnInit {
     this.service.clearMessage();
   }
 
-  private handleError(err: HttpErrorResponse) {
+  handleError(err: HttpErrorResponse) {
     if (err.error instanceof Error) {
       console.log("Client-side error occured.");
       console.log(err);

@@ -14,15 +14,15 @@ export class AirportService {
 
   constructor(private http: HttpClient) { }
 
-  private baseUrl: string = 'api/airports';  // web api end point
-  private airportCreateUrl: string = 'api/airport-create';  // web api end point
-  private airportDetailUrl: string = 'api/airport-detail';  // web api end point
-  private airportEditUrl: string = 'api/airport-edit';  // web api end point
-  private airportDeleteUrl: string = 'api/airport';  // web api end point
+  baseUrl: string = 'api/airports';  // web api end point
+  airportCreateUrl: string = 'api/airport-create';  // web api end point
+  airportDetailUrl: string = 'api/airport-detail';  // web api end point
+  airportEditUrl: string = 'api/airport-edit';  // web api end point
+  airportDeleteUrl: string = 'api/airport';  // web api end point
   //baseUrl: string = 'http://localhost:4200/api';
 
   //private delayMs = 10000;
-  private delayMs = environment.delayMs;
+  delayMs = environment.delayMs;
 
   getAirports() {
     return this.http.get<Airport[]>(this.baseUrl)
