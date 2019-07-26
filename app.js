@@ -2,8 +2,7 @@
  *  Main module which handles application backend.
  */
 'use strict';
-let async = require('async'),
-  logger = require('./server/middleware/winston'),
+let logger = require('./server/middleware/winston'),
   db = require('./server/lib/db'),
   app = require('./server/lib/app'),
   batch = require('./server/lib/schedule');
@@ -28,48 +27,6 @@ async function main() {
     await handleShutDown();
   }
 }
-
-// async function main() {
-//   await logger.info('METHOD ENTRY - app.main');
-
-//   async.waterfall([
-//     async function () {
-//       await db.connectToMongo(function (err) {
-//         if (err) {
-//           return err;
-//         }
-//         return;
-//       });
-//     },
-//     async function () {
-//       await app.serveApplication(function (err) {
-//         if (err) {
-//           return err;
-//         }
-//         return;
-//       });
-//     },
-//     async function () {
-//       await db.setupDb(function (err) {
-//         if (err) {
-//           return err;
-//         }
-//         return;
-//       });
-//     }
-//   ],
-//     async function (err) {
-//       if (err) {
-//         await handleShutDown(err);
-//         await logger.error('Failed to start application....' + err);
-//         return err;
-//       } else {
-//         await logger.info('Application ready in ....' + process.env.NODE_ENV);
-//         return;
-//       }
-//     });
-//   await logger.info('METHOD EXIT - app.main');
-// }
 
 // handle error on startup
 async function handleShutDown() {

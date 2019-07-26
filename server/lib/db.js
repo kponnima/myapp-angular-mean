@@ -4,7 +4,6 @@
 'use strict';
 let mongoose = require('mongoose'),
   _ = require('lodash'),
-  async = require('async'),
   config = require('config'),
   dbSeedRecords = require('../db/db-setup-script'),
   utils = require('../lib/utils');
@@ -62,55 +61,7 @@ async function setupDb() {
 
   await logger.info('METHOD EXIT - application.lib.db.setupDb');
 }
-// async function setupDb(cb) {
-//   await logger.info('METHOD ENTRY - application.lib.db.setupDb');
 
-//   connection = await mongoose.connection;
-
-//   if (!connection) {
-//     await logger.error('DB Connection promise not passed to setup DB');
-//     return await cb('DB Connection promise not passed to setup DB');
-//   }
-
-//   await logger.info('=========== Starting:  master records Patch ==============');
-
-//   async.waterfall([
-//     async function () {
-//       await removeCollections(function (err) {
-//         if (err) {
-//           return err;
-//         }
-//         return {'test':'Some error'};
-//       });
-//     },
-//     async function () {
-//       await createIndexes(function (err) {
-//         if (err) {
-//           return err;
-//         }
-//         return;
-//       });
-//     },
-//     async function () {
-//       await updateCollections(function (err) {
-//         if (err) {
-//           return err;
-//         }
-//         return;
-//       });
-//     }
-//   ],
-//     async function (err) {
-//       if (err) {
-//         await logger.error('Master records Patch failed with error:- ' + err);
-//         return cb(err);
-//       } else {
-//         await logger.info('=========== Ending: master records Patch ==============');
-//         await logger.info('METHOD EXIT - application.lib.db.setupDb');
-//         return cb();
-//       }
-//     });
-// }
 async function removeCollections() {
   await logger.info('METHOD ENTRY - application.lib.db.removeCollections');
 
