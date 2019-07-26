@@ -3,10 +3,10 @@
  */
 'use strict';
 let async = require('async'),
-  logger = require('./application/middleware/winston'),
-  db = require('./application/lib/db'),
-  app = require('./application/lib/app'),
-  batch = require('./application/lib/schedule');
+  logger = require('./server/middleware/winston'),
+  db = require('./server/lib/db'),
+  app = require('./server/lib/app'),
+  batch = require('./server/lib/schedule');
 
 global.logger = logger;
 let task;

@@ -1,7 +1,7 @@
 {
   "port": 4200,
   "files": [
-    "./dist/public/**/*.{html,htm,css,js}"
+    "./dist/public/**/*.{html,htm,scss,js}"
   ],
   "server": {
     "baseDir": "./dist/public/"
