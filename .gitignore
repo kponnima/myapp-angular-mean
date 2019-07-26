@@ -14,7 +14,6 @@ yarn-error.log*
 lerna-debug.log*
 
 # Reports
-reports/*
 
 # nyc test coverage
 .nyc_output
@@ -53,6 +52,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 typings
+package-lock.json
 
 mongo-db/*
 angular_material_schematics*/*
