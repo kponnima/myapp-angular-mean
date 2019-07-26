@@ -16,7 +16,16 @@ import { MessageService } from '../../../_helpers/message.service';
   styleUrls: ['./user-detail.component.scss']
 })
 export class UserDetailComponent implements OnInit {
-  user: {};
+  user: {
+    username: any;
+    email: any;
+    password: any;
+    phone: any;
+    date_created: any;
+    role_id: any;
+    privilege_id: any;
+    status_id: any;
+  };
   user_name:string;
 
   constructor(private userService: UserService, private http: HttpClient, private route: ActivatedRoute, private router: Router,

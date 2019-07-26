@@ -17,7 +17,13 @@ import { MessageService } from '../../../_helpers/message.service';
 })
 export class AirportDetailComponent implements OnInit {
   loading: boolean = true;
-  airport: {};
+  airport: {
+    airport_code: any;
+    airportname: any;
+    cityname: any;
+    countrycode: any;
+    countryname: any;
+  };
   airport_code:string = '';
 
   constructor(private airportService: AirportService, private http: HttpClient, private route: ActivatedRoute, private router: Router,

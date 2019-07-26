@@ -45,6 +45,7 @@ export class FlightSearchResultsComponent implements OnInit {
   datalength: number = 0;
   //flightduration: any;
   isOutboundSelected: Boolean = false;
+  changeFlight: any;
 
   //@ViewChild(MatTable) table: MatTable<any>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;

@@ -50,7 +50,7 @@ export class AirportCreateComponent implements OnInit {
     this.resetForm();
   }
 
-  airportCreate() {
+  airportCreate(value: any) {
     //this.resetForm();
       this.loading = true;
       this.airportService.createAirport(this.airportCreateForm.value)

@@ -70,7 +70,7 @@ export class UserCreateComponent implements OnInit {
     this.resetForm();
   }
 
-  userCreate() {
+  userCreate(value: any) {
     this.prepared = this.preuserCreate();
     //this.resetForm();
     if(this.prepared){

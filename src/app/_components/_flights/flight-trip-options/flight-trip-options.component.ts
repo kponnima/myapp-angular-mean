@@ -40,6 +40,7 @@ export class FlightTripOptionsComponent implements OnInit {
 
   loggedname: any;
   _user: User[];
+  primary: any;
 
   //countrylist: string[] = ['Australia', 'Brazil', 'Canada', 'India', 'USA'];
   countrylist: string[] = environment.COUNTRY_LIST;
@@ -47,8 +48,8 @@ export class FlightTripOptionsComponent implements OnInit {
   citizenshipcountryfilteredOptions: Observable<string[]>;
   residencecountryfilteredOptions: Observable<string[]>;
 
-  public loggedInUserItems$: Observable<User[]> = of([]);
-  public loggedInUserItems: User[] = [];
+  loggedInUserItems$: Observable<User[]> = of([]);
+  loggedInUserItems: User[] = [];
 
   /** Returns a FormArray with the name 'formArray'. */
   get formArray(): AbstractControl | null { return this.travelerFormGroup.get('formArray'); }

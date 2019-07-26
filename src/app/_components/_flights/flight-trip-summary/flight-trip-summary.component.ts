@@ -48,6 +48,7 @@ export class FlightTripSummaryComponent implements OnInit {
   maxDate = new Date();
   reservationAmount = '';
   editableTravelers: Boolean = false;
+  primary: any;
 
   payment: Payment[];
   //@Input() payments: Payment;
