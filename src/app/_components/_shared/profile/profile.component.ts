@@ -18,6 +18,7 @@ import { MessageService } from '../../../_helpers/message.service';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  loading: boolean = false;
   userEditForm: FormGroup;
   hide = true;
 

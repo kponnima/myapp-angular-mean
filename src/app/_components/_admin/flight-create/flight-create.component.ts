@@ -41,6 +41,7 @@ export class FlightCreateComponent implements OnInit, OnChanges {
   positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
   position = new FormControl(this.positionOptions[2]);
   message = '';
+  noData: string;
 
   times = [
     '12:00 AM', '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM', '6:00 AM', '7:00 AM',

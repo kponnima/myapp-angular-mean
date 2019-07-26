@@ -19,7 +19,19 @@ import { MessageService } from '../../../_helpers/message.service';
 export class FlightDetailComponent implements OnInit {
   loading: boolean = true;
   flight: {};
-  flightno:number;
+  flight_no:number;
+  origin:string;
+  destination: string;
+  departuredatetime: string;
+  arrivaldatetime: string;
+  aircraft_id: number;
+  price: number;
+  carrier: string;
+  duration: number;
+  miles: number;
+  inventory_id: number;
+  equipment_id: number;
+
 
   constructor(private flightService: FlightService, private http: HttpClient, private route: ActivatedRoute, private router: Router,
     private location: Location, private service: MessageService, private snackBar: MatSnackBar) { }
@@ -35,7 +47,7 @@ export class FlightDetailComponent implements OnInit {
         //console.log(data);
         //this.flight = data;
         this.flight = data["0"];
-        this.flightno = data["0"].flight_no;
+        this.flight_no = data["0"].flight_no;
         this.loading = false;
       });
   }
