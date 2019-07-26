@@ -3,6 +3,7 @@
  */
 'use strict';
 let mongoose = require('mongoose'),
+  async = require('async'),
   _ = require('lodash'),
   config = require('config'),
   dbSeedRecords = require('../db/db-setup-script'),

@@ -19,8 +19,8 @@ async function main() {
     await app.serveApplication();
     await db.setupDb();
     // Setup the batch job to update flight records daily
-    task = await batch.schedule();
-    await task.start();
+    // task = await batch.schedule();
+    // await task.start();
     await logger.info('Application ready in ....' + process.env.NODE_ENV);
   } catch (err) {
     await logger.error('Failed to start application....');
