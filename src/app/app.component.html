@@ -7,23 +7,16 @@
       <a class="nav-item nav-link" [routerLink]="['/flights']" routerLinkActive="active">Flights</a>
       <a class="nav-item nav-link" [routerLink]="['/airports']" routerLinkActive="active">Airports</a>
       <a class="nav-item nav-link" [routerLink]="['/aircrafts']" routerLinkActive="active">Aircrafts</a>
-      <a class="nav-item nav-link dropdown-toggle" href="javascript:void(0);" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
-        aria-expanded="false">Dropdown</a>
-      <div class="dropdown-menu" aria-labelledby="dropdown01">
-        <a class="dropdown-item" href="javascript:void(0);">Action</a>
-        <a class="dropdown-item" href="javascript:void(0);">Another action</a>
-        <a class="dropdown-item" href="javascript:void(0);">Something else here</a>
-      </div>
     </div>
-    <div class="navbar-nav">
+    <div class="navbar-nav ml-auto">
       <a class="nav-item nav-link" matTooltip="Profile" *ngIf="loggedin" (click)="viewUserProfile()">
         <mat-icon>account_circle</mat-icon>
       </a>
-      <a class="nav-item nav-link" matTooltip="Logout" *ngIf="loggedin" (click)="logout()">
-        <mat-icon>exit_to_app</mat-icon>
-      </a>
       <a class="nav-item nav-link" matTooltip="Notifications" *ngIf="loggedin" (click)="viewUserProfile()">
         <mat-icon>notifications</mat-icon>
+      </a>
+      <a class="nav-item nav-link" matTooltip="Logout" *ngIf="loggedin" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
       </a>
     </div>
   </nav>
@@ -76,8 +69,8 @@
           <small>About myapp</small>
         </div>
         <div class="footer-copyright text-center py-3">© 2019 Copyright:
-            <a href="javascript:void(0);">myapp.com</a>
-          </div>
+          <a href="javascript:void(0);">myapp.com</a>
+        </div>
       </div>
     </div>
   </footer>

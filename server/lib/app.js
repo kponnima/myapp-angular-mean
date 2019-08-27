@@ -19,7 +19,7 @@ let express = require('express'),
 async function serveApplication() {
   logger.info('METHOD ENTRY - application.lib.app.serveApplication');
   // Get port from environment and store in Express.
-  let PORT = process.env.PORT || '8080';
+  let PORT = process.env.PORT || '3000';
   await app.set('port', PORT);
   await app.use(passport.initialize());
   await app.use(morgan('combined', { stream: logger.stream }));
