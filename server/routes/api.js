@@ -32,6 +32,9 @@ router.route('/user/:username').delete(logMiddleware, passport.authenticate('jwt
 // router.route('/flight/:flight_no').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.flight.getFlight);
 router.route('/flights').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.flight.getAllFlights);
 router.route('/flight-detail/:flight_no').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.flight.getFlightDetail);
+// router.route('/flight-search').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.flight.getFlightSearchResults);
+router.route('/flight-search-results').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.flight.getFlightSearchResults);
+// router.route('/flight-trip-options').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.flight.getFlightSearchResults);
 router.route('/flight-create').post(logMiddleware, passport.authenticate('jwt', { session: false }), api.flight.createFlight);
 router.route('/flight-bulk-create').post(logMiddleware, passport.authenticate('jwt', { session: false }), api.flight.multiCreateFlight);
 router.route('/flight-edit/:flight_no').put(logMiddleware, passport.authenticate('jwt', { session: false }), api.flight.updateFlight);
@@ -52,10 +55,10 @@ router.route('/aircraft-edit/:aircraft_no').put(logMiddleware, passport.authenti
 router.route('/aircraft/:aircraft_no').delete(logMiddleware, passport.authenticate('jwt', { session: false }), api.aircraft.deleteAircraft);
 /* INVENTORY Routes */
 /* PAYMENT Routes */
-// router.route('/paymentcards').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.payment.getAllPaymentCards);
-// router.route('/paymentcard/:token').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.payment.getPaymentCardByToken);
+router.route('/paymentcards').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.payment.getAllPayments);
+router.route('/paymentcard/:token').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.payment.getPaymentByToken);
 router.route('/charge').post(logMiddleware, api.payment.savePayment);
-// router.route('/paymentcard').post(logMiddleware, passport.authenticate('jwt', { session: false }), api.payment.savePaymentCard);
+router.route('/paymentcard').post(logMiddleware, passport.authenticate('jwt', { session: false }), api.payment.savePayment);
 /* RESERVATION Routes */
 router.route('/flight-reservation/:pnr').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.reservation.getReservation);
 // router.route('/flight-reservations').get(logMiddleware, passport.authenticate('jwt', { session: false }), api.reservation.getAllReservations);

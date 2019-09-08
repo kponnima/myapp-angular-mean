@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="text-center">
+    <h1>SIGN IN</h1>
+    <mat-divider></mat-divider>
+  </div>
+  <form [formGroup]="signinForm" class="form-signin" (ngSubmit)="login(signinForm.value)">
+    <div role="alert" *ngIf="message !== ''">
+      <button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+      {{message}}
+    </div>
+    <mat-card>
+      <mat-card-content>
+        <div class="row text-center">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <mat-form-field class="login-username-field">
+              <mat-label mdPrefix>Username</mat-label>
+              <input matInput placeholder="Username" id="username" required formControlName="username">
+              <mat-error>
+                <span *ngIf="!signinForm.get('username').valid && signinForm.get('username').touched">Username is
+                  <strong>required</strong></span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <mat-form-field>
+              <mat-label mdPrefix>Password</mat-label>
+              <input matInput placeholder="Enter your password" id="password" [type]="hide ? 'password' : 'text'"
+                ng-minlength='7' required formControlName="password">
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+              <mat-error>
+                <span *ngIf="!signinForm.get('password').valid && signinForm.get('password').touched">Password must be
+                  at least 7 characters.</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row text-center">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <button mat-raised-button type="submit" id="signinbutton" [disabled]="!signinForm.valid"
+              color="primary">Sign In</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <br>
+
+    <mat-card>
+      <mat-card-content>
+        <div class="row text-center">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <p>
+              <a [routerLink]="['/forgotpswd']">Forgot Password</a>
+            </p>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <p>
+              Not a member? <a [routerLink]="['/signup']">Signup here</a>
+            </p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

@@ -3,12 +3,17 @@
   <nav *ngIf="loggedin" class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <div class="navbar-nav">
       <a class="nav-item navbar-brand" [routerLink]="['/home']" routerLinkActive="active">{{title}}</a>
-      <a class="nav-item nav-link" [routerLink]="['/users']" routerLinkActive="active">Users</a>
       <a class="nav-item nav-link" [routerLink]="['/flights']" routerLinkActive="active">Flights</a>
       <a class="nav-item nav-link" [routerLink]="['/airports']" routerLinkActive="active">Airports</a>
       <a class="nav-item nav-link" [routerLink]="['/aircrafts']" routerLinkActive="active">Aircrafts</a>
+      <a class="nav-item nav-link" [routerLink]="['/trips']" routerLinkActive="active">Trips</a>
     </div>
     <div class="navbar-nav ml-auto">
+      <a class="nav-item nav-link" [routerLink]="['/cars']" routerLinkActive="active">Cars</a>
+      <a class="nav-item nav-link" [routerLink]="['/hotels']" routerLinkActive="active">Hotels</a>
+    </div>
+    <div class="navbar-nav ml-auto">
+      <a class="nav-item nav-link" [routerLink]="['/users']" routerLinkActive="active">Users</a>
       <a class="nav-item nav-link" matTooltip="Profile" *ngIf="loggedin" (click)="viewUserProfile()">
         <mat-icon>account_circle</mat-icon>
       </a>
@@ -35,12 +40,12 @@
   </router-outlet>
 
   <!-- FOOTER -->
-  <footer *ngIf="loggedin" class="footer mt-auto py-3">
+  <footer *ngIf="loggedin">
     <div class="container-fluid">
-      <div class="row text-white py-3">
-        <div class="col-6 h6 p-0">Contact</div>
+      <div class="row text-white footer">
+        <div class="col-6 h6">Contact</div>
         <div class="col-6 h6">Social Media</div>
-        <div class="col-2 p-0">
+        <div class="col-2">
           <ul class="list-unstyled">
             <li class="h6">Place 1</li>
             <li>Place 1 address</li>
@@ -65,10 +70,10 @@
           <a href="https://www.facebook.com/address/" target="blank"></a>
           <a href="https://twitter.com/address" target="blank"></a>
         </div>
-        <div class="col-12 p-0">
+        <div class="col-12">
           <small>About myapp</small>
         </div>
-        <div class="footer-copyright text-center py-3">© 2019 Copyright:
+        <div class="text-center pl-3 pb-3">© 2019 Copyright:
           <a href="javascript:void(0);">myapp.com</a>
         </div>
       </div>

@@ -5,28 +5,36 @@
 'use strict';
 const Flight = require('../models/Flight');
 const utils = require('../lib/utils');
-
-let moment = require('moment');
+const mongoose = require('mongoose');
+const moment = require('moment');
 
 /* GET ALL FLIGHTS data */
 async function getAllFlights(req, res) {
+  logger.info('METHOD ENTRY - server.api.flight.getAllFlights');
   let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Flight.find({
     }, async (err, flights) => {
-      if (err) return await next(err);
+      if (err) {
+        logger.error('ERROR IN METHOD - server.api.flight.getAllFlights - failed with error: ' + err);
+        return await next(err);
+      }
       if (!flights) {
+        logger.error('ERROR IN METHOD - server.api.flight.getAllFlights - no records found in db');
         return await res.status(401).send({ success: false, msg: 'No flights were found.' });
       } else {
+        logger.info('METHOD EXIT - server.api.flight.getAllFlights - successfully fetched records from db');
         return await res.json(flights);
       }
     });
   } else {
+    logger.error('ERROR IN METHOD - server.api.flight.getAllFlights - unauthorized to fetch records from db');
     return await res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
 }
 /* GET SINGLE FLIGHT BY ID */
 async function getFlightDetail(req, res) {
+  logger.info('METHOD ENTRY - server.api.flight.getAllAircrafts');
   let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Flight.find({
@@ -45,6 +53,7 @@ async function getFlightDetail(req, res) {
 }
 /* SAVE Flight */
 async function createFlight(req, res) {
+  logger.info('METHOD ENTRY - server.api.flight.getAllAircrafts');
   let token = await utils.getHeaderToken(req.headers);
   if (token) {
     let newFlight = new Flight({
@@ -74,6 +83,7 @@ async function createFlight(req, res) {
 }
 /* SAVE Multiple Flights */
 async function multiCreateFlight(req, res) {
+  logger.info('METHOD ENTRY - server.api.flight.getAllAircrafts');
   let token = await getHeaderToken(req.headers);
   if (token) {
     let flightArray = new Array;
@@ -107,6 +117,7 @@ async function multiCreateFlight(req, res) {
 }
 /* UDPATE FLIGHT */
 async function updateFlight(req, res) {
+  logger.info('METHOD ENTRY - server.api.flight.getAllAircrafts');
   let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Flight.findOneAndUpdate(
@@ -121,6 +132,7 @@ async function updateFlight(req, res) {
 }
 /* DELETE FLIGHT */
 async function deleteFlight(req, res) {
+  logger.info('METHOD ENTRY - server.api.flight.getAllAircrafts');
   let token = await utils.getHeaderToken(req.headers);
   if (token) {
     Flight.findOneAndRemove(
@@ -133,13 +145,20 @@ async function deleteFlight(req, res) {
   }
 }
 /* GET Flight-search RESULTS data */
-async function getFlightSearch(req, res) {
+async function getFlightSearchResults(req, res) {
   let token = await utils.getHeaderToken(req.headers);
   let aggregateQuery = await getAggregateQuery(req);
+  console.log('aggregateQuery***', aggregateQuery);
 
   if (token) {
-    mongoose.model('Flight')
-      .aggregate(aggregateQuery)
+    Flight.find({
+      origin: req.query.fromcity,
+      destination: req.query.tocity,
+      departureDate: { $gte: req.query.departDateTime + "T00:00:00.000Z", $lte: req.query.departDateTime + "T23:59:59.999Z" },
+      // arrivalDate: { $gt: req.query.arrivalDatetime + "T00:00:00.000Z", $lt: req.query.arrivalDatetime + "T23:59:59.999Z" },
+    })
+      .sort({ departureDate: -1 })
+      .select({ flight_no: 1,origin: 1, destination: 1, departureDate: 1, arrivalDate: 1, aircraft_no: 1, price: 1, duration: 1 })
       .exec(async (err, flights) => {
         if (err) {
           logger.info(err);
@@ -155,8 +174,32 @@ async function getFlightSearch(req, res) {
     return await res.status(403).send({ success: false, msg: 'Unauthorized.' });
   }
 }
+// async function getFlightSearchResults(req, res) {
+//   let token = await utils.getHeaderToken(req.headers);
+//   let aggregateQuery = await getAggregateQuery(req);
+//   console.log('aggregateQuery***', aggregateQuery);
+
+//   if (token) {
+//     mongoose.model('Flight')
+//       .aggregate(aggregateQuery)
+//       .exec(async (err, flights) => {
+//         if (err) {
+//           logger.info(err);
+//           return await next(err);
+//         };
+//         if (!flights) {
+//           return await res.status(401).send({ success: false, msg: 'Search failed. Flight not found.' });
+//         } else {
+//           return await res.json(flights);
+//         };
+//       });
+//   } else {
+//     return await res.status(403).send({ success: false, msg: 'Unauthorized.' });
+//   }
+// }
 
 async function getAggregateQuery(req) {
+  logger.info('METHOD ENTRY - server.api.flight.getAggregateQuery');
   /*   let obj1 = {
       $gte: req.query.departDateTime + 'T00:00:00.000Z',
       $lte: req.query.departDateTime + 'T23:59:59.999Z'
@@ -165,7 +208,7 @@ async function getAggregateQuery(req) {
       $gte: req.query.arrivalDatetime + 'T00:00:00.000Z',
       $lte: req.query.arrivalDatetime + 'T23:59:59.999Z'
     };
-  
+
     let myquery = (req.query.return === "true") ? ('{ "$or": [{ "origin": "' + req.query.fromcity + '", "destination": "' + req.query.tocity + '","departuredatetime": ' + JSON.stringify(obj1) + ' },'
     + '{ "origin": "' + req.query.tocity + '", "destination": "' + req.query.fromcity + '","departuredatetime": ' + JSON.stringify(obj2) + '}] } }')
     : ('"origin":' + req.query.fromcity + ',"destination":' + req.query.tocity + ',"departuredatetime":' + JSON.stringify(obj1)) ;
@@ -257,5 +300,5 @@ module.exports = {
   multiCreateFlight: multiCreateFlight,
   updateFlight: updateFlight,
   deleteFlight: deleteFlight,
-  getFlightSearch: getFlightSearch
+  getFlightSearchResults: getFlightSearchResults
 }

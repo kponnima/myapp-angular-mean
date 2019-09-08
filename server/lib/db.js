@@ -24,7 +24,7 @@ let dbIndexCollections = ['aircrafts', 'airports', 'flights', 'inventory', 'paym
 var hashPassword;
 
 async function connectToMongo() {
-  logger.info('METHOD ENTRY - application.lib.db.connectToMongo');
+  logger.info('METHOD ENTRY - server.lib.db.connectToMongo');
   mongoose.Promise = global.Promise;
   await mongoose.set('debug', true);
   await mongoose.set('diagnosticDataCollectionEnabled', false);
@@ -37,18 +37,18 @@ async function connectToMongo() {
       return error;
     });
   connected = true;
-  logger.info('METHOD EXIT - application.lib.db.connectToMongo');
+  logger.info('METHOD EXIT - server.lib.db.connectToMongo');
   return connected;
 }
 async function closeConnection() {
-  logger.info('METHOD ENTRY - application.lib.db.closeConnection');
+  logger.info('METHOD ENTRY - server.lib.db.closeConnection');
   await mongoose.disconnect();
   connected = false;
-  logger.info('METHOD EXIT - application.lib.db.closeConnection');
+  logger.info('METHOD EXIT - server.lib.db.closeConnection');
   return connected;
 }
 async function setupDb() {
-  await logger.info('METHOD ENTRY - application.lib.db.setupDb');
+  await logger.info('METHOD ENTRY - server.lib.db.setupDb');
   await logger.info('=========== Starting:  master records Patch ==============');
 
   try {
@@ -60,11 +60,11 @@ async function setupDb() {
     await logger.error('Master records Patch failed with error:- ' + err);
   }
 
-  await logger.info('METHOD EXIT - application.lib.db.setupDb');
+  await logger.info('METHOD EXIT - server.lib.db.setupDb');
 }
 
 async function removeCollections() {
-  await logger.info('METHOD ENTRY - application.lib.db.removeCollections');
+  await logger.info('METHOD ENTRY - server.lib.db.removeCollections');
 
   const collections = await mongoose.connection.db.collections();
   for (let collection of collections) {
@@ -81,11 +81,11 @@ async function removeCollections() {
       await collection.drop();
     }
   }
-  await logger.info('METHOD EXIT - application.lib.db.removeCollections');
+  await logger.info('METHOD EXIT - server.lib.db.removeCollections');
   return true;
 }
 async function removeCollection(collectionName, cb) {
-  await logger.info('METHOD ENTRY - application.lib.db.removeCollection');
+  await logger.info('METHOD ENTRY - server.lib.db.removeCollection');
   if (!collectionName) {
     await logger.error('CollectionName not passed to update DB collection');
     return cb('CollectionName not passed to update DB collection');
@@ -98,11 +98,11 @@ async function removeCollection(collectionName, cb) {
     await collection.drop();
   });
 
-  await logger.info('METHOD EXIT - application.lib.db.removeCollection');
+  await logger.info('METHOD EXIT - server.lib.db.removeCollection');
   return cb();
 }
 async function createIndex(collectionName, index_field, cb) {
-  await logger.info('METHOD ENTRY - application.lib.db.createIndex');
+  await logger.info('METHOD ENTRY - server.lib.db.createIndex');
 
   if (!collectionName) {
     await logger.error('CollectionName not passed to create index');
@@ -128,10 +128,10 @@ async function createIndex(collectionName, index_field, cb) {
         }
       });
   });
-  await logger.info('METHOD EXIT - application.lib.db.createIndex');
+  await logger.info('METHOD EXIT - server.lib.db.createIndex');
 }
 async function createIndexes() {
-  await logger.info('METHOD ENTRY - application.lib.db.createIndexes');
+  await logger.info('METHOD ENTRY - server.lib.db.createIndexes');
   _.forEach(dbIndexCollections, async (value) => {
     if (dbIgnoreForIndexCollection) {
       let result = _.indexOf(dbIgnoreIndexCollections, value);
@@ -176,11 +176,11 @@ async function createIndexes() {
       });
     }
   });
-  await logger.info('METHOD EXIT - application.lib.db.createIndexes');
+  await logger.info('METHOD EXIT - server.lib.db.createIndexes');
   return true;
 }
 async function addCollection(collectionName, data, cb) {
-  await logger.info('METHOD ENTRY - application.lib.db.updateCollection');
+  await logger.info('METHOD ENTRY - server.lib.db.updateCollection');
 
   if (!collectionName) {
     await logger.error('CollectionName not passed to update DB collection');
@@ -212,10 +212,10 @@ async function addCollection(collectionName, data, cb) {
       logger.info('Update collection name ' + collectionName + ' successful.');
     });
   });
-  await logger.info('METHOD EXIT - application.lib.db.updateCollection');
+  await logger.info('METHOD EXIT - server.lib.db.updateCollection');
 }
 async function addCollections() {
-  await logger.info('METHOD ENTRY - application.lib.db.updateCollections');
+  await logger.info('METHOD ENTRY - server.lib.db.updateCollections');
   _.forEach(dbSeedCollections, async (value) => {
     if (dbIgnoreForSeedCollection) {
       let result = _.indexOf(dbIgnoreSeedCollections, value);
@@ -270,11 +270,11 @@ async function addCollections() {
       });
     }
   });
-  await logger.info('METHOD EXIT - application.lib.db.updateCollections');
+  await logger.info('METHOD EXIT - server.lib.db.updateCollections');
   return true;
 }
 async function updateCollection(collectionName, unique_filter, data, cb) {
-  await logger.info('METHOD ENTRY - application.lib.db.updateCollection');
+  await logger.info('METHOD ENTRY - server.lib.db.updateCollection');
 
   if (!collectionName) {
     await logger.error('CollectionName not passed to update DB collection');
@@ -302,7 +302,7 @@ async function updateCollection(collectionName, unique_filter, data, cb) {
       }
     });
   });
-  await logger.info('METHOD EXIT - application.lib.db.updateCollection');
+  await logger.info('METHOD EXIT - server.lib.db.updateCollection');
 }
 
 module.exports = {

@@ -1,0 +1,130 @@
+<div class="button-row">
+  <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
+  <button mat-raised-button color="primary" matTooltip="Create Flight" [routerLink]="['/flight-create']">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<div class="table-container mat-elevation-z8">
+  <div *ngIf="loading">
+    <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
+  </div>
+
+  <table mat-table #table [dataSource]="dataSource">
+
+    <!-- Flight No Column -->
+    <ng-container matColumnDef="flight_no">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>FLIGHT NO</strong>
+      </th>
+      <td mat-cell *matCellDef="let element" class="table-col"> {{ element.flight_no }} </td>
+    </ng-container>
+
+    <!-- Origin Column -->
+    <ng-container matColumnDef="origin">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>ORIGIN</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.origin }} </td>
+    </ng-container>
+
+    <!-- Destination Column -->
+    <ng-container matColumnDef="destination">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>DESTINATION</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.destination }} </td>
+    </ng-container>
+
+    <!-- Departure Date Column -->
+    <ng-container matColumnDef="departureDate">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>DEPARTURE DATE</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.departureDate | date : 'mediumDate' | uppercase }} </td>
+    </ng-container>
+
+    <!-- Departure Time Column -->
+    <ng-container matColumnDef="departureTime">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>DEPARTURE TIME</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.departureTime }} </td>
+    </ng-container>
+
+    <!-- Arrival Date Column -->
+    <ng-container matColumnDef="arrivalDate">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>ARRIVAL DATE</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.arrivalDate | date : 'mediumDate' | uppercase }} </td>
+    </ng-container>
+
+    <!-- Arrival Time Column -->
+    <ng-container matColumnDef="arrivalTime">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>ARRIVAL TIME</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.arrivalTime }} </td>
+    </ng-container>
+
+    <!-- Departure Gate Column -->
+    <ng-container matColumnDef="departureGate">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>DEPARTURE GATE</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.departureGate }} </td>
+    </ng-container>
+
+    <!-- Arrival Gate Column -->
+    <ng-container matColumnDef="arrivalGate">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>ARRIVAL GATE</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.arrivalGate }} </td>
+    </ng-container>
+
+    <!-- Aircraft No Column -->
+    <ng-container matColumnDef="aircraft_no">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>AIRCRAFT NO</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.aircraft_no }} </td>
+    </ng-container>
+
+    <!-- Cancel Status Column -->
+    <ng-container matColumnDef="cancelStatus">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>CANCEL STATUS</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.cancelStatus | uppercase }} </td>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>PRICE</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.price | currency }} </td>
+    </ng-container>
+
+    <!-- Web Checkin Time Column -->
+    <ng-container matColumnDef="webCheckinTime">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>CHECKIN TIME</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.webCheckinTime | date:"MMM d, y, h:mm:ss a" }} </td>
+    </ng-container>
+
+    <!-- Meal Service Column -->
+    <ng-container matColumnDef="mealService">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>MEAL</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.mealService }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/flight-detail/', row.flight_no]"></tr>
+  </table>
+</div>

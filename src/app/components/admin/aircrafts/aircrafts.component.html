@@ -1,0 +1,67 @@
+<div class="button-row">
+  <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
+  <button mat-raised-button color="primary" matTooltip="Create Aircraft" [routerLink]="['/aircraft-create']">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<div class="table-container mat-elevation-z8">
+  <div *ngIf="loading">
+    <mat-progress-bar mode="indeterminate" value="50"></mat-progress-bar>
+  </div>
+
+  <table mat-table #table [dataSource]="dataSource">
+
+    <!-- Aircraft No Column -->
+    <ng-container matColumnDef="aircraft_no">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>AIRCRAFT NO</strong>
+      </th>
+      <td mat-cell *matCellDef="let element" class="table-col"> {{ element.aircraft_no }} </td>
+    </ng-container>
+
+    <!-- Aircraft ID Column -->
+    <ng-container matColumnDef="aircraft_id">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>AIRCRAFT ID</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.aircraft_id }} </td>
+    </ng-container>
+
+    <!-- Aircraft Name Column -->
+    <ng-container matColumnDef="aircraftname">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>AIRCRAFT NAME</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.aircraftname }} </td>
+    </ng-container>
+
+    <!-- Carrier Column -->
+    <ng-container matColumnDef="carrier">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>CARRIER</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.carrier }} </td>
+    </ng-container>
+
+    <!-- Inventory ID Column -->
+    <ng-container matColumnDef="inventory_id">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>INVENTORY ID</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.inventory_id }} </td>
+    </ng-container>
+
+    <!-- Equipment ID Column -->
+    <ng-container matColumnDef="equipment_id">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>EQUIPMENT ID</strong>
+      </th>
+      <td mat-cell *matCellDef="let element"> {{ element.equipment_id }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/aircraft-detail/', row.aircraft_no]">
+    </tr>
+  </table>
+</div>

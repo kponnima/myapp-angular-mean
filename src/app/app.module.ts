@@ -54,54 +54,54 @@ import { MatTreeModule } from '@angular/material/tree';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
 
-import { MessageComponent } from './_components/_shared/message/message.component';
-import { AuthInterceptor } from './_helpers/auth.interceptor';
-import { MessageService } from './_helpers/message.service';
-import { LoginComponent } from './_components/_shared/login/login.component';
-import { SignupComponent } from './_components/_shared/signup/signup.component';
-import { HomeComponent } from './_components/_shared/home/home.component';
-import { FlightsComponent } from './_components/_admin/flights/flights.component';
-import { HotelSearchComponent } from './_components/_hotels/hotel-search/hotel-search.component';
-import { CarSearchComponent } from './_components/_cars/car-search/car-search.component';
+import { MessageComponent } from './components/shared/message/message.component';
+import { AuthInterceptor } from './helpers/auth.interceptor';
+import { MessageService } from './helpers/message.service';
+import { LoginComponent } from './components/shared/login/login.component';
+import { SignupComponent } from './components/shared/signup/signup.component';
+import { HomeComponent } from './components/shared/home/home.component';
+import { FlightsComponent } from './components/admin/flights/flights.component';
+import { HotelSearchComponent } from './components/hotels/hotel-search/hotel-search.component';
+import { CarSearchComponent } from './components/cars/car-search/car-search.component';
 
-import { FlightDetailComponent } from './_components/_admin/flight-detail/flight-detail.component';
-import { FlightCreateComponent } from './_components/_admin/flight-create/flight-create.component';
-import { FlightEditComponent } from './_components/_admin/flight-edit/flight-edit.component';
-import { FlightSearchComponent } from './_components/_flights/flight-search/flight-search.component';
-import { FlightSearchResultsComponent } from './_components/_flights/flight-search-results/flight-search-results.component';
-import { FlightTripOptionsComponent } from './_components/_flights/flight-trip-options/flight-trip-options.component';
-import { FlightTripSummaryComponent } from './_components/_flights/flight-trip-summary/flight-trip-summary.component';
-import { FlightTripConfirmationComponent } from './_components/_flights/flight-trip-confirmation/flight-trip-confirmation.component';
-import { ShoppingcartComponent } from './_components/_flights/shoppingcart/shoppingcart.component';
+import { FlightDetailComponent } from './components/admin/flight-detail/flight-detail.component';
+import { FlightCreateComponent } from './components/admin/flight-create/flight-create.component';
+import { FlightEditComponent } from './components/admin/flight-edit/flight-edit.component';
+import { FlightSearchComponent } from './components/flights/flight-search/flight-search.component';
+import { FlightSearchResultsComponent } from './components/flights/flight-search-results/flight-search-results.component';
+import { FlightTripOptionsComponent } from './components/flights/flight-trip-options/flight-trip-options.component';
+import { FlightTripSummaryComponent } from './components/flights/flight-trip-summary/flight-trip-summary.component';
+import { FlightTripConfirmationComponent } from './components/flights/flight-trip-confirmation/flight-trip-confirmation.component';
+import { ShoppingcartComponent } from './components/flights/shoppingcart/shoppingcart.component';
 
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../environments/environment';
 
-import { AuthGuard } from './_helpers/auth.guard.service';
-import { AuthService } from './_helpers/auth.service';
+import { AuthGuard } from './helpers/auth.guard.service';
+import { AuthService } from './helpers/auth.service';
 
-import { AlertDialogComponent } from './_components/_shared/alert-dialog/alert-dialog.component';
+import { AlertDialogComponent } from './components/shared/alert-dialog/alert-dialog.component';
 
-import { AdminComponent } from './_components/_admin/admin/admin.component';
-import { UsersComponent } from './_components/_admin/users/users.component';
-import { UserCreateComponent } from './_components/_admin/user-create/user-create.component';
-import { UserEditComponent } from './_components/_admin/user-edit/user-edit.component';
-import { UserDetailComponent } from './_components/_admin/user-detail/user-detail.component';
-import { AirportsComponent } from './_components/_admin/airports/airports.component';
-import { AirportCreateComponent } from './_components/_admin/airport-create/airport-create.component';
-import { AirportEditComponent } from './_components/_admin/airport-edit/airport-edit.component';
-import { AirportDetailComponent } from './_components/_admin/airport-detail/airport-detail.component';
-import { AircraftsComponent } from './_components/_admin/aircrafts/aircrafts.component';
-import { AircraftCreateComponent } from './_components/_admin/aircraft-create/aircraft-create.component';
-import { AircraftEditComponent } from './_components/_admin/aircraft-edit/aircraft-edit.component';
-import { AircraftDetailComponent } from './_components/_admin/aircraft-detail/aircraft-detail.component';
-import { InventoryComponent } from './_components/_admin/inventory/inventory.component';
-import { InventoryCreateComponent } from './_components/_admin/inventory-create/inventory-create.component';
-import { InventoryEditComponent } from './_components/_admin/inventory-edit/inventory-edit.component';
-import { InventoryDetailComponent } from './_components/_admin/inventory-detail/inventory-detail.component';
-import { EquipmentsComponent } from './_components/_admin/equipments/equipments.component';
-import { TripsComponent } from './_components/_flights/trips/trips.component';
-import { ProfileComponent } from './_components/_shared/profile/profile.component';
+import { AdminComponent } from './components/admin/admin/admin.component';
+import { UsersComponent } from './components/admin/users/users.component';
+import { UserCreateComponent } from './components/admin/user-create/user-create.component';
+import { UserEditComponent } from './components/admin/user-edit/user-edit.component';
+import { UserDetailComponent } from './components/admin/user-detail/user-detail.component';
+import { AirportsComponent } from './components/admin/airports/airports.component';
+import { AirportCreateComponent } from './components/admin/airport-create/airport-create.component';
+import { AirportEditComponent } from './components/admin/airport-edit/airport-edit.component';
+import { AirportDetailComponent } from './components/admin/airport-detail/airport-detail.component';
+import { AircraftsComponent } from './components/admin/aircrafts/aircrafts.component';
+import { AircraftCreateComponent } from './components/admin/aircraft-create/aircraft-create.component';
+import { AircraftEditComponent } from './components/admin/aircraft-edit/aircraft-edit.component';
+import { AircraftDetailComponent } from './components/admin/aircraft-detail/aircraft-detail.component';
+import { InventoryComponent } from './components/admin/inventory/inventory.component';
+import { InventoryCreateComponent } from './components/admin/inventory-create/inventory-create.component';
+import { InventoryEditComponent } from './components/admin/inventory-edit/inventory-edit.component';
+import { InventoryDetailComponent } from './components/admin/inventory-detail/inventory-detail.component';
+import { EquipmentsComponent } from './components/admin/equipments/equipments.component';
+import { TripsComponent } from './components/flights/trips/trips.component';
+import { ProfileComponent } from './components/shared/profile/profile.component';
 @NgModule({
   imports: [
     AppRoutingModule,

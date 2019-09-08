@@ -1,0 +1,78 @@
+<div class="button-row">
+  <button mat-raised-button class="back-button" (click)="goBack()">Back</button>
+  <button mat-raised-button color="primary" matTooltip="Create User" [routerLink]="['/user-create']">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<div class="table-container mat-elevation-z8">
+  <table mat-table #table [dataSource]="dataSource">
+
+    <!-- Index Column -->
+    <ng-container matColumnDef="index">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>Sl No.</strong>
+      </th>
+      <td mat-cell *matCellDef="let index = index" class="table-col"> {{index + 1}} </td>
+    </ng-container>
+
+    <!-- Username Column -->
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>USERNAME</strong>
+      </th>
+      <td mat-cell *matCellDef="let element" class="table-col"> {{ element.username }} </td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>EMAIL</strong>
+      </th>
+      <td mat-cell *matCellDef="let element" class="table-col"> {{ element.email }} </td>
+    </ng-container>
+
+    <!-- Phone Column -->
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>PHONE</strong>
+      </th>
+      <td mat-cell *matCellDef="let element" class="table-col"> {{ element.phone }} </td>
+    </ng-container>
+
+    <!-- Date Created Column -->
+    <ng-container matColumnDef="date_created">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>DATE CREATED</strong>
+      </th>
+      <td mat-cell *matCellDef="let element" class="table-col"> {{ element.date_created | date : 'medium' }} </td>
+    </ng-container>
+
+    <!-- Role ID Column -->
+    <ng-container matColumnDef="role_id">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>ROLE ID</strong>
+      </th>
+      <td mat-cell *matCellDef="let element" class="table-col"> {{ element.role_id }} </td>
+    </ng-container>
+
+    <!-- Privilege ID Column -->
+    <ng-container matColumnDef="privilege_id">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>PRIVILEGE ID</strong>
+      </th>
+      <td mat-cell *matCellDef="let element" class="table-col"> {{ element.privilege_id }} </td>
+    </ng-container>
+
+    <!-- Status ID Column -->
+    <ng-container matColumnDef="status_id">
+      <th mat-header-cell *matHeaderCellDef>
+        <strong>STATUS ID</strong>
+      </th>
+      <td mat-cell *matCellDef="let element" class="table-col"> {{ element.status_id }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/user-detail/', row.username]"></tr>
+  </table>
+</div>

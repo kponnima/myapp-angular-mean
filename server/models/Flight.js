@@ -32,16 +32,12 @@ let FlightSchema = new Schema({
     type: String,
     required: false
   },
-  aircraft_id: {
-    type: String,
+  aircraft_no: {
+    type: Number,
     required: false
   },
   price: {
     type: Number,
-    required: false
-  },
-  carrier: {
-    type: String,
     required: false
   },
   duration: {
@@ -49,14 +45,6 @@ let FlightSchema = new Schema({
     required: true
   },
   distance: {
-    type: Number,
-    required: true
-  },
-  inventory_id: {
-    type: Number,
-    required: true
-  },
-  equipment_id: {
     type: Number,
     required: true
   },
@@ -71,6 +59,10 @@ let FlightSchema = new Schema({
   arrivalGate: {
     type: String,
     required: false
+  },
+  inventory_no: {
+    type: Number,
+    required: true
   },
   mealService: {
     type: Array,

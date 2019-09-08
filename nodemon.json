@@ -17,12 +17,12 @@
   "verbose": true,
   "watch": [
     "app.js",
-    "application/api",
-    "application/lib",
-    "application/middleware",
-    "application/models",
-    "application/routes",
-    "application/src",    
+    "server/api",
+    "server/lib",
+    "server/middleware",
+    "server/models",
+    "server/routes",
+    "server/src",    
     "config"
   ],
   "env": {

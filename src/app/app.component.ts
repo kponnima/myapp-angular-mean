@@ -6,13 +6,12 @@ import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, Navigatio
 import { Observable } from 'rxjs';
 import { tap, catchError, filter, map, mergeMap, takeWhile, shareReplay, startWith } from 'rxjs/operators';
 
-import { AuthService } from './_helpers/auth.service';
-import { UserService } from './_services/user.service';
+import { AuthService } from './helpers/auth.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'MYAPP';

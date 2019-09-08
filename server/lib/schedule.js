@@ -10,8 +10,6 @@ let cron = require('node-cron'),
 async function schedule(cb) {
   await logger.info('METHOD ENTRY - application.lib.schedule');
 
-  var flightRecord;
-
   return await cron.schedule('*/30 * * * * ', async () => {
     logger.info('Running a task every 30 minutes');
     await Object.keys(dbRecords.flights).forEach(key => {
@@ -19,6 +17,7 @@ async function schedule(cb) {
       dbRecords.flights[key].arrivalDate = moment(new Date()).add(1, 'days').toISOString();
       db.updateCollection('flights', { 'flight_no': dbRecords.flights[key].flight_no } , dbRecords.flights[key]);
     });
+    await logger.info('METHOD EXIT - application.lib.schedule');
   });
 }
 

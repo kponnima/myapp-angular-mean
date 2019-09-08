@@ -9,13 +9,14 @@
     "ng": "ng",
     "version": "ng version",
     "update": "ng update",
-    "start": "node app.js",
+    "start": "nodemon ./app.js",
     "serve": "ng serve -o",
     "serve-test": "rimraf dist/* && ng build --watch --progress=true",
     "build": "ng build --prod",
     "build-test": "lite-server",
     "dev": "concurrently \"npm run mongo-win\" \"npm run start\" \"npm run serve\"",
     "test": "ng test",
+    "unitTest": "cross-env NODE_ENV=test ./node_modules/.bin/nyc ./node_modules/.bin/mocha -r \"test/helper.js\" --recursive \"test/server/**/*_test.js\" --exit",
     "coverage": "ng test --watch=false --code-coverage",
     "lint": "ng lint",
     "tslint": "tslint ./src/**/*.ts -t verbose",
@@ -91,9 +92,10 @@
     "@types/stripe": "^6.31.20",
     "@types/stripe-v2": "^2.0.1",
     "@types/stripe-v3": "^3.1.7",
-    "chai": "~4.2.0",
+    "chai": "^4.2.0",
     "codelyzer": "^5.1.0",
     "concurrently": "^4.1.2",
+    "cross-env": "^5.2.0",
     "eslint": "^6.2.2",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -109,7 +111,7 @@
     "nodemon": "^1.19.1",
     "nyc": "^14.1.1",
     "protractor": "^5.4.2",
-    "proxyquire": "~2.1.3",
+    "proxyquire": "^2.1.3",
     "rimraf": "^3.0.0",
     "serve-favicon": "^2.5.0",
     "sinon": "^7.4.1",
@@ -119,7 +121,7 @@
   },
   "nyc": {
     "require": [
-      "./test/helpers.js"
+      "./test/helper.js"
     ],
     "reporter": [
       "lcov",
@@ -130,12 +132,11 @@
     "cache": true,
     "all": true,
     "include": [
-      "application/**/*.js"
+      "server/**/*.js"
     ],
     "exclude": [
-      "application/models/*.js",
-      "application/e2e/**/*.js",
-      "application/src/**/*.scss"
+      "server/models/*.js",
+      "server/db/*.js"
     ],
     "report-dir": "reports/coverage",
     "temp-dir": "reports/coverage"

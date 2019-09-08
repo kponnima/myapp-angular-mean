@@ -53,6 +53,7 @@ module.exports = {
     'cancelStatus': false,
     'departureGate': 'A01',
     'arrivalGate': 'B01',
+    'inventory_no': 1,
     'mealService': ['VEG', 'NONVEG', 'VEGAN'],
     'webCheckinTime': '2019-07-18T06:00'
   }, {
@@ -70,6 +71,7 @@ module.exports = {
     'cancelStatus': false,
     'departureGate': 'A01',
     'arrivalGate': 'B01',
+    'inventory_no': 1,
     'mealService': ['VEG', 'NONVEG', 'VEGAN'],
     'webCheckinTime': '2019-07-18T06:00'
   }, {
@@ -87,6 +89,25 @@ module.exports = {
     'cancelStatus': false,
     'departureGate': 'A01',
     'arrivalGate': 'B01',
+    'inventory_no': 2,
+    'mealService': ['VEG', 'NONVEG', 'VEGAN'],
+    'webCheckinTime': '2019-07-18T06:00'
+  }, {
+    'flight_no': 4,
+    'origin': 'PHX',
+    'destination': 'DFW',
+    'departureDate': moment(new Date()).toISOString(),
+    'departureTime': '08:00',
+    'arrivalDate': moment(new Date()).toISOString(),
+    'arrivalTime': '11:00',
+    'aircraft_no': 2,
+    'price': 280,
+    'duration': 840000,
+    'distance': 868,
+    'cancelStatus': false,
+    'departureGate': 'A01',
+    'arrivalGate': 'B01',
+    'inventory_no': 2,
     'mealService': ['VEG', 'NONVEG', 'VEGAN'],
     'webCheckinTime': '2019-07-18T06:00'
   }],

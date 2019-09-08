@@ -17,7 +17,7 @@ let express = require('express'),
 
 // Main application function
 async function serveApplication() {
-  logger.info('METHOD ENTRY - application.lib.app.serveApplication');
+  logger.info('METHOD ENTRY - server.lib.app.serveApplication');
   // Get port from environment and store in Express.
   let PORT = process.env.PORT || '3000';
   await app.set('port', PORT);
@@ -83,7 +83,7 @@ async function serveApplication() {
       }
       await logger.info('Application started on port: ' + PORT);
     });
-    await logger.info('METHOD EXIT - application.lib.app.serveApplication');
+    await logger.info('METHOD EXIT - server.lib.app.serveApplication');
     return true;
   }
 
