@@ -14,16 +14,17 @@ async function getAllAircrafts(req, res) {
     await Aircraft.find({
     }, async (err, aircrafts) => {
       if (err) {
-        logger.error('ERROR IN METHOD - server.api.aircraft.getAllAircrafts - failed with error: ' + err);
-        return await next(err);
+        logger.error('ERROR IN METHOD - server.api.aircraft.getAllAircrafts - failed with error: ' + JSON.stringify(err));
+        // return await next(err);
+        return await res.status(401).send({ success: false, msg: 'Unable to find records!' });
       }
       if (!aircrafts) {
         logger.error('ERROR IN METHOD - server.api.aircraft.getAllAircrafts - no records found in db');
-        return await res.status(401).send({ success: false, msg: 'no records found!' });
+        return await res.status(402).send({ success: false, msg: 'no records found!' });
       } else {
         // get the list of aircrafts
         logger.info('METHOD EXIT - server.api.aircraft.getAllAircrafts - successfully fetched records from db');
-        return await res.json(aircrafts);
+        return await res.status(200).json(aircrafts);
       }
     });
   } else {

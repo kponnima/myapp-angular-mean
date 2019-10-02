@@ -16,7 +16,7 @@ const api = {
   reservation: require('../api/reservation'),
   traveler: require('../api/traveler'),
   user: require('../api/user'),
-}
+};
 
 /* LOGIN & REGISTER Routes */
 router.route('/signin').post(logMiddleware, api.login.signin);

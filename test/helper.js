@@ -15,3 +15,10 @@ global.expect = _expect;
 global.assert = _assert;
 global.should = _should;
 global.proxyquire = _proxyquire;
+
+let logger = {
+    info: sinon.spy(),
+    error: sinon.spy()
+}
+
+global.logger = logger;

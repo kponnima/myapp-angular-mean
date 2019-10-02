@@ -9,6 +9,6 @@ const PROXY_CONFIG = [
       changeOrigin: true,
       ws: true
   }
-]
+];
 
 module.exports = PROXY_CONFIG;
